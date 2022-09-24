@@ -18,16 +18,24 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ['3.7', '3.8', '3.9']
+        python: ['3.7', '3.8', '3.9', '3.10']
     steps:
     - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b  # v3
     - uses: actions/setup-python@98f2ad02fd48d057ee3b4d4f66525b231c3e52b6  # v3
       with:
         python-version: ${{ matrix.python }}
-    - run: python -m pip install --upgrade setuptools pip tox virtualenv
-    # Run tox only for the installed py version on the runner as outlined in the python matrix
-    # Ensures the correct py version is installed and tested as opposed to 'tox' which attempts to run for all py versions in tox.ini
-    - run: tox -e py
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements-dev.txt
+    - name: Sets env var for release
+      if: ${{ matrix.os == 'macos-latest' && matrix.python == '3.7' }}
+      run: |
+        # NO_PROXY is needed to call requests API within a forked process
+        # when using macOS and python version 3.7
+        echo "NO_PROXY='*'" >> $GITHUB_ENV
+    - name: Run tests
+      run: pytest --strict-markers tests
 
   bump-version:
     # Run tests before bumping

@@ -282,7 +282,7 @@ def _get_lines_from_diff(diff: str) -> Generator[Tuple[str, List[Tuple[int, str]
     """
     # Local imports, so that we don't need to require unidiff for versions of
     # detect-secrets that don't use it.
-    from unidiff import PatchSet
+    from unidiff import PatchSet  # type:ignore[import]
 
     patch_set = PatchSet.from_string(diff)
     for patch_file in patch_set:
