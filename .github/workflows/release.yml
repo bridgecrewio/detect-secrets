@@ -79,7 +79,7 @@ jobs:
           python -m pip install wheel
           python setup.py sdist bdist_wheel
       - name: Publish a Python distribution to PyPI
-        uses: pypa/gh-action-pypi-publish@717ba43cfbb0387f6ce311b169a825772f54d295  # v1
+        uses: pypa/gh-action-pypi-publish@37f50c210e3d2f9450da2cd423303d6a14a6e29f  # v1
         with:
           password: ${{ secrets.PYPI_TOKEN }}
       - name: sleep and wait for package to refresh
@@ -98,7 +98,7 @@ jobs:
           repository: bridgecrewio/checkov
       - uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5  # v4
         with:
-          python-version: "3.7"
+          python-version: "3.8"
       - name: Prepare PR
         run: |
           # install needed tools
@@ -110,7 +110,7 @@ jobs:
           # update setup.py
           pipenv-setup sync --pipfile
       - name: Create PR
-        uses: peter-evans/create-pull-request@18f90432bedd2afd6a825469ffd38aa24712a91d  # v4
+        uses: peter-evans/create-pull-request@171dd555b9ab6b18fa02519fdfacbb8bf671e1b4  # v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
           branch: update-detect-secrets-dep
