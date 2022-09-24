@@ -1,11 +1,11 @@
-[![Build Status](https://github.com/bridgecrewio/detect-secrets/actions/workflows/ci.yml/badge.svg)](https://github.com/bridgecrewio/detect-secrets/actions/workflows/ci.yml?query=branch%3Amaster++)
+[![Build Status](https://github.com/bridgecrewio/detect-secrets/actions/workflows/release.yml/badge.svg)](https://github.com/bridgecrewio/detect-secrets/actions/workflows/release.yml?query=branch%3Amaster++)
 [![PyPI version](https://badge.fury.io/py/bc-detect-secrets.svg)](https://badge.fury.io/py/bc-detect-secrets)
 
 # detect-secrets
 
 # Notice
 
-This is a fork of the [detect-secrets](https://github.com/Yelp/detect-secrets) repo by Yelp and is 
+This is a fork of the [detect-secrets](https://github.com/Yelp/detect-secrets) repo by Yelp and is
 officially supported by Bridgecrew.
 
 ## About
