@@ -101,7 +101,7 @@ class TestScanFile:
     def test_skip_whitespace_lines():
         with mock_named_temporary_file(suffix='.txt') as f:
             f.write(
-                "\n".join(["          "] * 10000).encode(),
+                '\n'.join(['          '] * 10000).encode(),
             )
             f.seek(0)
 

@@ -25,7 +25,7 @@ from .log import log
 from .plugins import Plugin
 from .potential_secret import PotentialSecret
 
-MIN_LINE_LENGTH = int(os.getenv("CHECKOV_MIN_LINE_LENGTH", "5"))
+MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 
 
 def get_files_to_scan(
