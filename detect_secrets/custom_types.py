@@ -1,7 +1,6 @@
 from io import TextIOBase
 from typing import Any
 from typing import NamedTuple
-from typing import NoReturn
 from typing import Optional
 from typing import Set
 
