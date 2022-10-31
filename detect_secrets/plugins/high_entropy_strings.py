@@ -79,7 +79,12 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
         # perform the limit filtering outside this function. This allows us to see *why* secrets
         # have failed to be caught with our configured limit.
         with self.non_quoted_string_regex(is_exact_match=False):
-            return super().analyze_line(filename=filename, line=line, line_number=line_number)
+            return super().analyze_line(
+                filename=filename,
+                line=line,
+                line_number=line_number,
+                raw_context=raw_context
+            )
 
     def calculate_shannon_entropy(self, data: str) -> float:
         """Returns the entropy of a given string.
