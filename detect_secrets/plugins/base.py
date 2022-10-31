@@ -67,7 +67,7 @@ class BasePlugin(metaclass=ABCMeta):
                         self.verify,
                         secret=match,
                         context=context,
-                        raw_context=raw_context
+                        raw_context=raw_context,
                     )
                     is_verified = True if verified_result == VerifiedResult.VERIFIED_TRUE else False
                 except requests.exceptions.RequestException:

@@ -56,7 +56,7 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
             line=line,
             line_number=line_number,
             context=context,
-            raw_context=raw_context
+            raw_context=raw_context,
         )
         if output or not enable_eager_search:
             # NOTE: We perform the limit filter at this layer (rather than analyze_string) so
@@ -83,7 +83,7 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
                 filename=filename,
                 line=line,
                 line_number=line_number,
-                raw_context=raw_context
+                raw_context=raw_context,
             )
 
     def calculate_shannon_entropy(self, data: str) -> float:

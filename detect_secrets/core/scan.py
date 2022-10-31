@@ -332,7 +332,7 @@ def _process_line_based_plugins(
 
         raw_code_snippet = get_code_snippet(
             lines=read_raw_lines(filename),
-            line_number=line_number
+            line_number=line_number,
         )
 
         # We apply line-specific filters, and see whether that allows us to quit early.
@@ -353,7 +353,7 @@ def _process_line_based_plugins(
                 line=line,
                 line_number=line_number,
                 context=code_snippet,
-                raw_context=raw_code_snippet
+                raw_context=raw_code_snippet,
             )
             if not _is_filtered_out(
                 required_filter_parameters=['context'],
