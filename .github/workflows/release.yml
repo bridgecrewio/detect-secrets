@@ -108,7 +108,7 @@ jobs:
 
           # update Pipfile
           pipenv --python ${{ env.PYTHON_VERSION }}
-          pipenv install bc-detect-secrets==${{ needs.bump-version.outputs.version }} --selective-upgrade
+          pipenv install bc-detect-secrets==${{ needs.bump-version.outputs.version }}
           pipenv lock
     
           # update setup.py
