@@ -59,7 +59,7 @@ class BasePlugin(metaclass=ABCMeta):
             # If the filter is disabled it means --no-verify flag was passed
             # We won't run verification in that case
             if self.secret_type == 'Private Key':
-                # private key matches are only one part of a the secret string, so for this case the secret should be the whole line
+                # private key matches are only one part of the secret string, so for this case the secret should be the whole line
                 match = line
 
             if (
