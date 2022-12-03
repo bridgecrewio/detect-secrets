@@ -39,9 +39,9 @@ class PrivateKeyDetector(RegexBasedDetector):
 
     secret_type = 'Private Key'
 
-    begin_key_opening = r'(?P<begin_key>BEGIN '
-    key_types = r'(?:DSA|EC|OPENSSH|PGP||RSA|SSH2 ENCRYPTED)'
-    begin_key_closing = r' PRIVATE KEY-*)'
+    begin_key_opening = r'(?P<begin_key>BEGIN'
+    key_types = r'(?: DSA | EC | OPENSSH | PGP | RSA | SSH2 ENCRYPTED | )'
+    begin_key_closing = r'PRIVATE KEY-*)'
     begin_key = begin_key_opening + key_types + begin_key_closing
     secret_key = r'(?P<secret_key>[A-Za-z0-9+\/\\\n]*={0,3})?'
     end_key = r'(?P<end_key>\n*-*END)?'

@@ -18,11 +18,11 @@ from testing.mocks import mock_named_temporary_file
         ),
         (
             'some text here\n'
-            '-----BEGIN RSA PRIVATE KEY-----\n'
+            '-----BEGIN PRIVATE KEY-----\n'
             'c3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZWNyZXQgcGFzc3dvcmQhMTIzNCMkJQpzdXBlciBkdXBlciBzZWNyZXQgcGFzc3dvcmQsIHN1cGVyIGR1cGVyIHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=\n'
-            '-----END RSA PRIVATE KEY-----',
+            '-----END PRIVATE KEY-----',
             1,
-            'BEGIN RSA PRIVATE KEY-----'
+            'BEGIN PRIVATE KEY-----'
         ),
         (
             'some text here\n'
