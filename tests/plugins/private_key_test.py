@@ -23,6 +23,13 @@ from testing.mocks import mock_named_temporary_file
             '-----END RSA PRIVATE KEY-----',
             1,
             'BEGIN RSA PRIVATE KEY-----'
+        ),
+        (
+            'some text here\n'
+            'PuTTY-User-Key-File-2\n'
+            'secret key',
+            1,
+            'PuTTY-User-Key-File-2'
         )
     ]
 )
