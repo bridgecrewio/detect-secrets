@@ -26,6 +26,7 @@ THE SOFTWARE.
 """
 import re
 from typing import Generator
+
 from .base import RegexBasedDetector
 
 
