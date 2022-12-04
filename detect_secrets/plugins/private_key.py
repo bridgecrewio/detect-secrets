@@ -52,7 +52,8 @@ class PrivateKeyDetector(RegexBasedDetector):
                 begin_key=begin_key,
                 secret_key=secret_key,
                 end_key=end_key,
-            )),
+            ),
+        ),
         re.compile(r'PuTTY-User-Key-File-2'),
     ]
 

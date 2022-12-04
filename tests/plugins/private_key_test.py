@@ -16,7 +16,7 @@ from testing.mocks import mock_named_temporary_file
                 'c3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZ\n'
                 'WNyZXQgcGFzc3dvcmQhMTIzNCMkJQpzdXBlciBkdXBlciBzZWNyZXQgcGFzc3'
                 'dvcmQsIHN1cGVyIGR1cGVyIHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=\n'
-                '-----END RSA PRIVATE KEY-----'
+                '-----END RSA PRIVATE KEY-----',
             ),
             1,
             '\\nc3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZ\\n'
