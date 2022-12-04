@@ -1,5 +1,7 @@
-import pytest
 import json
+
+import pytest
+
 from detect_secrets.core.secrets_collection import SecretsCollection
 from detect_secrets.settings import transient_settings
 from testing.mocks import mock_named_temporary_file
@@ -27,14 +29,14 @@ from testing.mocks import mock_named_temporary_file
             'IHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=\n'
             '-----END PRIVATE KEY-----',
             1,
-            'BEGIN PRIVATE KEY-----'
+            'BEGIN PRIVATE KEY-----',
         ),
         (
             'some text here\n'
             'PuTTY-User-Key-File-2\n'
             'secret key',
             1,
-            'PuTTY-User-Key-File-2'
+            'PuTTY-User-Key-File-2',
         )
     ]
 )
