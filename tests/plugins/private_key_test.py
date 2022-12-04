@@ -11,11 +11,13 @@ from testing.mocks import mock_named_temporary_file
     'file_content, secrets_amount, expected_secret',
     [
         (
-            json.dumps('-----BEGIN RSA PRIVATE KEY-----\n'
-                       'c3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZ\n'
-                       'WNyZXQgcGFzc3dvcmQhMTIzNCMkJQpzdXBlciBkdXBlciBzZWNyZXQgcGFzc3'
-                       'dvcmQsIHN1cGVyIGR1cGVyIHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=\n'
-                       '-----END RSA PRIVATE KEY-----'),
+            json.dumps(
+                '-----BEGIN RSA PRIVATE KEY-----\n'
+                'c3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZ\n'
+                'WNyZXQgcGFzc3dvcmQhMTIzNCMkJQpzdXBlciBkdXBlciBzZWNyZXQgcGFzc3'
+                'dvcmQsIHN1cGVyIGR1cGVyIHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=\n'
+                '-----END RSA PRIVATE KEY-----'
+            ),
             1,
             '\\nc3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZ\\n'
             'WNyZXQgcGFzc3dvcmQhMTIzNCMkJQpzdXBlciBkdXB'
@@ -37,8 +39,8 @@ from testing.mocks import mock_named_temporary_file
             'secret key',
             1,
             'PuTTY-User-Key-File-2',
-        )
-    ]
+        ),
+    ],
 )
 def test_basic(file_content, secrets_amount, expected_secret):
     with mock_named_temporary_file() as f:
