@@ -35,7 +35,7 @@ jobs:
         # when using macOS and python version 3.7
         echo "NO_PROXY='*'" >> $GITHUB_ENV
     - name: Run tests
-      run: pytest --strict-markers tests
+      run: pytest --strict-markers -W ignore::UserWarning tests
 
   bump-version:
     # Run tests before bumping
