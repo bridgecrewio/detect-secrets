@@ -128,21 +128,21 @@ def scan_line(line: str) -> Generator[PotentialSecret, None, None]:
         secret
         for plugin in get_plugins()
         for secret in _scan_line(
-            plugin=plugin,
-            filename='adhoc-string-scan',
-            line=line,
-            line_number=0,
-            enable_eager_search=True,
-            context=context,
-        )
+        plugin=plugin,
+        filename='adhoc-string-scan',
+        line=line,
+        line_number=0,
+        enable_eager_search=True,
+        context=context,
+    )
         if not _is_filtered_out(
-            required_filter_parameters=['context'],
-            filename=secret.filename,
-            secret=secret.secret_value,
-            plugin=plugin,
-            line=line,
-            context=context,
-        )
+        required_filter_parameters=['context'],
+        filename=secret.filename,
+        secret=secret.secret_value,
+        plugin=plugin,
+        line=line,
+        context=context,
+    )
     )
 
 
@@ -285,7 +285,8 @@ def _get_lines_from_file(filename: str) -> Generator[List[str], None, None]:
         yield lines
 
 
-def _get_lines_from_diff(diff: str) -> Generator[Tuple[str, List[Tuple[int, str, bool, bool]]], None, None]:
+def _get_lines_from_diff(diff: str) -> \
+        Generator[Tuple[str, List[Tuple[int, str, bool, bool]]], None, None]:
     """
     :raises: ImportError
     """
@@ -301,7 +302,8 @@ def _get_lines_from_diff(diff: str) -> Generator[Tuple[str, List[Tuple[int, str,
         result.append((
             filename,
             [
-                (line.target_line_no if line.target_line_no else line.source_line_no, line.value, line.is_added, line.is_removed)
+                (line.target_line_no if line.target_line_no
+                 else line.source_line_no, line.value, line.is_added, line.is_removed)
                 for chunk in patch_file
                 # target_lines refers to incoming (new) changes
                 for line in target_lines(chunk)
@@ -312,7 +314,7 @@ def _get_lines_from_diff(diff: str) -> Generator[Tuple[str, List[Tuple[int, str,
 
 
 def target_lines(chunk):
-    return (l for l in chunk)
+    return (line for line in chunk)
 
 
 def _process_line_based_plugins(
@@ -405,12 +407,12 @@ def _scan_line(
         secret
         for secret in secrets
         if not _is_filtered_out(
-            required_filter_parameters=['secret'],
-            filename=secret.filename,
-            secret=secret.secret_value,
-            plugin=plugin,
-            line=line,
-        )
+        required_filter_parameters=['secret'],
+        filename=secret.filename,
+        secret=secret.secret_value,
+        plugin=plugin,
+        line=line,
+    )
     )
 
 
