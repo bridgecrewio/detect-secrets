@@ -28,14 +28,13 @@ class TestDiff:
         assert len(secrets.data['Dockerfile']) == secret_number
         secret = secrets.data['Dockerfile'].pop()
         assert secret.type == 'AWS Access Key'
-        # assert secret.is_added == True
 
     @pytest.mark.parametrize("file_path, secret_value, is_added, is_removed", (['test_data/add_sample.diff',
-                                                                         'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
-                                                                         True, False],
-                                                                        ['test_data/remove_sample.diff',
-                                                                         'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
-                                                                         False, True]))
+                                                                                'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+                                                                                True, False],
+                                                                               ['test_data/remove_sample.diff',
+                                                                                'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+                                                                                False, True]))
     def test_scan_secret_diff(self, file_path, secret_value, is_added, is_removed):
         with transient_settings({
             'plugins_used': [
