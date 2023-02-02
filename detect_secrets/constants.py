@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .core.potential_secret import PotentialSecret
 
+AWS_ACCESS_KEY_ID="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
 class VerifiedResult(Enum):
     VERIFIED_FALSE = 1
