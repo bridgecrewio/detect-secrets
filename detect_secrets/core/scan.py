@@ -31,7 +31,7 @@ MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 
 @lru_cache(maxsize=1)
 def read_raw_lines(filename: str) -> List[str]:
-    with open(f'../{filename}') as f:
+    with open(filename) as f:
         return f.readlines()
 
 
@@ -327,11 +327,6 @@ def _process_line_based_plugins(
 
         code_snippet = get_code_snippet(
             lines=line_content,
-            line_number=line_number,
-        )
-
-        raw_code_snippet = get_code_snippet(
-            lines=read_raw_lines(filename),
             line_number=line_number,
         )
 

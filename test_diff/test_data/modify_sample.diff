@@ -1,0 +1,13 @@
+diff --git a/detect_secrets/constants.py b/detect_secrets/constants.py
+index 053ddb1..7e24ab9 100644
+--- a/detect_secrets/constants.py
++++ b/detect_secrets/constants.py
+@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
+ if TYPE_CHECKING:
+     from .core.potential_secret import PotentialSecret
+
+-AWS_ACCESS_KEY_ID="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYV"
++AWS_ACCESS_KEY_ID = "wJalrXUtnEMI/K7MDENG/bPxRfiCYEXAMPLEKEYVZ"
+
+ class VerifiedResult(Enum):
+     VERIFIED_FALSE = 1
