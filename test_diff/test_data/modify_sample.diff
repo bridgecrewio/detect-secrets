@@ -1,13 +1,13 @@
-diff --git a/detect_secrets/constants.py b/detect_secrets/constants.py
-index 053ddb1..7e24ab9 100644
---- a/detect_secrets/constants.py
-+++ b/detect_secrets/constants.py
-@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
- if TYPE_CHECKING:
-     from .core.potential_secret import PotentialSecret
+diff --git a/Dockerfile b/Dockerfile
+index 39a87c1..c0ffe53 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -4,7 +4,7 @@ FROM public.ecr.aws/lambda/python:3.9
 
--AWS_ACCESS_KEY_ID="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYV"
-+AWS_ACCESS_KEY_ID = "wJalrXUtnEMI/K7MDENG/bPxRfiCYEXAMPLEKEYVZ"
+ ENV PIP_ENV_VERSION="2022.1.8"
 
- class VerifiedResult(Enum):
-     VERIFIED_FALSE = 1
+-ENV AWS_ACCESS_KEY_ID="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
++ENV AWS_ACCESS_KEY_ID="AKIAZZZZZZZZZZZZZZZZ"
+
+ COPY Pipfile Pipfile.lock ./
+

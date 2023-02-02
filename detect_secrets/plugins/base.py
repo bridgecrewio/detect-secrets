@@ -11,7 +11,7 @@ import re
 from abc import ABCMeta
 from abc import abstractmethod
 from abc import abstractproperty
-from typing import Any
+from typing import Any, Optional
 from typing import Dict
 from typing import Generator
 from typing import Iterable
@@ -52,6 +52,8 @@ class BasePlugin(metaclass=ABCMeta):
         line_number: int = 0,
         context: CodeSnippet | None = None,
         raw_context: CodeSnippet | None = None,
+        is_added: Optional[bool] = None,
+        is_removed: Optional[bool] = None,
         **kwargs: Any
     ) -> Set[PotentialSecret]:
         """This examines a line and finds all possible secret values in it."""
@@ -82,6 +84,8 @@ class BasePlugin(metaclass=ABCMeta):
                     secret=match,
                     line_number=line_number,
                     is_verified=is_verified,
+                    is_added=is_added,
+                    is_removed=is_removed
                 ),
             )
 
