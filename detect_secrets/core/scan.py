@@ -31,14 +31,14 @@ MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 
 @lru_cache(maxsize=1)
 def read_raw_lines(filename: str) -> List[str]:
-    with open(filename) as f:
+    with open(f'../{filename}') as f:
         return f.readlines()
 
 
 def get_files_to_scan(
-    *paths: str,
-    should_scan_all_files: bool = False,
-    root: str = '',
+        *paths: str,
+        should_scan_all_files: bool = False,
+        root: str = '',
 ) -> Generator[str, None, None]:
     """
     If we specify specific files, we should be able to scan them. This abides by the
@@ -109,8 +109,8 @@ def get_files_to_scan(
                     continue
 
                 if (
-                    valid_paths is True
-                    or relative_path in valid_paths
+                        valid_paths is True
+                        or relative_path in valid_paths
                 ):
                     yield relative_path
 
@@ -128,26 +128,26 @@ def scan_line(line: str) -> Generator[PotentialSecret, None, None]:
         secret
         for plugin in get_plugins()
         for secret in _scan_line(
-            plugin=plugin,
-            filename='adhoc-string-scan',
-            line=line,
-            line_number=0,
-            enable_eager_search=True,
-            context=context,
-        )
+        plugin=plugin,
+        filename='adhoc-string-scan',
+        line=line,
+        line_number=0,
+        enable_eager_search=True,
+        context=context,
+    )
         if not _is_filtered_out(
-            required_filter_parameters=['context'],
-            filename=secret.filename,
-            secret=secret.secret_value,
-            plugin=plugin,
-            line=line,
-            context=context,
-        )
+        required_filter_parameters=['context'],
+        filename=secret.filename,
+        secret=secret.secret_value,
+        plugin=plugin,
+        line=line,
+        context=context,
+    )
     )
 
 
 def scan_file(filename: str) -> Generator[PotentialSecret, None, None]:
-    if not get_plugins():   # pragma: no cover
+    if not get_plugins():  # pragma: no cover
         log.error('No plugins to scan with!')
         return
 
@@ -158,8 +158,8 @@ def scan_file(filename: str) -> Generator[PotentialSecret, None, None]:
         has_secret = False
         for lines in _get_lines_from_file(filename):
             for secret in _process_line_based_plugins(
-                lines=list(enumerate(lines, start=1)),
-                filename=filename,
+                    lines=list(enumerate(lines, start=1)),
+                    filename=filename,
             ):
                 has_secret = True
                 yield secret
@@ -175,7 +175,7 @@ def scan_diff(diff: str) -> Generator[PotentialSecret, None, None]:
     """
     :raises: ImportError
     """
-    if not get_plugins():   # pragma: no cover
+    if not get_plugins():  # pragma: no cover
         log.error('No plugins to scan with!')
         return
 
@@ -192,13 +192,13 @@ def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSe
 
     This scans specifically for these lines, and ignores everything else.
     """
-    if not get_plugins():   # pragma: no cover
+    if not get_plugins():  # pragma: no cover
         log.error('No plugins to scan with!')
         return
 
     if _is_filtered_out(
-        required_filter_parameters=['filename'],
-        filename=filename,
+            required_filter_parameters=['filename'],
+            filename=filename,
     ):
         return
 
@@ -214,7 +214,7 @@ def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSe
 
 
 def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret, None, None]:
-    if not get_plugins():   # pragma: no cover
+    if not get_plugins():  # pragma: no cover
         log.error('No plugins to scan with!')
         return
 
@@ -223,8 +223,8 @@ def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret
 
 
 def _scan_for_allowlisted_secrets_in_lines(
-    lines: Iterable[Tuple[int, str]],
-    filename: str,
+        lines: Iterable[Tuple[int, str]],
+        filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     # We control the setting here because it makes more sense than requiring the caller
     # to set this setting before calling this function.
@@ -236,9 +236,9 @@ def _scan_for_allowlisted_secrets_in_lines(
     for line_number, line in zip(line_numbers, line_content):
         context = get_code_snippet(line_content, line_number)
         if not is_line_allowlisted(
-            filename=filename,
-            line=line,
-            context=context,
+                filename=filename,
+                line=line,
+                context=context,
         ):
             continue
 
@@ -292,14 +292,13 @@ def _get_lines_from_diff(diff: str) -> Generator[Tuple[str, List[Tuple[int, str]
     # Local imports, so that we don't need to require unidiff for versions of
     # detect-secrets that don't use it.
     from unidiff import PatchSet  # type:ignore[import]
-
+    result = []
     patch_set = PatchSet.from_string(diff)
     for patch_file in patch_set:
         filename = patch_file.path
         if _is_filtered_out(required_filter_parameters=['filename'], filename=filename):
             continue
-
-        yield (
+        result.append((
             filename,
             [
                 (line.target_line_no, line.value)
@@ -308,12 +307,13 @@ def _get_lines_from_diff(diff: str) -> Generator[Tuple[str, List[Tuple[int, str]
                 for line in chunk.target_lines()
                 if line.is_added
             ],
-        )
+        ))
+    return result
 
 
 def _process_line_based_plugins(
-    lines: List[Tuple[int, str]],
-    filename: str,
+        lines: List[Tuple[int, str]],
+        filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
 
@@ -337,42 +337,55 @@ def _process_line_based_plugins(
 
         # We apply line-specific filters, and see whether that allows us to quit early.
         if _is_filtered_out(
-            required_filter_parameters=['line'],
-            filename=filename,
-            line=line,
-            context=code_snippet,
-        ):
-            continue
-
-        yield from (
-            secret
-            for plugin in get_plugins()
-            for secret in _scan_line(
-                plugin=plugin,
+                required_filter_parameters=['line'],
                 filename=filename,
                 line=line,
-                line_number=line_number,
                 context=code_snippet,
-                raw_context=raw_code_snippet,
-            )
-            if not _is_filtered_out(
-                required_filter_parameters=['context'],
-                filename=secret.filename,
-                secret=secret.secret_value,
-                plugin=plugin,
-                line=line,
-                context=code_snippet,
-            )
-        )
+        ):
+            continue
+        for plugin in get_plugins():
+            for secret in _scan_line(plugin=plugin,
+                                     filename=filename,
+                                     line=line,
+                                     line_number=line_number,
+                                     context=code_snippet):
+                if not _is_filtered_out(
+                        required_filter_parameters=['context'],
+                        filename=secret.filename,
+                        secret=secret.secret_value,
+                        plugin=plugin,
+                        line=line,
+                        context=code_snippet):
+                    yield secret
+        # yield from (
+        #     secret
+        #     for plugin in get_plugins()
+        #     for secret in _scan_line(
+        #     plugin=plugin,
+        #     filename=filename,
+        #     line=line,
+        #     line_number=line_number,
+        #     context=code_snippet,
+        #     # raw_context=raw_code_snippet,
+        # )
+        #     if not _is_filtered_out(
+        #     required_filter_parameters=['context'],
+        #     filename=secret.filename,
+        #     secret=secret.secret_value,
+        #     plugin=plugin,
+        #     line=line,
+        #     context=code_snippet,
+        # )
+        # )
 
 
 def _scan_line(
-    plugin: Plugin,
-    filename: str,
-    line: str,
-    line_number: int,
-    context: CodeSnippet,
-    **kwargs: Any,
+        plugin: Plugin,
+        filename: str,
+        line: str,
+        line_number: int,
+        context: CodeSnippet,
+        **kwargs: Any,
 ) -> Generator[PotentialSecret, None, None]:
     # NOTE: We don't apply filter functions here yet, because we don't have any filters
     # that operate on (filename, line, plugin) without `secret`
@@ -391,12 +404,12 @@ def _scan_line(
         secret
         for secret in secrets
         if not _is_filtered_out(
-            required_filter_parameters=['secret'],
-            filename=secret.filename,
-            secret=secret.secret_value,
-            plugin=plugin,
-            line=line,
-        )
+        required_filter_parameters=['secret'],
+        filename=secret.filename,
+        secret=secret.secret_value,
+        plugin=plugin,
+        line=line,
+    )
     )
 
 
