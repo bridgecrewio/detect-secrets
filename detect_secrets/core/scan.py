@@ -158,7 +158,8 @@ def scan_file(filename: str) -> Generator[PotentialSecret, None, None]:
     try:
         has_secret = False
         for lines in _get_lines_from_file(filename):
-            lines_list = [(number, value, None, None) for number, value in list(enumerate(lines, start=1))]
+            lines_list = [(number, value, None, None)
+                          for number, value in list(enumerate(lines, start=1))]
             for secret in _process_line_based_plugins(
                     lines=lines_list,
                     filename=filename,
@@ -208,7 +209,8 @@ def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSe
     # know which lines we want to scan.
     try:
         for lines in _get_lines_from_file(filename):
-            lines_list = [(number, value, None, None) for number, value in list(enumerate(lines, start=1))]
+            lines_list = [(number, value, None, None)
+                          for number, value in list(enumerate(lines, start=1))]
             yield from _scan_for_allowlisted_secrets_in_lines(lines_list, filename)
             break
     except IOError:
