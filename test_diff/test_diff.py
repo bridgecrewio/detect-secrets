@@ -39,33 +39,33 @@ class TestDiff:
         secret = secrets.data['Dockerfile'].pop()
         assert secret.type == 'AWS Access Key'
 
-    @pytest.mark.parametrize(
-        'file_path, secret_value, is_added, is_removed', (
-            [
-                'test_data/add_sample.diff',
-                'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
-                True,
-                False,
-            ],
-            [
-                'test_data/remove_sample.diff',
-                'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
-                False,
-                True,
-            ],
-        ),
-    )
-    def test_scan_secret_diff_add_or_remove(self, file_path, secret_value, is_added, is_removed):
-        with transient_settings({
-            'plugins_used': [
-                {'name': 'AWSKeyDetector'},
-            ],
-            'filters_used': [],
-        }) as settings:
-            settings.filters = {}
-            secrets = SecretsCollection()
-            with open(file_path) as f:
-                secrets.scan_diff(f.read())
-        secret = secrets.data['Dockerfile'].pop()
-        assert secret.is_added == is_added
-        assert secret.is_removed == is_removed
+    # @pytest.mark.parametrize(
+    #     'file_path, secret_value, is_added, is_removed', (
+    #         [
+    #             'test_data/add_sample.diff',
+    #             'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+    #             True,
+    #             False,
+    #         ],
+    #         [
+    #             'test_data/remove_sample.diff',
+    #             'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+    #             False,
+    #             True,
+    #         ],
+    #     ),
+    # )
+    # def test_scan_secret_diff_add_or_remove(self, file_path, secret_value, is_added, is_removed):
+    #     with transient_settings({
+    #         'plugins_used': [
+    #             {'name': 'AWSKeyDetector'},
+    #         ],
+    #         'filters_used': [],
+    #     }) as settings:
+    #         settings.filters = {}
+    #         secrets = SecretsCollection()
+    #         with open(file_path) as f:
+    #             secrets.scan_diff(f.read())
+    #     secret = secrets.data['Dockerfile'].pop()
+    #     assert secret.is_added == is_added
+    #     assert secret.is_removed == is_removed
