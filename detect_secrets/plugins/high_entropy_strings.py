@@ -9,6 +9,7 @@ from typing import Any
 from typing import cast
 from typing import Dict
 from typing import Generator
+from typing import Optional
 from typing import Set
 
 from ..core.potential_secret import PotentialSecret
@@ -51,6 +52,8 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
         context: CodeSnippet | None = None,
         raw_context: CodeSnippet | None = None,
         enable_eager_search: bool = False,
+        is_added: Optional[bool] = None,
+        is_removed: Optional[bool] = None,
         **kwargs: Any,
     ) -> Set[PotentialSecret]:
         output = super().analyze_line(
@@ -59,6 +62,8 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
             line_number=line_number,
             context=context,
             raw_context=raw_context,
+            is_added=is_added,
+            is_removed=is_removed,
         )
         if output or not enable_eager_search:
             # NOTE: We perform the limit filter at this layer (rather than analyze_string) so
