@@ -117,7 +117,7 @@ def get_files_to_scan(
 
 def scan_line(line: str) -> Generator[PotentialSecret, None, None]:
     """Used for adhoc string scanning."""
-    # Disable this, since it doesn't make sense to run this for adhoc usage.
+    # Disable this, since it doesn't make sense to run this for adhoc usage
     get_settings().disable_filters(
         'detect_secrets.filters.common.is_invalid_file',
     )
