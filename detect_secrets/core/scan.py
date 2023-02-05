@@ -295,7 +295,7 @@ def _get_lines_from_file(filename: str) -> Generator[List[str], None, None]:
 
 
 def _get_lines_from_diff(diff: str) -> \
-        Generator[Tuple[str, List[Tuple[int, str, bool, bool]]], None, None]:
+        Generator[Tuple[str, List[Tuple[int, str, Union[bool, None], Union[bool, None]]]], None, None]:
     """
     :raises: ImportError
     """
