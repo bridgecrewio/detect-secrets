@@ -304,7 +304,7 @@ def _get_lines_from_diff(diff: str) -> \
             [
                 (
                     line.target_line_no if line.target_line_no
-                    else line.source_line_no, line.value, line.is_added, line.is_removed
+                    else line.source_line_no, line.value, line.is_added, line.is_removed,
                 )
                 for chunk in patch_file
                 # target_lines refers to incoming (new) changes

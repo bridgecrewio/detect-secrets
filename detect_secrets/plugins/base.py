@@ -12,10 +12,10 @@ from abc import ABCMeta
 from abc import abstractmethod
 from abc import abstractproperty
 from typing import Any
-from typing import Optional
 from typing import Dict
 from typing import Generator
 from typing import Iterable
+from typing import Optional
 from typing import Pattern
 from typing import Set
 
