@@ -226,7 +226,7 @@ def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret
 
 
 def _scan_for_allowlisted_secrets_in_lines(
-        lines: Iterable[Tuple[int, str, Optional[bool], Optional[bool]]],
+        lines: Iterable[Tuple[int, str, Union[bool, None], Union[bool, None]]],
         filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     # We control the setting here because it makes more sense than requiring the caller
@@ -318,7 +318,7 @@ def _get_lines_from_diff(diff: str) -> \
 
 
 def _process_line_based_plugins(
-        lines: List[Tuple[int, str, Optional[bool], Optional[bool]]],
+        lines: List[Tuple[int, str, Union[bool, None], Optional[bool, None]]],
         filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
