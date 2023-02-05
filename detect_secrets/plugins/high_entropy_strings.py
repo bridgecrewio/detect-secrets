@@ -51,9 +51,9 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
         line_number: int = 0,
         context: CodeSnippet | None = None,
         raw_context: CodeSnippet | None = None,
+        enable_eager_search: bool = False,
         is_added: Optional[bool] = None,
         is_removed: Optional[bool] = None,
-        enable_eager_search: bool = False,
         **kwargs: Any,
     ) -> Set[PotentialSecret]:
         output = super().analyze_line(
