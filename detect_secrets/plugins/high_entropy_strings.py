@@ -73,8 +73,8 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
                 secret
                 for secret in (output or set())
                 if (
-                        self.calculate_shannon_entropy(cast(str, secret.secret_value)) >
-                        self.entropy_limit
+                    self.calculate_shannon_entropy(cast(str, secret.secret_value)) >
+                    self.entropy_limit
                 )
             }
 
@@ -158,11 +158,11 @@ class Base64HighEntropyString(HighEntropyStringsPlugin):
     def __init__(self, limit: float = 4.5) -> None:
         super().__init__(
             charset=(
-                    string.ascii_letters
-                    + string.digits
-                    + '+/'  # Regular base64
-                    + '\\-_'  # Url-safe base64
-                    + '='  # Padding
+                string.ascii_letters
+                + string.digits
+                + '+/'  # Regular base64
+                + '\\-_'  # Url-safe base64
+                + '='  # Padding
             ),
             limit=limit,
         )
