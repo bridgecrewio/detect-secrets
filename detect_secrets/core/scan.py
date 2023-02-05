@@ -1,10 +1,11 @@
 import os
 import subprocess
 from functools import lru_cache
-from typing import Any, Optional
+from typing import Any
 from typing import cast
 from typing import Generator
 from typing import Iterable
+from typing import Optional
 from typing import List
 from typing import Set
 from typing import Tuple
