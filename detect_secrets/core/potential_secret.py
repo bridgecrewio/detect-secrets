@@ -30,7 +30,7 @@ class PotentialSecret:
         is_secret: Optional[bool] = None,
         is_verified: bool = False,
         is_added: Optional[bool] = None,
-        is_removed: Optional[bool] = None
+        is_removed: Optional[bool] = None,
     ) -> None:
         """
         :param type: human-readable secret type, defined by the plugin

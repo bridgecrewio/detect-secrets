@@ -302,8 +302,10 @@ def _get_lines_from_diff(diff: str) -> \
         result.append((
             filename,
             [
-                (line.target_line_no if line.target_line_no
-                 else line.source_line_no, line.value, line.is_added, line.is_removed)
+                (
+                    line.target_line_no if line.target_line_no
+                    else line.source_line_no, line.value, line.is_added, line.is_removed
+                )
                 for chunk in patch_file
                 # target_lines refers to incoming (new) changes
                 for line in target_lines(chunk)
@@ -354,7 +356,7 @@ def _process_line_based_plugins(
                 line_number=line_number,
                 context=code_snippet,
                 is_added=is_added,
-                is_removed=is_removed
+                is_removed=is_removed,
             )
             if not _is_filtered_out(
                 required_filter_parameters=['context'],

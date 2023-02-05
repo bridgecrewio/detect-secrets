@@ -11,7 +11,8 @@ import re
 from abc import ABCMeta
 from abc import abstractmethod
 from abc import abstractproperty
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 from typing import Dict
 from typing import Generator
 from typing import Iterable
@@ -85,7 +86,7 @@ class BasePlugin(metaclass=ABCMeta):
                     line_number=line_number,
                     is_verified=is_verified,
                     is_added=is_added,
-                    is_removed=is_removed
+                    is_removed=is_removed,
                 ),
             )
 
