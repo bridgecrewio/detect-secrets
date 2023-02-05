@@ -1,7 +1,7 @@
 import os
 import subprocess
 from functools import lru_cache
-from typing import Any
+from typing import Any, Optional
 from typing import cast
 from typing import Generator
 from typing import Iterable
@@ -157,8 +157,9 @@ def scan_file(filename: str) -> Generator[PotentialSecret, None, None]:
     try:
         has_secret = False
         for lines in _get_lines_from_file(filename):
+            lines_list = [(number, value, None, None) for number, value in list(enumerate(lines, start=1))]
             for secret in _process_line_based_plugins(
-                    lines=list(enumerate(lines, start=1)),
+                    lines=lines_list,
                     filename=filename,
             ):
                 has_secret = True
@@ -206,7 +207,8 @@ def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSe
     # know which lines we want to scan.
     try:
         for lines in _get_lines_from_file(filename):
-            yield from _scan_for_allowlisted_secrets_in_lines(enumerate(lines, start=1), filename)
+            lines_list = [(number, value, None, None) for number, value in list(enumerate(lines, start=1))]
+            yield from _scan_for_allowlisted_secrets_in_lines(lines_list, filename)
             break
     except IOError:
         log.warning(f'Unable to open file: {filename}')
@@ -223,7 +225,7 @@ def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret
 
 
 def _scan_for_allowlisted_secrets_in_lines(
-        lines: Iterable[Tuple[int, str, bool, bool]],
+        lines: Iterable[Tuple[int, str, Optional[bool], Optional[bool]]],
         filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     # We control the setting here because it makes more sense than requiring the caller
@@ -315,7 +317,7 @@ def _get_lines_from_diff(diff: str) -> \
 
 
 def _process_line_based_plugins(
-        lines: List[Tuple[int, str, bool, bool]],
+        lines: List[Tuple[int, str, Optional[bool], Optional[bool]]],
         filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
