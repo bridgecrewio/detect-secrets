@@ -223,7 +223,7 @@ def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret
 
 
 def _scan_for_allowlisted_secrets_in_lines(
-    lines: Iterable[Tuple[int, str]],
+    lines: Iterable[Tuple[int, str, bool, bool]],
     filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     # We control the setting here because it makes more sense than requiring the caller
@@ -293,13 +293,14 @@ def _get_lines_from_diff(diff: str) -> \
     # Local imports, so that we don't need to require unidiff for versions of
     # detect-secrets that don't use it.
     from unidiff import PatchSet  # type:ignore[import]
-    result = []
+
     patch_set = PatchSet.from_string(diff)
+    result = []
     for patch_file in patch_set:
         filename = patch_file.path
         if _is_filtered_out(required_filter_parameters=['filename'], filename=filename):
             continue
-        result.append((
+        yield (
             filename,
             [
                 (
@@ -311,8 +312,7 @@ def _get_lines_from_diff(diff: str) -> \
                 for line in target_lines(chunk)
                 if line.is_added or line.is_removed
             ],
-        ))
-    return result
+        )
 
 
 def target_lines(chunk):
