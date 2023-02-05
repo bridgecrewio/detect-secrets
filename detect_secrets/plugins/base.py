@@ -53,6 +53,8 @@ class BasePlugin(metaclass=ABCMeta):
             line_number: int = 0,
             context: CodeSnippet | None = None,
             raw_context: CodeSnippet | None = None,
+            is_added: Optional[bool] = None,
+            is_removed: Optional[bool] = None,
             **kwargs: Any
     ) -> Set[PotentialSecret]:
         """This examines a line and finds all possible secret values in it."""
@@ -83,8 +85,8 @@ class BasePlugin(metaclass=ABCMeta):
                     secret=match,
                     line_number=line_number,
                     is_verified=is_verified,
-                    is_added=None,
-                    is_removed=None,
+                    is_added=is_added,
+                    is_removed=is_removed,
                 ),
             )
 

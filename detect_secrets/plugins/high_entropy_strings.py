@@ -51,6 +51,8 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
             line_number: int = 0,
             context: CodeSnippet | None = None,
             raw_context: CodeSnippet | None = None,
+            is_added: Optional[bool] = None,
+            is_removed: Optional[bool] = None,
             enable_eager_search: bool = False,
             **kwargs: Any,
     ) -> Set[PotentialSecret]:
@@ -60,6 +62,8 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
             line_number=line_number,
             context=context,
             raw_context=raw_context,
+            is_added=is_added,
+            is_removed=is_removed,
         )
         if output or not enable_eager_search:
             # NOTE: We perform the limit filter at this layer (rather than analyze_string) so
