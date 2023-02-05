@@ -295,7 +295,6 @@ def _get_lines_from_diff(diff: str) -> \
     from unidiff import PatchSet  # type:ignore[import]
 
     patch_set = PatchSet.from_string(diff)
-    result = []
     for patch_file in patch_set:
         filename = patch_file.path
         if _is_filtered_out(required_filter_parameters=['filename'], filename=filename):
