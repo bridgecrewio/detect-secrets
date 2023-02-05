@@ -128,21 +128,21 @@ def scan_line(line: str) -> Generator[PotentialSecret, None, None]:
         secret
         for plugin in get_plugins()
         for secret in _scan_line(
-        plugin=plugin,
-        filename='adhoc-string-scan',
-        line=line,
-        line_number=0,
-        enable_eager_search=True,
-        context=context,
-    )
+            plugin=plugin,
+            filename='adhoc-string-scan',
+            line=line,
+            line_number=0,
+            enable_eager_search=True,
+            context=context,
+        )
         if not _is_filtered_out(
-        required_filter_parameters=['context'],
-        filename=secret.filename,
-        secret=secret.secret_value,
-        plugin=plugin,
-        line=line,
-        context=context,
-    )
+            required_filter_parameters=['context'],
+            filename=secret.filename,
+            secret=secret.secret_value,
+            plugin=plugin,
+            line=line,
+            context=context,
+        )
     )
 
 
@@ -344,42 +344,27 @@ def _process_line_based_plugins(
                 context=code_snippet,
         ):
             continue
-        for plugin in get_plugins():
-            for secret in _scan_line(plugin=plugin,
-                                     filename=filename,
-                                     line=line,
-                                     line_number=line_number,
-                                     context=code_snippet,
-                                     is_added=is_added,
-                                     is_removed=is_removed):
-                if not _is_filtered_out(
-                        required_filter_parameters=['context'],
-                        filename=secret.filename,
-                        secret=secret.secret_value,
-                        plugin=plugin,
-                        line=line,
-                        context=code_snippet):
-                    yield secret
-        # yield from (
-        #     secret
-        #     for plugin in get_plugins()
-        #     for secret in _scan_line(
-        #     plugin=plugin,
-        #     filename=filename,
-        #     line=line,
-        #     line_number=line_number,
-        #     context=code_snippet,
-        #     # raw_context=raw_code_snippet,
-        # )
-        #     if not _is_filtered_out(
-        #     required_filter_parameters=['context'],
-        #     filename=secret.filename,
-        #     secret=secret.secret_value,
-        #     plugin=plugin,
-        #     line=line,
-        #     context=code_snippet,
-        # )
-        # )
+        yield from (
+            secret
+            for plugin in get_plugins()
+            for secret in _scan_line(
+                plugin=plugin,
+                filename=filename,
+                line=line,
+                line_number=line_number,
+                context=code_snippet,
+                is_added=is_added,
+                is_removed=is_removed
+            )
+            if not _is_filtered_out(
+                required_filter_parameters=['context'],
+                filename=secret.filename,
+                secret=secret.secret_value,
+                plugin=plugin,
+                line=line,
+                context=code_snippet,
+            )
+        )
 
 
 def _scan_line(
@@ -407,12 +392,12 @@ def _scan_line(
         secret
         for secret in secrets
         if not _is_filtered_out(
-        required_filter_parameters=['secret'],
-        filename=secret.filename,
-        secret=secret.secret_value,
-        plugin=plugin,
-        line=line,
-    )
+            required_filter_parameters=['secret'],
+            filename=secret.filename,
+            secret=secret.secret_value,
+            plugin=plugin,
+            line=line,
+        )
     )
 
 
