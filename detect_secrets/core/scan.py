@@ -324,7 +324,7 @@ def _get_lines_from_diff(diff: str) -> \
 
 
 def _process_line_based_plugins(
-        lines: List[Tuple[int, str, Union[bool, None], Optional[bool, None]]],
+        lines: List[Tuple[int, str, Union[bool, None], Union[bool, None]]],
         filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
