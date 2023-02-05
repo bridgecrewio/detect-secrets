@@ -40,20 +40,20 @@ class TestDiff:
         assert secret.type == 'AWS Access Key'
 
     @pytest.mark.parametrize(
-        "file_path, secret_value, is_added, is_removed", (
+        'file_path, secret_value, is_added, is_removed', (
             [
                 'test_data/add_sample.diff',
                 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
                 True,
-                False
+                False,
             ],
             [
                 'test_data/remove_sample.diff',
                 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
                 False,
-                True
+                True,
             ],
-        )
+        ),
     )
     def test_scan_secret_diff_add_or_remove(self, file_path, secret_value, is_added, is_removed):
         with transient_settings({
