@@ -239,7 +239,7 @@ def _scan_for_allowlisted_secrets_in_lines(
     get_settings().disable_filters('detect_secrets.filters.allowlist.is_line_allowlisted')
     get_filters.cache_clear()
 
-    line_numbers, lines = zip(*lines)
+    line_numbers, lines, is_added, is_removed = zip(*lines)
     line_content = [line.rstrip() for line in lines]
     for line_number, line in zip(line_numbers, line_content):
         context = get_code_snippet(line_content, line_number)
