@@ -36,9 +36,9 @@ def read_raw_lines(filename: str) -> List[str]:
 
 
 def get_files_to_scan(
-        *paths: str,
-        should_scan_all_files: bool = False,
-        root: str = '',
+    *paths: str,
+    should_scan_all_files: bool = False,
+    root: str = '',
 ) -> Generator[str, None, None]:
     """
     If we specify specific files, we should be able to scan them. This abides by the
@@ -109,8 +109,8 @@ def get_files_to_scan(
                     continue
 
                 if (
-                        valid_paths is True
-                        or relative_path in valid_paths
+                    valid_paths is True
+                    or relative_path in valid_paths
                 ):
                     yield relative_path
 
@@ -179,7 +179,7 @@ def scan_diff(diff: str) -> Generator[PotentialSecret, None, None]:
     """
     :raises: ImportError
     """
-    if not get_plugins():  # pragma: no cover
+    if not get_plugins():   # pragma: no cover
         log.error('No plugins to scan with!')
         return
 
@@ -196,13 +196,13 @@ def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSe
 
     This scans specifically for these lines, and ignores everything else.
     """
-    if not get_plugins():  # pragma: no cover
+    if not get_plugins():   # pragma: no cover
         log.error('No plugins to scan with!')
         return
 
     if _is_filtered_out(
-            required_filter_parameters=['filename'],
-            filename=filename,
+        required_filter_parameters=['filename'],
+        filename=filename,
     ):
         return
 
@@ -222,7 +222,7 @@ def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSe
 
 
 def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret, None, None]:
-    if not get_plugins():  # pragma: no cover
+    if not get_plugins():   # pragma: no cover
         log.error('No plugins to scan with!')
         return
 
@@ -231,8 +231,8 @@ def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret
 
 
 def _scan_for_allowlisted_secrets_in_lines(
-        lines: Iterable[Tuple[int, str, bool, bool]],
-        filename: str,
+    lines: Iterable[Tuple[int, str]],
+    filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     # We control the setting here because it makes more sense than requiring the caller
     # to set this setting before calling this function.
@@ -244,9 +244,9 @@ def _scan_for_allowlisted_secrets_in_lines(
     for line_number, line in zip(line_numbers, line_content):
         context = get_code_snippet(line_content, line_number)
         if not is_line_allowlisted(
-                filename=filename,
-                line=line,
-                context=context,
+            filename=filename,
+            line=line,
+            context=context,
         ):
             continue
 
@@ -307,6 +307,7 @@ def _get_lines_from_diff(diff: str) -> \
         filename = patch_file.path
         if _is_filtered_out(required_filter_parameters=['filename'], filename=filename):
             continue
+
         yield (
             filename,
             [
@@ -323,8 +324,8 @@ def _get_lines_from_diff(diff: str) -> \
 
 
 def _process_line_based_plugins(
-        lines: List[Tuple[int, str, bool, bool]],
-        filename: str,
+    lines: List[Tuple[int, str, bool, bool]],
+    filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
 
@@ -343,10 +344,10 @@ def _process_line_based_plugins(
 
         # We apply line-specific filters, and see whether that allows us to quit early.
         if _is_filtered_out(
-                required_filter_parameters=['line'],
-                filename=filename,
-                line=line,
-                context=code_snippet,
+            required_filter_parameters=['line'],
+            filename=filename,
+            line=line,
+            context=code_snippet,
         ):
             continue
 
@@ -374,12 +375,12 @@ def _process_line_based_plugins(
 
 
 def _scan_line(
-        plugin: Plugin,
-        filename: str,
-        line: str,
-        line_number: int,
-        context: CodeSnippet,
-        **kwargs: Any,
+    plugin: Plugin,
+    filename: str,
+    line: str,
+    line_number: int,
+    context: CodeSnippet,
+    **kwargs: Any,
 ) -> Generator[PotentialSecret, None, None]:
     # NOTE: We don't apply filter functions here yet, because we don't have any filters
     # that operate on (filename, line, plugin) without `secret`
