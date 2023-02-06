@@ -6,7 +6,6 @@ from typing import cast
 from typing import Generator
 from typing import Iterable
 from typing import List
-from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import Union
@@ -295,7 +294,8 @@ def _get_lines_from_file(filename: str) -> Generator[List[str], None, None]:
 
 
 def _get_lines_from_diff(diff: str) -> \
-        Generator[Tuple[str, List[Tuple[int, str, Union[bool, None], Union[bool, None]]]], None, None]:
+        Generator[Tuple[str, List[Tuple[int, str, Union[bool, None], Union[bool, None]]]],
+                  None, None]:
     """
     :raises: ImportError
     """
