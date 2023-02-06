@@ -231,8 +231,8 @@ def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret
 
 
 def _scan_for_allowlisted_secrets_in_lines(
-    lines: Iterable[Tuple[int, str]],
-    filename: str,
+        lines: Iterable[Tuple[int, str, bool, bool]],
+        filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     # We control the setting here because it makes more sense than requiring the caller
     # to set this setting before calling this function.
