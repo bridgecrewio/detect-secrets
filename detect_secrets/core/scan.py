@@ -158,7 +158,7 @@ def scan_file(filename: str) -> Generator[PotentialSecret, None, None]:
         has_secret = False
         for lines in _get_lines_from_file(filename):
             lines_list = [
-                (number, value, None, None)
+                (number, value, False, False)
                 for number, value in list(enumerate(lines, start=1))
             ]
             for secret in _process_line_based_plugins(
@@ -211,7 +211,7 @@ def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSe
     try:
         for lines in _get_lines_from_file(filename):
             lines_list = [
-                (number, value, None, None)
+                (number, value, False, False)
                 for number, value in list(enumerate(lines, start=1))
             ]
             yield from _scan_for_allowlisted_secrets_in_lines(lines_list, filename)
@@ -231,7 +231,7 @@ def scan_for_allowlisted_secrets_in_diff(diff: str) -> Generator[PotentialSecret
 
 
 def _scan_for_allowlisted_secrets_in_lines(
-        lines: Iterable[Tuple[int, str, Union[bool, None], Union[bool, None]]],
+        lines: Iterable[Tuple[int, str, bool, bool]],
         filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     # We control the setting here because it makes more sense than requiring the caller
@@ -295,7 +295,7 @@ def _get_lines_from_file(filename: str) -> Generator[List[str], None, None]:
 
 def _get_lines_from_diff(diff: str) -> \
         Generator[
-        Tuple[str, List[Tuple[int, str, Union[bool, None], Union[bool, None]]]],
+        Tuple[str, List[Tuple[int, str, bool, bool]]],
         None, None
 ]:
     """
@@ -326,7 +326,7 @@ def _get_lines_from_diff(diff: str) -> \
 
 
 def _process_line_based_plugins(
-        lines: List[Tuple[int, str, Union[bool, None], Union[bool, None]]],
+        lines: List[Tuple[int, str, bool, bool]],
         filename: str,
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
