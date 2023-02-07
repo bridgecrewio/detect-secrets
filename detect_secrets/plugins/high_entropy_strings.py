@@ -9,7 +9,6 @@ from typing import Any
 from typing import cast
 from typing import Dict
 from typing import Generator
-from typing import Optional
 from typing import Set
 
 from ..core.potential_secret import PotentialSecret
