@@ -30,9 +30,13 @@ MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 
 
 @lru_cache(maxsize=1)
-def read_raw_lines(filename: str) -> List[str]:
-    with open(filename) as f:
-        return f.readlines()
+def read_raw_lines(file_name: str) -> List[str]:
+    try:
+        with open(file_name) as f:
+            return f.readlines()
+    except IOError:
+        log.warning(f"Can't open file {file_name}")
+        return []
 
 
 def get_files_to_scan(
@@ -341,9 +345,8 @@ def _process_line_based_plugins(
             lines=line_content,
             line_number=line_number,
         )
-        raw_lines = read_raw_lines(filename) if not is_added and not is_removed else []
         raw_code_snippet = get_code_snippet(
-            lines=raw_lines,
+            lines=read_raw_lines(filename),
             line_number=line_number,
         )
 
