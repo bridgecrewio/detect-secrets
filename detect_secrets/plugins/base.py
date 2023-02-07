@@ -15,7 +15,6 @@ from typing import Any
 from typing import Dict
 from typing import Generator
 from typing import Iterable
-from typing import Optional
 from typing import Pattern
 from typing import Set
 
@@ -53,8 +52,8 @@ class BasePlugin(metaclass=ABCMeta):
             line_number: int = 0,
             context: CodeSnippet | None = None,
             raw_context: CodeSnippet | None = None,
-            is_added: Optional[bool] = None,
-            is_removed: Optional[bool] = None,
+            is_added: bool = False,
+            is_removed: bool = False,
             **kwargs: Any
     ) -> Set[PotentialSecret]:
         """This examines a line and finds all possible secret values in it."""
