@@ -35,7 +35,7 @@ def read_raw_lines(file_name: str) -> List[str]:
         with open(file_name) as f:
             return f.readlines()
     except IOError:
-        log.warning(f"Can't open file {file_name}")
+        log.debug(f"Can't open file {file_name}")
         return []
 
 
