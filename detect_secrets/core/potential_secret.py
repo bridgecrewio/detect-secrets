@@ -29,8 +29,9 @@ class PotentialSecret:
         line_number: int = 0,
         is_secret: Optional[bool] = None,
         is_verified: bool = False,
-        is_added: Optional[bool] = None,
-        is_removed: Optional[bool] = None,
+        is_added: bool = False,
+        is_removed: bool = False,
+        commit_hash: Optional[str] = None,
     ) -> None:
         """
         :param type: human-readable secret type, defined by the plugin
@@ -50,6 +51,7 @@ class PotentialSecret:
         self.is_verified = is_verified
         self.is_added = is_added
         self.is_removed = is_removed
+        self.commit_hash = commit_hash
 
         # If two PotentialSecrets have the same values for these fields,
         # they are considered equal. Note that line numbers aren't included
