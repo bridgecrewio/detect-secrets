@@ -50,8 +50,6 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
             line_number: int = 0,
             context: CodeSnippet | None = None,
             raw_context: CodeSnippet | None = None,
-            is_added: bool = False,
-            is_removed: bool = False,
             enable_eager_search: bool = False,
             **kwargs: Any,
     ) -> Set[PotentialSecret]:
