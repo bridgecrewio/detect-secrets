@@ -50,7 +50,8 @@ def is_sequential_string(secret: str) -> bool:
 
 
 def is_potential_uuid(secret: str) -> bool:
-    return _get_uuid_regex().search(secret).group() == secret
+    match = _get_uuid_regex().search(secret)
+    return match and match.group() == secret
 
 
 @lru_cache(maxsize=1)
