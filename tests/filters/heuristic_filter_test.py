@@ -47,7 +47,7 @@ class TestIsSequentialString:
     [
         ('3636dd46-ea21-11e9-81b4-2a2ae2dbcce4', True),  # uuid1
         ('97fb0431-46ac-41df-9ef9-1a18545ce2a0', True),  # uuid4
-        ('prefix-3636dd46-ea21-11e9-81b4-2a2ae2dbcce4-suffix', False)  # uuid in middle of string
+        ('prefix-3636dd46-ea21-11e9-81b4-2a2ae2dbcce4-suffix', False),  # uuid in middle of string
     ]
 )
 def test_is_potential_uuid(secret, expected_value):
