@@ -324,8 +324,6 @@ class KeywordDetector(BasePlugin):
             line_number=line_number,
             context=context,
             raw_context=raw_context,
-            is_added=is_added,
-            is_removed=is_removed,
             denylist_regex_to_group=denylist_regex_to_group,
         )
 
