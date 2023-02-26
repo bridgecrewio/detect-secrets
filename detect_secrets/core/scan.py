@@ -376,7 +376,8 @@ def _process_line_based_plugins(
                         secret=secret.secret_value,
                         plugin=plugin,
                         line=line,
-                        context=code_snippet):
+                        context=code_snippet,
+                ):
                     yield secret
 
 
