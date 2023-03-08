@@ -335,20 +335,32 @@ def _process_line_based_plugins(
 
     # NOTE: We iterate through lines *then* plugins, because we want to quit early if any of the
     # filters return True.
+    index = 0
     for line_number, line, is_added, is_removed in lines:
         line = line.strip()
+        index += 1
         if len(line) < MIN_LINE_LENGTH:
             # skip lines which have too few none whitespace chars
             continue
 
-        code_snippet = get_code_snippet(
-            lines=line_content,
-            line_number=line_number,
-        )
-        raw_code_snippet = get_code_snippet(
-            lines=read_raw_lines(filename),
-            line_number=line_number,
-        )
+        if not is_added and not is_removed:
+            code_snippet = get_code_snippet(
+                lines=line_content,
+                line_number=line_number,
+            )
+            raw_code_snippet = get_code_snippet(
+                lines=read_raw_lines(filename),
+                line_number=line_number,
+            )
+        else:
+            code_snippet = get_code_snippet(
+                lines=line_content,
+                line_number=index,
+            )
+            raw_code_snippet = get_code_snippet(
+                lines=line_content,
+                line_number=index,
+            )
 
         # We apply line-specific filters, and see whether that allows us to quit early.
         if _is_filtered_out(
