@@ -344,23 +344,20 @@ def _process_line_based_plugins(
             continue
 
         if not is_added and not is_removed:
-            code_snippet = get_code_snippet(
-                lines=line_content,
-                line_number=line_number,
-            )
-            raw_code_snippet = get_code_snippet(
-                lines=read_raw_lines(filename),
-                line_number=line_number,
-            )
+            code_snippet_line_number = line_number
+            raw_code_snippet_lines = read_raw_lines(filename)
         else:
-            code_snippet = get_code_snippet(
-                lines=line_content,
-                line_number=index,
-            )
-            raw_code_snippet = get_code_snippet(
-                lines=line_content,
-                line_number=index,
-            )
+            code_snippet_line_number = index
+            raw_code_snippet_lines = line_content
+
+        code_snippet = get_code_snippet(
+            lines=line_content,
+            line_number=code_snippet_line_number,
+        )
+        raw_code_snippet = get_code_snippet(
+            lines=raw_code_snippet_lines,
+            line_number=code_snippet_line_number,
+        )
 
         # We apply line-specific filters, and see whether that allows us to quit early.
         if _is_filtered_out(
