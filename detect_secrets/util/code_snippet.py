@@ -31,10 +31,10 @@ def get_code_snippet(
         end_line_index = len(lines)
 
     return CodeSnippet(
-            snippet=lines[start_line_index:end_line_index],
-            start_line=start_line_index,
-            target_index=target_line_index,
-        )
+        snippet=lines[start_line_index:end_line_index],
+        start_line=start_line_index,
+        target_index=target_line_index,
+    )
 
 
 class CodeSnippet:
