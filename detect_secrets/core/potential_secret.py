@@ -89,7 +89,7 @@ class PotentialSecret:
             'is_secret',
             'is_verified',
             'is_added',
-            'is_removed'
+            'is_removed',
         }:
             if parameter in data:
                 kwargs[parameter] = data[parameter]
