@@ -124,9 +124,6 @@ class PotentialSecret:
 
         return attributes
 
-    def toJson(self) -> str:
-        return json.dumps(self.json())
-
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PotentialSecret):
             return NotImplemented
