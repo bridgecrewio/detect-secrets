@@ -1,4 +1,5 @@
 import hashlib
+import json
 from typing import Any
 from typing import Dict
 from typing import Optional
@@ -22,15 +23,15 @@ class PotentialSecret:
     """
 
     def __init__(
-        self,
-        type: str,
-        filename: str,
-        secret: str,
-        line_number: int = 0,
-        is_secret: Optional[bool] = None,
-        is_verified: bool = False,
-        is_added: Optional[bool] = None,
-        is_removed: Optional[bool] = None,
+            self,
+            type: str,
+            filename: str,
+            secret: str,
+            line_number: int = 0,
+            is_secret: Optional[bool] = None,
+            is_verified: bool = False,
+            is_added: Optional[bool] = None,
+            is_removed: Optional[bool] = None,
     ) -> None:
         """
         :param type: human-readable secret type, defined by the plugin
@@ -88,6 +89,8 @@ class PotentialSecret:
             'line_number',
             'is_secret',
             'is_verified',
+            'is_added',
+            'is_removed'
         }:
             if parameter in data:
                 kwargs[parameter] = data[parameter]
@@ -113,7 +116,16 @@ class PotentialSecret:
         if hasattr(self, 'is_secret') and self.is_secret is not None:
             attributes['is_secret'] = self.is_secret
 
+        if hasattr(self, 'is_added') and self.is_added is not None:
+            attributes['is_added'] = self.is_added
+
+        if hasattr(self, 'is_removed') and self.is_removed is not None:
+            attributes['is_removed'] = self.is_removed
+
         return attributes
+
+    def toJson(self) -> str:
+        return json.dumps(self.json())
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PotentialSecret):
