@@ -387,6 +387,13 @@ def _process_line_based_plugins(
                         line=line,
                         context=code_snippet,
                 ):
+                    # Calculate actual line number in case of multi-line string
+                    actual_line_number = line_number
+                    for i, l in enumerate(raw_code_snippet_lines[actual_line_number:], start=1):
+                        if secret.secret_value in l:
+                            actual_line_number += i
+                            break
+                    secret.line_number = actual_line_number
                     yield secret
 
 
