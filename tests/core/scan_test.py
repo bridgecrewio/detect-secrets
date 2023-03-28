@@ -119,7 +119,8 @@ class TestScanFile:
             if secret.line_number not in lines_with_findings:
                 lines_with_findings.add(secret.line_number)
             else:
-                assert secret.line_number not in lines_with_findings, f'Found multiple secrets on the same line number'
+                assert secret.line_number not in lines_with_findings,\
+                    'Found multiple secrets on the same line number'
 
 
 @pytest.fixture(autouse=True)

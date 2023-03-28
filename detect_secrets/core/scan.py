@@ -390,7 +390,8 @@ def _process_line_based_plugins(
                         context=code_snippet,
                 ):
                     if determine_file_type(filename) == FileType.YAML and secret.secret_value:
-                        # YAML specifically has multi-line string parsing that groups the different lines as 1.
+                        # YAML specifically has multi-line string parsing that groups the
+                        # different lines as 1.
                         # Calculate actual line number in case of YAML multi-line string
                         actual_line_number = line_number
                         for i, l in enumerate(raw_code_snippet_lines[actual_line_number:], start=1):
