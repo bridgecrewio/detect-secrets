@@ -10,9 +10,6 @@ from typing import Set
 from typing import Tuple
 from typing import Union
 
-from detect_secrets.util.filetype import determine_file_type
-from detect_secrets.util.filetype import FileType
-
 from ..custom_types import NamedIO
 from ..custom_types import SelfAwareCallable
 from ..filters.allowlist import is_line_allowlisted
@@ -28,6 +25,8 @@ from ..util.path import get_relative_path
 from .log import log
 from .plugins import Plugin
 from .potential_secret import PotentialSecret
+from detect_secrets.util.filetype import determine_file_type
+from detect_secrets.util.filetype import FileType
 
 MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 
