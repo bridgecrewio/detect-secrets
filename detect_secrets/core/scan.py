@@ -394,7 +394,7 @@ def _process_line_based_plugins(
                         # different lines as 1.
                         # Calculate actual line number in case of YAML multi-line string
                         actual_line_number = line_number
-                        for i, l in enumerate(raw_code_snippet_lines[actual_line_number-1:], start=1):
+                        for i, l in enumerate(raw_code_snippet_lines[actual_line_number - 1:]):
                             if secret.secret_value in l:
                                 actual_line_number += i
                                 break
