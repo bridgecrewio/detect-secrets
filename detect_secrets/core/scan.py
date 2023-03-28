@@ -10,7 +10,8 @@ from typing import Set
 from typing import Tuple
 from typing import Union
 
-from detect_secrets.util.filetype import FileType, determine_file_type
+from detect_secrets.util.filetype import determine_file_type
+from detect_secrets.util.filetype import FileType
 
 from ..custom_types import NamedIO
 from ..custom_types import SelfAwareCallable
