@@ -113,13 +113,13 @@ class TestScanFile:
     def test_multi_line_results_accuracy():
         file_name = os.path.join(os.path.dirname(__file__), 'scan_test_multiline.yaml')
         results = list(scan.scan_file(file_name))
-        assert len(results) > 0, f"Expected to find secrets in {file_name}"
+        assert len(results) > 0, f'Expected to find secrets in {file_name}'
         lines_with_findings = set()
         for secret in results:
             if secret.line_number not in lines_with_findings:
                 lines_with_findings.add(secret.line_number)
             else:
-                assert secret.line_number not in lines_with_findings, f"Found multiple secrets on the same line number"
+                assert secret.line_number not in lines_with_findings, f'Found multiple secrets on the same line number'
 
 
 @pytest.fixture(autouse=True)
