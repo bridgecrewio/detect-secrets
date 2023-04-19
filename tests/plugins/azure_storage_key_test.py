@@ -18,15 +18,15 @@ class TestAzureStorageKeyDetector:
             ),
             (
                 'learS3Bucket',
-                False
+                False,
             ),
             (
                 'anupRole',
-                False
+                False,
             ),
             (
                 'cret',
-                False
+                False,
             ),
         ],
     )
