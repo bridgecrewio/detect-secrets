@@ -32,4 +32,4 @@ class TestAzureStorageKeyDetector:
     )
     def test_analyze(self, payload, should_flag):
         logic = AzureStorageKeyDetector()
-        assert logic.analyze_line(filename='mock_filename', line=payload)
+        assert bool(logic.analyze_line(filename='mock_filename', line=payload)) == should_flag
