@@ -5,8 +5,8 @@ from detect_secrets.constants import VerifiedResult
 from detect_secrets.plugins.ibm_cloud_iam import IbmCloudIamDetector
 
 
-CLOUD_IAM_KEY = 'abcd1234abcd1234abcd1234ABCD1234ABCD1234--__'
-CLOUD_IAM_KEY_BYTES = b'abcd1234abcd1234abcd1234ABCD1234ABCD1234--__'
+CLOUD_IAM_KEY = '5ccff000-9ff1-4481-a760-29c22a7603e7'
+CLOUD_IAM_KEY_BYTES = b'5ccff000-9ff1-4481-a760-29c22a7603e7'
 
 
 class TestIBMCloudIamDetector:
