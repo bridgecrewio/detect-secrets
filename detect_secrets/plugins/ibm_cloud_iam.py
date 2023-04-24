@@ -22,8 +22,7 @@ class IbmCloudIamDetector(RegexBasedDetector):
         RegexBasedDetector.build_assignment_regex(
             prefix_regex=opt_ibm_cloud_iam + opt_dash_underscore + opt_api,
             secret_keyword_regex=key_or_pass,
-            secret_regex=secret,
-            assignment_with_dash=True
+            secret_regex=secret
         ),
     ]
 
