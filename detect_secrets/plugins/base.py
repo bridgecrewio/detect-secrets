@@ -186,10 +186,10 @@ class RegexBasedDetector(BasePlugin, metaclass=ABCMeta):
             assignment_with_dash: bool = False
     ) -> Pattern:
         """Generate assignment regex
-        It reads 3 input parameters, each stands for regex. The return regex would look for
+        It reads 4 input parameters, each stands for regex. The return regex would look for
         secret in following format.
         <prefix_regex>(-|_|)<secret_keyword_regex> <assignment> <secret_regex>
-        assignment would include =,:,:=,::
+        assignment would include =,:,:=,:: or it might contain dash (-)
         keyname and value supports optional quotes
         """
         begin = r'(?:(?<=\W)|(?<=^))'
