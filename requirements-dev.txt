@@ -1,4 +1,4 @@
-coverage==7.2.1
+coverage==7.2.3
 flake8==5.0.4  # 6.0.0+ needs Python 3.8
 gibberish-detector==0.1.1
 monotonic==1.6
@@ -8,9 +8,9 @@ pyahocorasick==2.0.0
 pytest==7.2.2
 pyyaml==6.0
 requests==2.28.2
-responses==0.22.0
+responses==0.23.1
 tox==3.28.0  # can't be updated to 4+ due to flake8@5.0.4 needing importlib-metadata<4.3 and tox needs importlib-metadata>=5.1
-types-pyyaml==6.0.12.8
+types-pyyaml==6.0.12.9
 types-requests==2.28.11.15
 typing-extensions==4.5.0
-unidiff==0.7.4
+unidiff==0.7.5
