@@ -59,5 +59,3 @@ def verify_cloud_iam_api_key(apikey: Union[str, bytes]) -> requests.Response:  #
         },
     )
     return response
-
-
