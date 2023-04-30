@@ -55,7 +55,7 @@ class IbmCloudIamDetector(RegexBasedDetector):
         secrets = set()
         for p in potentials:
             if self.entropy_plugin.analyze_line(
-                    filename, f'"{p.secret_value}"', line_number, context, **kwargs
+                    filename, f'"{p.secret_value}"', line_number, context, raw_context, **kwargs
             ):
                 secrets.add(p)
         return secrets
