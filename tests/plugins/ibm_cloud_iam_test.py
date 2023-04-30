@@ -65,9 +65,9 @@ class TestIBMCloudIamDetector:
             ('ibm-cloud-key:{cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
             ('ibm_key:"{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
             (
-                    '"ibm_cloud_iam_api_key":"{cloud_iam_key}"'.format(
-                        cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY,
-                    ), False,
+                '"ibm_cloud_iam_api_key":"{cloud_iam_key}"'.format(
+                    cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY,
+                ), False,
             ),
             ('ibm_cloud_iamapikey= {cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
             ('ibm_cloud_api_key= "{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
@@ -76,9 +76,9 @@ class TestIBMCloudIamDetector:
             ('ibm_api_key := {cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
             ('"ibm-iam_key" := "{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
             (
-                    '"ibm_cloud_iam_api_key":= "{cloud_iam_key}"'.format(
-                        cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY,
-                    ), False,
+                '"ibm_cloud_iam_api_key":= "{cloud_iam_key}"'.format(
+                    cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY,
+                ), False,
             ),
             ('ibm-cloud_api_key:={cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
             ('"cloud_iam_api_key":="{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
