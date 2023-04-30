@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import Generator
-from typing import Union
 from typing import Any
+from typing import Generator
 from typing import Set
+from typing import Union
 
 import requests
 
