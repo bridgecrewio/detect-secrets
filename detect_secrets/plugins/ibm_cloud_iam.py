@@ -6,9 +6,9 @@ from typing import Set
 import requests
 
 from ..constants import VerifiedResult
+from ..core.potential_secret import PotentialSecret
 from .base import RegexBasedDetector
 from .high_entropy_strings import Base64HighEntropyString
-from ..core.potential_secret import PotentialSecret
 
 
 class IbmCloudIamDetector(RegexBasedDetector):
