@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 from typing import Set
 from typing import Union
@@ -45,10 +47,11 @@ class IbmCloudIamDetector(RegexBasedDetector):
         filename: str,
         line: str,
         line_number: int = 0,
-        context: CodeSnippet = None,
+        context: CodeSnippet | None = None,
+        raw_context: CodeSnippet | None = None,
         **kwargs: Any
     ) -> Set[PotentialSecret]:
-        potentials = super().analyze_line(filename, line, line_number, context, **kwargs)
+        potentials = super().analyze_line(filename, line, line_number, context, raw_context, **kwargs)
         secrets = set()
         for p in potentials:
             if self.entropy_plugin.analyze_line(
