@@ -38,7 +38,9 @@ class IbmCloudIamDetector(RegexBasedDetector):
 
     def analyze_string(self, string: str) -> Generator[str, None, None]:
         for match in RegexBasedDetector.analyze_string(self, string):
-            entropy_result = IbmCloudIamDetector.high_entropy_plugin.calculate_shannon_entropy(match)
+            entropy_result = IbmCloudIamDetector.high_entropy_plugin.calculate_shannon_entropy(
+                match
+            )
             if entropy_result > IbmCloudIamDetector.IBM_KEY_ENTROPY_GRADE:
                 yield match
 
