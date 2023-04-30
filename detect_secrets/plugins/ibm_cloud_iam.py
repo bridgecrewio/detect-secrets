@@ -30,14 +30,15 @@ class IbmCloudIamDetector(RegexBasedDetector):
         ),
     ]
 
-    high_entropy_plugin = Base64HighEntropyString()
+    def __init__(self) -> None:
+        super().__init__()
+        self.high_entropy_plugin = Base64HighEntropyString()
 
     def verify(self, secret: str) -> VerifiedResult:
         response = verify_cloud_iam_api_key(secret)
 
         return VerifiedResult.VERIFIED_TRUE if response.status_code == 200 \
             else VerifiedResult.VERIFIED_FALSE
-
 
     def analyze_line(
             self,
@@ -48,14 +49,13 @@ class IbmCloudIamDetector(RegexBasedDetector):
         """This examines a line and finds all possible secret values in it."""
         return {
             o for o in super().analyze_line(filename, line, **kwargs) if
-            IbmCloudIamDetector.high_entropy_plugin.is_entropy_valid(o.secret_value)
+            self.high_entropy_plugin.is_entropy_valid(o.secret_value)
         }
+
     def analyze_string(self, string: str) -> Generator[str, None, None]:
         for match in RegexBasedDetector.analyze_string(self, string):
-            entropy_result = IbmCloudIamDetector.high_entropy_plugin.calculate_shannon_entropy(
-                match,
-            )
-            if entropy_result > IbmCloudIamDetector.high_entropy_plugin.entropy_limit:
+            entropy_result = self.high_entropy_plugin.calculate_shannon_entropy(match)
+            if entropy_result > self.high_entropy_plugin.entropy_limit:
                 yield match
 
 
