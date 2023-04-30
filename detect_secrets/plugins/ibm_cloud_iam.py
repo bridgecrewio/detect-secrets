@@ -1,11 +1,14 @@
 from typing import Generator
 from typing import Union
+from typing import Any
+from typing import Set
 
 import requests
 
 from ..constants import VerifiedResult
 from .base import RegexBasedDetector
 from .high_entropy_strings import Base64HighEntropyString
+from ..core.potential_secret import PotentialSecret
 
 
 class IbmCloudIamDetector(RegexBasedDetector):
@@ -35,6 +38,18 @@ class IbmCloudIamDetector(RegexBasedDetector):
         return VerifiedResult.VERIFIED_TRUE if response.status_code == 200 \
             else VerifiedResult.VERIFIED_FALSE
 
+
+    def analyze_line(
+            self,
+            filename: str,
+            line: str,
+            **kwargs: Any
+    ) -> Set[PotentialSecret]:
+        """This examines a line and finds all possible secret values in it."""
+        return {
+            o for o in super().analyze_line(filename, line, **kwargs) if
+            IbmCloudIamDetector.high_entropy_plugin.is_entropy_valid(o.secret_value)
+        }
     def analyze_string(self, string: str) -> Generator[str, None, None]:
         for match in RegexBasedDetector.analyze_string(self, string):
             entropy_result = IbmCloudIamDetector.high_entropy_plugin.calculate_shannon_entropy(

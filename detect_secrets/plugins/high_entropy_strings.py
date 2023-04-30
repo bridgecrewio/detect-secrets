@@ -104,6 +104,9 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
 
         return entropy
 
+    def is_entropy_valid(self, data: str) -> bool:
+        return self.calculate_shannon_entropy(data) > self.entropy_limit
+
     def format_scan_result(self, secret: PotentialSecret) -> str:
         if not secret.secret_value:
             # This is the best we can do, since we don't have the raw value to process.
