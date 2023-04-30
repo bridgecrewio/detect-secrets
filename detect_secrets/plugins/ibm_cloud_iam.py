@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 from typing import Any
-from typing import Generator
 from typing import Set
 from typing import Union
 
@@ -35,7 +32,7 @@ class IbmCloudIamDetector(RegexBasedDetector):
 
     def __init__(self) -> None:
         super().__init__()
-        self.high_entropy_plugin = Base64HighEntropyString()
+        self.entropy_plugin = Base64HighEntropyString()
 
     def verify(self, secret: str) -> VerifiedResult:
         response = verify_cloud_iam_api_key(secret)
@@ -44,27 +41,19 @@ class IbmCloudIamDetector(RegexBasedDetector):
             else VerifiedResult.VERIFIED_FALSE
 
     def analyze_line(
-            self,
-            filename: str,
-            line: str,
-            line_number: int = 0,
-            context: CodeSnippet | None = None,
-            raw_context: CodeSnippet | None = None,
-            enable_eager_search: bool = False,
-            **kwargs: Any,
+        self,
+        filename: str,
+        line: str,
+        line_number: int = 0,
+        context: CodeSnippet = None,
+        **kwargs: Any
     ) -> Set[PotentialSecret]:
-        """This examines a line and finds all possible secret values in it."""
-        return {
-            o for o in super().analyze_line(
-                filename, line, line_number, context, raw_context, **kwargs) if
-            o.secret_value and self.high_entropy_plugin.is_entropy_valid(o.secret_value)
-        }
-
-    def analyze_string(self, string: str) -> Generator[str, None, None]:
-        for match in RegexBasedDetector.analyze_string(self, string):
-            entropy_result = self.high_entropy_plugin.calculate_shannon_entropy(match)
-            if entropy_result > self.high_entropy_plugin.entropy_limit:
-                yield match
+        potentials = super().analyze_line(filename, line, line_number, context, **kwargs)
+        secrets = set()
+        for p in potentials:
+            if self.entropy_plugin.analyze_line(filename, f'"{p.secret_value}"', line_number, context, **kwargs):
+                secrets.add(p)
+        return secrets
 
 
 def verify_cloud_iam_api_key(apikey: Union[str, bytes]) -> requests.Response:  # pragma: no cover
