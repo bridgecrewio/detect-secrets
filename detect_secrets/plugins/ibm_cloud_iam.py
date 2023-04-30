@@ -12,7 +12,6 @@ class IbmCloudIamDetector(RegexBasedDetector):
     """Scans for IBM Cloud IAM Key."""
 
     secret_type = 'IBM Cloud IAM Key'
-    IBM_KEY_ENTROPY_GRADE = 4
     # opt means optional
     opt_ibm_cloud_iam = r'(?:ibm(?:_|-|)cloud(?:_|-|)iam|cloud(?:_|-|)iam|' + \
         r'ibm(?:_|-|)cloud|ibm(?:_|-|)iam|ibm|iam|cloud|)'
@@ -41,7 +40,7 @@ class IbmCloudIamDetector(RegexBasedDetector):
             entropy_result = IbmCloudIamDetector.high_entropy_plugin.calculate_shannon_entropy(
                 match,
             )
-            if entropy_result > IbmCloudIamDetector.IBM_KEY_ENTROPY_GRADE:
+            if entropy_result > IbmCloudIamDetector.high_entropy_plugin.entropy_limit:
                 yield match
 
 
