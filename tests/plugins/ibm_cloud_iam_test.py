@@ -4,7 +4,6 @@ import responses
 from detect_secrets.constants import VerifiedResult
 from detect_secrets.plugins.ibm_cloud_iam import IbmCloudIamDetector
 
-
 CLOUD_IAM_KEY = 'ukYEEX38RiGgq1BPf2m-nIeTM_lEGizKKn49RRoC_6fn'
 CLOUD_IAM_KEY_BYTES = b'ukYEEX38RiGgq1BPf2m-nIeTM_lEGizKKn49RRoC_6fn'
 CLOUD_IAM_KEY_LOW_ENTROPY = 'abcd1234abcd1234abcd1234ABCD1234ABCD1234--__'
@@ -26,9 +25,9 @@ class TestIBMCloudIamDetector:
             ('ibm-cloud-key:{cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             ('ibm_key:"{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             (
-                '"ibm_cloud_iam_api_key":"{cloud_iam_key}"'.format(
-                    cloud_iam_key=CLOUD_IAM_KEY,
-                ), True,
+                    '"ibm_cloud_iam_api_key":"{cloud_iam_key}"'.format(
+                        cloud_iam_key=CLOUD_IAM_KEY,
+                    ), True,
             ),
             ('ibm_cloud_iamapikey= {cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             ('ibm_cloud_api_key= "{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
@@ -37,9 +36,9 @@ class TestIBMCloudIamDetector:
             ('ibm_api_key := {cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             ('"ibm-iam_key" := "{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             (
-                '"ibm_cloud_iam_api_key":= "{cloud_iam_key}"'.format(
-                    cloud_iam_key=CLOUD_IAM_KEY,
-                ), True,
+                    '"ibm_cloud_iam_api_key":= "{cloud_iam_key}"'.format(
+                        cloud_iam_key=CLOUD_IAM_KEY,
+                    ), True,
             ),
             ('ibm-cloud_api_key:={cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             ('"cloud_iam_api_key":="{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
@@ -93,7 +92,6 @@ class TestIBMCloudIamDetector:
             ('apikey:{cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY_LOW_ENTROPY), False),
         ],
     )
-
     def test_analyze_string_content(self, payload, should_flag):
         logic = IbmCloudIamDetector()
 
