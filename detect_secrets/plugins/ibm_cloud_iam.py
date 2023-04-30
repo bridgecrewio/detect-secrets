@@ -1,4 +1,5 @@
-from typing import Union, Generator
+from typing import Generator
+from typing import Union
 
 import requests
 

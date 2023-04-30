@@ -36,9 +36,9 @@ class TestIBMCloudIamDetector:
             ('ibm_api_key := {cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             ('"ibm-iam_key" := "{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             (
-                '"ibm_cloud_iam_api_key":= "{cloud_iam_key}"'.format(
-                    cloud_iam_key=CLOUD_IAM_KEY,
-                ), True,
+            '"ibm_cloud_iam_api_key":"{cloud_iam_key}"'.format(
+                cloud_iam_key=CLOUD_IAM_KEY,
+            ), True,
             ),
             ('ibm-cloud_api_key:={cloud_iam_key}'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
             ('"cloud_iam_api_key":="{cloud_iam_key}"'.format(cloud_iam_key=CLOUD_IAM_KEY), True),
