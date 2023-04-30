@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Generator
 from typing import Union
 from typing import Any
@@ -7,6 +9,7 @@ import requests
 
 from ..constants import VerifiedResult
 from ..core.potential_secret import PotentialSecret
+from ..util.code_snippet import CodeSnippet
 from .base import RegexBasedDetector
 from .high_entropy_strings import Base64HighEntropyString
 
@@ -44,11 +47,16 @@ class IbmCloudIamDetector(RegexBasedDetector):
             self,
             filename: str,
             line: str,
-            **kwargs: Any
+            line_number: int = 0,
+            context: CodeSnippet | None = None,
+            raw_context: CodeSnippet | None = None,
+            enable_eager_search: bool = False,
+            **kwargs: Any,
     ) -> Set[PotentialSecret]:
         """This examines a line and finds all possible secret values in it."""
         return {
-            o for o in super().analyze_line(filename, line, **kwargs) if
+            o for o in super().analyze_line(
+                filename, line, line_number, context, raw_context, **kwargs) if
             o.secret_value and self.high_entropy_plugin.is_entropy_valid(o.secret_value)
         }
 
