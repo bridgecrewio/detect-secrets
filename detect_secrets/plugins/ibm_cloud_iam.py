@@ -49,7 +49,7 @@ class IbmCloudIamDetector(RegexBasedDetector):
         """This examines a line and finds all possible secret values in it."""
         return {
             o for o in super().analyze_line(filename, line, **kwargs) if
-            self.high_entropy_plugin.is_entropy_valid(o.secret_value)
+            o.secret_value and self.high_entropy_plugin.is_entropy_valid(o.secret_value)
         }
 
     def analyze_string(self, string: str) -> Generator[str, None, None]:
