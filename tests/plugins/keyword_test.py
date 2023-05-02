@@ -162,13 +162,14 @@ QUOTES_REQUIRED_TEST_CASES_GENERIC = [
 
 QUOTES_REQUIRED_TEST_CASES = [
     *QUOTES_REQUIRED_TEST_CASES_GENERIC,
-    ('password = {}'.format(COMMON_SECRET), None)]  # Secret without quotes
+    ('password = {}'.format(COMMON_SECRET), None),
+]  # Secret without quotes
 
 QUOTES_REQUIRED_TEST_CASES_BASH_CONSIDER = [
     *QUOTES_REQUIRED_TEST_CASES_GENERIC,
     # Terraform files might contain bash code, secret might be stated. For example:
     # #!/bin/bash export {SOME_KEY}={SOME_SECRET_STRING}
-    ('password = {}'.format(COMMON_SECRET), COMMON_SECRET)
+    ('password = {}'.format(COMMON_SECRET), COMMON_SECRET),
 ]
 
 
