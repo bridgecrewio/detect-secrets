@@ -38,10 +38,17 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
                 # This occurs on the default regex, but not on the eager regex.
                 result = result[1]
 
+            if not self.validate_result(result=result):
+                continue
+
             # We perform the shannon entropy check in `analyze_line` instead, so that we have
             # more control over **when** we display the results of this plugin. Specifically,
             # this allows us to show the computed entropy values during adhoc string scans.
             yield result
+
+    def validate_result(self, result: str) -> bool:
+        """This can be overridden to check, if the string is valid result"""
+        return True
 
     def analyze_line(
             self,
@@ -161,6 +168,11 @@ class Base64HighEntropyString(HighEntropyStringsPlugin):
             ),
             limit=limit,
         )
+
+    def validate_result(self, result: str) -> bool:
+        # a base64 string is a multiple of 4 chars
+        result_division = len(result) / 4
+        return bool(result_division == int(result_division))
 
 
 class HexHighEntropyString(HighEntropyStringsPlugin):

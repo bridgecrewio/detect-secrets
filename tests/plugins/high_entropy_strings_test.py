@@ -58,9 +58,9 @@ class TestHighEntropyString:
                 1,
             ),
             (
-                # We add an 'a' to make the second secret different.
+                # We add an 'abcd' to make the second secret different.
                 # This currently fits both hex and base64 char set.
-                'String #1: "{secret}"; String #2: "{secret}a"',
+                'String #1: "{secret}"; String #2: "{secret}abcd"',
                 2,
             ),
         ),
@@ -128,3 +128,27 @@ class TestHexEntropyCalculation:
             HexHighEntropyString().calculate_shannon_entropy(value)
             == original_hex_detector().calculate_shannon_entropy(value)
         )
+
+
+@pytest.mark.parametrize(
+    'line, num_results',
+    (
+        (
+            "secret: 'c3VwZXIgbG9uZyBzdHJpbmcgc2hvdWxkIGNhdXNlIGVub3VnaCBlbnRyb3B5'",
+            1,
+        ),
+        (
+            "secret: 'c3VwZXIgbG9uZyBzdHJpbmcgc2hvdWxkIGNhdXNlIGVub3VnaCBlbnRyb3B5='",
+            0,
+        ),
+    ),
+)
+def test_base64_entropy_ignore_invalid_length_strings(line, num_results):
+    results = list(
+        Base64HighEntropyString().analyze_line(
+            filename='does not matter',
+            line=line,
+            line_number=0,
+        ),
+    )
+    assert len(results) == num_results
