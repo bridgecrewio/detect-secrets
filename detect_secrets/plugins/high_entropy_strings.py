@@ -171,8 +171,7 @@ class Base64HighEntropyString(HighEntropyStringsPlugin):
 
     def validate_result(self, result: str) -> bool:
         # a base64 string is a multiple of 4 chars
-        result_division = len(result) / 4
-        return bool(result_division == int(result_division))
+        return bool(len(result) % 4 == 0)
 
 
 class HexHighEntropyString(HighEntropyStringsPlugin):
