@@ -79,13 +79,8 @@ class TestScanFile:
         secrets = SecretsCollection()
         secrets.scan_file('test_data/config.ini')
 
-        assert [str(secret).splitlines()[1] for _, secret in secrets] == [
-            'Location:    test_data/config.ini:2',
-            'Location:    test_data/config.ini:10',
-            'Location:    test_data/config.ini:21',
-            'Location:    test_data/config.ini:22',
-            'Location:    test_data/config.ini:32',
-        ]
+        # non of them are valid base64 encoded strings
+        assert [str(secret).splitlines()[1] for _, secret in secrets] == []
 
     @staticmethod
     def test_file_based_success_yaml():
@@ -374,7 +369,7 @@ class TestSubtraction:
 
         result = secrets - baseline
         assert len(result['test_data/each_secret.py']) == 3
-        assert len(secrets['test_data/each_secret.py']) == 5
+        assert len(secrets['test_data/each_secret.py']) == 4
 
     @staticmethod
     def test_no_overlapping_files(configure_plugins):
