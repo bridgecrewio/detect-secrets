@@ -51,7 +51,7 @@ def test_json():
         {
             'is_secret': True,
             'is_verified': False,
-            'check_id': 'CKV_2'
+            'check_id': 'CKV_2',
         },
     ),
 )
