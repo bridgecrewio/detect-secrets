@@ -25,9 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 import re
-from typing import Generator
+from typing import Generator, Set, Any, Optional
 
 from .base import RegexBasedDetector
+from ..core.potential_secret import PotentialSecret
+from ..util.code_snippet import CodeSnippet
 
 
 class PrivateKeyDetector(RegexBasedDetector):
@@ -39,12 +41,13 @@ class PrivateKeyDetector(RegexBasedDetector):
     """
 
     secret_type = 'Private Key'
+    MAX_FILE_SIZE: int = 4 * 1024
 
     begin_key_opening = r'(?P<begin_key>BEGIN'
     key_types = r'(?: DSA | EC | OPENSSH | PGP | RSA | SSH2 ENCRYPTED | )'
     begin_key_closing = r'PRIVATE KEY-*)'
     begin_key = fr'{begin_key_opening}{key_types}{begin_key_closing}'
-    secret_key = r'(?P<secret_key>[A-Za-z0-9+\/\\\n]*={0,3})?'
+    secret_key = r'(?P<secret_key>[A-Za-z0-9+\/\\\n]{10,}={0,3})'
     end_key = r'(?P<end_key>\n*-*END)?'
 
     denylist = [
@@ -58,6 +61,31 @@ class PrivateKeyDetector(RegexBasedDetector):
         re.compile(r'PuTTY-User-Key-File-2'),
     ]
 
+    def __init__(self) -> None:
+        self._analyzed_files: Set[str] = set()
+
+    def analyze_line(
+            self,
+            filename: str,
+            line: str,
+            line_number: int = 0,
+            context: Optional[CodeSnippet] = None,
+            raw_context: Optional[CodeSnippet] = None,
+            **kwargs: Any
+    ) -> Set[PotentialSecret]:
+        output: Set[PotentialSecret] = set()
+
+        output.update(super().analyze_line(filename=filename, line=line, line_number=line_number,
+                                           context=context, raw_context=raw_context, **kwargs))
+
+        if filename not in self._analyzed_files:
+            self._analyzed_files.add(filename)
+            file_content = self.read_file(filename)
+            if file_content:
+                output.update(super().analyze_line(filename=filename, line=file_content, line_number=1,
+                                                   context=context, raw_context=raw_context, **kwargs))
+        return output
+
     def analyze_string(self, string: str) -> Generator[str, None, None]:
         for regex in self.denylist:
             for match in regex.findall(string):
@@ -68,3 +96,11 @@ class PrivateKeyDetector(RegexBasedDetector):
                 else:
                     # only PuTTY-User-Key-File should not be a tuple
                     yield match
+
+    def read_file(self, file_path: str) -> str:
+        try:
+            with open(file_path, 'r') as f:
+                file_content = f.read()
+                return file_content
+        except Exception:
+            return ""
