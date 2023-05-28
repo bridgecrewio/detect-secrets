@@ -25,14 +25,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 import re
-from typing import Generator
-from typing import Set
-from typing import Any
-from typing import Optional
 
-from .base import RegexBasedDetector
+from typing import Any
+from typing import Generator
+from typing import Optional
+from typing import Set
+
 from ..core.potential_secret import PotentialSecret
 from ..util.code_snippet import CodeSnippet
+from .base import RegexBasedDetector
 
 
 class PrivateKeyDetector(RegexBasedDetector):
@@ -78,18 +79,22 @@ class PrivateKeyDetector(RegexBasedDetector):
     ) -> Set[PotentialSecret]:
         output: Set[PotentialSecret] = set()
 
-        output.update(super().analyze_line(
-            filename=filename, line=line, line_number=line_number,
-            context=context, raw_context=raw_context, **kwargs),
+        output.update(
+            super().analyze_line(
+                filename=filename, line=line, line_number=line_number,
+                context=context, raw_context=raw_context, **kwargs
+            ),
         )
 
         if filename not in self._analyzed_files:
             self._analyzed_files.add(filename)
             file_content = self.read_file(filename)
             if file_content:
-                output.update(super().analyze_line(
-                    filename=filename, line=file_content, line_number=1,
-                    context=context, raw_context=raw_context, **kwargs),
+                output.update(
+                    super().analyze_line(
+                        filename=filename, line=file_content, line_number=1,
+                        context=context, raw_context=raw_context, **kwargs
+                    ),
                 )
         return output
 
