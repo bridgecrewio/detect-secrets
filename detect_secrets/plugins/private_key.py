@@ -85,7 +85,7 @@ class PrivateKeyDetector(RegexBasedDetector):
             ),
         )
 
-        if filename not in self._analyzed_files:
+        if not output and filename not in self._analyzed_files:
             self._analyzed_files.add(filename)
             file_content = self.read_file(filename)
             if file_content:
