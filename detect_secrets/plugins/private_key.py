@@ -25,7 +25,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 import re
-from typing import Generator, Set, Any, Optional
+from typing import Generator
+from typing import Set
+from typing import Any
+from typing import Optional
 
 from .base import RegexBasedDetector
 from ..core.potential_secret import PotentialSecret
@@ -77,7 +80,7 @@ class PrivateKeyDetector(RegexBasedDetector):
 
         output.update(super().analyze_line(
             filename=filename, line=line, line_number=line_number,
-            context=context, raw_context=raw_context, **kwargs)
+            context=context, raw_context=raw_context, **kwargs),
         )
 
         if filename not in self._analyzed_files:
@@ -86,7 +89,7 @@ class PrivateKeyDetector(RegexBasedDetector):
             if file_content:
                 output.update(super().analyze_line(
                     filename=filename, line=file_content, line_number=1,
-                    context=context, raw_context=raw_context, **kwargs)
+                    context=context, raw_context=raw_context, **kwargs),
                 )
         return output
 
