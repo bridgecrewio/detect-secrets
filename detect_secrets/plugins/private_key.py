@@ -24,6 +24,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
+import os
 import re
 from typing import Any
 from typing import Generator
@@ -44,7 +45,7 @@ class PrivateKeyDetector(RegexBasedDetector):
     """
 
     secret_type = 'Private Key'
-    MAX_FILE_SIZE: int = 4 * 1024
+    MAX_FILE_SIZE: int = 8 * 1024
 
     begin_key_opening = r'(?P<begin_key>BEGIN'
     key_types = r'(?: DSA | EC | OPENSSH | PGP | RSA | SSH2 ENCRYPTED | )'
@@ -85,7 +86,7 @@ class PrivateKeyDetector(RegexBasedDetector):
             ),
         )
 
-        if not output and filename not in self._analyzed_files:
+        if not output and filename not in self._analyzed_files and 0 < self.get_file_size(filename) < PrivateKeyDetector.MAX_FILE_SIZE:
             self._analyzed_files.add(filename)
             file_content = self.read_file(filename)
             if file_content:
@@ -115,3 +116,9 @@ class PrivateKeyDetector(RegexBasedDetector):
                 return file_content
         except Exception:
             return ''
+
+    def get_file_size(self, file_path: str) -> int:
+        try:
+            return os.path.getsize(file_path)
+        except Exception:
+            return -1
