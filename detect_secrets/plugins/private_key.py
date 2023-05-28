@@ -75,15 +75,19 @@ class PrivateKeyDetector(RegexBasedDetector):
     ) -> Set[PotentialSecret]:
         output: Set[PotentialSecret] = set()
 
-        output.update(super().analyze_line(filename=filename, line=line, line_number=line_number,
-                                           context=context, raw_context=raw_context, **kwargs))
+        output.update(super().analyze_line(
+            filename=filename, line=line, line_number=line_number,
+            context=context, raw_context=raw_context, **kwargs)
+        )
 
         if filename not in self._analyzed_files:
             self._analyzed_files.add(filename)
             file_content = self.read_file(filename)
             if file_content:
-                output.update(super().analyze_line(filename=filename, line=file_content, line_number=1,
-                                                   context=context, raw_context=raw_context, **kwargs))
+                output.update(super().analyze_line(
+                    filename=filename, line=file_content, line_number=1,
+                    context=context, raw_context=raw_context, **kwargs)
+                )
         return output
 
     def analyze_string(self, string: str) -> Generator[str, None, None]:
@@ -103,4 +107,4 @@ class PrivateKeyDetector(RegexBasedDetector):
                 file_content = f.read()
                 return file_content
         except Exception:
-            return ""
+            return ''
