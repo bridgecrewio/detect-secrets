@@ -11,6 +11,6 @@ requests==2.31.0
 responses==0.23.3
 tox==3.28.0  # can't be updated to 4+ due to flake8@5.0.4 needing importlib-metadata<4.3 and tox needs importlib-metadata>=5.1
 types-pyyaml==6.0.12.11
-types-requests==2.31.0.2
+types-requests==2.31.0.8
 typing-extensions==4.7.1
 unidiff==0.7.5
