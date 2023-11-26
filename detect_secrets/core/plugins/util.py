@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import inspect
-from abc import abstractproperty
 from functools import lru_cache
 from types import ModuleType
 from typing import Any
@@ -57,5 +56,5 @@ def _is_valid_plugin(attribute: Any) -> bool:
         inspect.isclass(attribute)
         and issubclass(attribute, BasePlugin)
         # Heuristic to determine abstract classes
-        and not isinstance(attribute.secret_type, abstractproperty)
+        and 'secret_type' not in attribute.__abstractmethods__
     )
