@@ -97,8 +97,7 @@ QUOTE = r'[\'"`]'
 #   [^\v,\'"`]  ->  this section match with the last secret character that can be everything except
 #                   line breaks, comma, backticks or quotes. This allows to reduce the false
 #                   positives number and to prevent errors in the code snippet highlighting.
-SECRET = r'(?=[^\v\'\"]*)(?=\w+)[^\v\'\"]*[^\v,\'\"`]'
-YAML_SECRET = r'(?=[^\v\'\"]*)(?=[a-zA-Z0-9_!@#%^&])[^\v\'\"]*[^\v,\'\"`]'
+SECRET = r'(?=[^\v\'\"]*)(?=[a-zA-Z0-9_!@#%^&])[^\v\'\"]*[^\v,\'\"`]'
 SQUARE_BRACKETS = r'(\[[0-9]*\])'
 
 FOLLOWED_BY_COLON_EQUAL_SIGNS_REGEX = re.compile(
@@ -120,18 +119,6 @@ FOLLOWED_BY_COLON_REGEX = re.compile(
         quote=QUOTE,
         whitespace=OPTIONAL_WHITESPACE,
         secret=SECRET,
-    ),
-    flags=re.IGNORECASE,
-)
-
-YAML_FOLLOWED_BY_COLON_REGEX = re.compile(
-    # e.g. api_key: foo
-    r'{denylist}({closing})?:{whitespace}({quote}?)({secret})(\3)'.format(
-        denylist=DENYLIST_REGEX,
-        closing=CLOSING,
-        quote=QUOTE,
-        whitespace=OPTIONAL_WHITESPACE,
-        secret=YAML_SECRET,
     ),
     flags=re.IGNORECASE,
 )
@@ -233,7 +220,7 @@ FOLLOWED_BY_ARROW_FUNCTION_SIGN_QUOTES_REQUIRED_REGEX = re.compile(
     flags=re.IGNORECASE,
 )
 CONFIG_DENYLIST_REGEX_TO_GROUP = {
-    YAML_FOLLOWED_BY_COLON_REGEX: 4,
+    FOLLOWED_BY_COLON_REGEX: 4,
     PRECEDED_BY_EQUAL_COMPARISON_SIGNS_QUOTES_REQUIRED_REGEX: 2,
     FOLLOWED_BY_EQUAL_SIGNS_REGEX: 5,
     FOLLOWED_BY_QUOTES_AND_SEMICOLON_REGEX: 3,
