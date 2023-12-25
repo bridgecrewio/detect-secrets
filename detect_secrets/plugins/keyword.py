@@ -98,7 +98,7 @@ QUOTE = r'[\'"`]'
 #                   line breaks, comma, backticks or quotes. This allows to reduce the false
 #                   positives number and to prevent errors in the code snippet highlighting.
 SECRET = r'(?=[^\v\'\"]*)(?=\w+)[^\v\'\"]*[^\v,\'\"`]'
-YAML_SECRET = r'(?=[^\v\'\"]*)(?=[a-zA-Z0-9_!@#$%^&])[^\v\'\"]*[^\v,\'\"`]'
+YAML_SECRET = r'(?=[^\v\'\"]*)(?=[a-zA-Z0-9_!])[^\v\'\"]*[^\v,\'\"`]'
 SQUARE_BRACKETS = r'(\[[0-9]*\])'
 
 FOLLOWED_BY_COLON_EQUAL_SIGNS_REGEX = re.compile(
