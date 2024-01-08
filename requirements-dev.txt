@@ -10,6 +10,6 @@ requests==2.31.0
 responses==0.24.1
 tox==4.11.3
 types-pyyaml==6.0.12.12
-types-requests==2.31.0.10
+types-requests==2.31.0.20240106
 typing-extensions==4.8.0
 unidiff==0.7.5
