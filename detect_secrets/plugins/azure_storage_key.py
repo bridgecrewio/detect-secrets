@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from typing import Any
+from typing import List
 from typing import Optional
 from typing import Set
 
@@ -50,7 +51,7 @@ class AzureStorageKeyDetector(RegexBasedDetector):
             results: Set[PotentialSecret],
             context: Optional[CodeSnippet],
             line: str,
-    ) -> Set[PotentialSecret]:
+    ) -> List[PotentialSecret]:
         context_text = ''.join(context.lines) if context else line
         return [result for result in results if not self.skip_keys_exists(result, context_text)]
 
