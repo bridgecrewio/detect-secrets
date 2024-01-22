@@ -56,12 +56,13 @@ class AzureStorageKeyDetector(RegexBasedDetector):
         return set(result for result in set(results) if not self.skip_keys_exists(result, context_text))
 
     def skip_keys_exists(self, result: PotentialSecret, string: str) -> bool:
-        for secret_regex in self.skip_keys:
-            regex = re.compile(
-                secret_regex.format(
-                    secret=re.escape(result.secret_value),
-                ), re.DOTALL,
-            )
-            if regex.search(string) is not None:
-                return True
+        if result.secret_value:
+            for secret_regex in self.skip_keys:
+                regex = re.compile(
+                    secret_regex.format(
+                        secret=re.escape(result.secret_value),
+                    ), re.DOTALL,
+                )
+                if regex.search(string) is not None:
+                    return True
         return False
