@@ -5,10 +5,13 @@ from __future__ import annotations
 
 import re
 
+from detect_secrets.core.potential_secret import PotentialSecret
 from detect_secrets.plugins.base import RegexBasedDetector
 from detect_secrets.util.code_snippet import CodeSnippet
-from detect_secrets.core.potential_secret import PotentialSecret
 
+from typing import Any
+from typing import Set
+from typing import Optional
 
 class AzureStorageKeyDetector(RegexBasedDetector):
     """Scans for Azure Storage Account access keys."""
@@ -50,13 +53,15 @@ class AzureStorageKeyDetector(RegexBasedDetector):
             line: str,
     ) -> Set[PotentialSecret]:
         context_text = ''.join(context.lines) if context else line;
-        return [result for result in set(results) if not self.skip_keys_exists(result, context_text)]
+        return set(result for result in set(results) if not self.skip_keys_exists(result, context_text))
 
     def skip_keys_exists(self, result: PotentialSecret, string: str) -> bool:
         for secret_regex in self.skip_keys:
-            regex = re.compile(secret_regex.format(
-                secret= re.escape(result.secret_value),
-            ), re.DOTALL)
+            regex = re.compile(
+                secret_regex.format(
+                    secret=re.escape(result.secret_value),
+                ), re.DOTALL,
+            )
             if regex.search(string) is not None:
                 return True
         return False
