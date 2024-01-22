@@ -5,13 +5,13 @@ from __future__ import annotations
 
 import re
 
+from typing import Any
+from typing import Optional
+from typing import Set
+
 from detect_secrets.core.potential_secret import PotentialSecret
 from detect_secrets.plugins.base import RegexBasedDetector
 from detect_secrets.util.code_snippet import CodeSnippet
-
-from typing import Any
-from typing import Set
-from typing import Optional
 
 class AzureStorageKeyDetector(RegexBasedDetector):
     """Scans for Azure Storage Account access keys."""
