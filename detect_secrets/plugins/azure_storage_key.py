@@ -4,7 +4,6 @@ This plugin searches for Azure Storage Account access keys.
 from __future__ import annotations
 
 import re
-
 from typing import Any
 from typing import Optional
 from typing import Set
