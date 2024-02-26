@@ -1,4 +1,4 @@
-coverage==7.3.2
+coverage==7.4.3
 gibberish-detector==0.1.1
 monotonic==1.6
 mypy==1.7.1
