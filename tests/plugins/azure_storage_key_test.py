@@ -137,6 +137,29 @@ class TestAzureStorageKeyDetector:
                 """,
                 False,
             ),
+            # azure lowercase
+            (
+                    """
+                    lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                    azure.com +WITH IDENTITY = 'IDENTITY',
+                    """,
+                    True,
+            ),
+            # azure uppercase
+            (
+                    """
+                    lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                    AZURE.com +WITH IDENTITY = 'IDENTITY'""",
+                    True,
+            ),
+            # azure capitalize
+            (
+                    """
+                    lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                    Azure.com +WITH IDENTITY = 'IDENTITY'
+                    """,
+                    True,
+            ),
             (
                 """SshPublicKeys:
                 - lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==""",
