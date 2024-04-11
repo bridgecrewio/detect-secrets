@@ -111,6 +111,14 @@ class TestAzureStorageKeyDetector:
                 lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==""",
                 True,
             ),
+            # no azure mention
+            (
+                """
+                nomention.com +WITH IDENTITY = 'IDENTITY'
+                lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                """,
+                False,
+            ),
             # azure is mentioned within the 1 line below
             (
                 """lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
@@ -139,26 +147,34 @@ class TestAzureStorageKeyDetector:
             ),
             # azure lowercase
             (
-                    """
-                    lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
-                    azure.com +WITH IDENTITY = 'IDENTITY',
-                    """,
-                    True,
+                """
+                lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                azure.com +WITH IDENTITY = 'IDENTITY',
+                """,
+                True,
             ),
             # azure uppercase
             (
-                    """
-                    lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
-                    AZURE.com +WITH IDENTITY = 'IDENTITY'""",
-                    True,
+                """
+                lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                AZURE.com +WITH IDENTITY = 'IDENTITY'""",
+                True,
             ),
             # azure capitalize
             (
-                    """
-                    lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
-                    Azure.com +WITH IDENTITY = 'IDENTITY'
-                    """,
-                    True,
+                """
+                lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                Azure.com +WITH IDENTITY = 'IDENTITY'
+                """,
+                True,
+            ),
+            # no azure mention
+            (
+                """
+                lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                nomention.com +WITH IDENTITY = 'IDENTITY'
+                """,
+                False,
             ),
             (
                 """SshPublicKeys:
