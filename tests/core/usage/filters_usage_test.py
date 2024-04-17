@@ -93,7 +93,7 @@ class TestCustomFilters:
             ])
             secrets.scan_file('test_data/config.env')
 
-        assert not secrets
+        assert secrets
 
     @staticmethod
     def test_module_success(parser):
