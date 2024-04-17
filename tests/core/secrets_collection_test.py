@@ -82,9 +82,12 @@ class TestScanFile:
         assert [str(secret).splitlines()[1] for _, secret in secrets] == [
             'Location:    test_data/config.ini:2',
             'Location:    test_data/config.ini:10',
+            'Location:    test_data/config.ini:10',
             'Location:    test_data/config.ini:21',
             'Location:    test_data/config.ini:22',
             'Location:    test_data/config.ini:32',
+            'Location:    test_data/config.ini:32',
+            'Location:    test_data/config.ini:33',
         ]
 
     @staticmethod
@@ -102,6 +105,7 @@ class TestScanFile:
             'Location:    test_data/config.yaml:3',
             'Location:    test_data/config.yaml:5',
             'Location:    test_data/config.yaml:13',
+            'Location:    test_data/config.yaml:18',
         ]
 
     @staticmethod
