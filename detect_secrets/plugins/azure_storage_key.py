@@ -75,7 +75,7 @@ class AzureStorageKeyDetector(RegexBasedDetector):
                 )
                 if regex.pattern.startswith(self.account_key) and self.account_key not in string:
                     continue
-                if self.azure in regex.pattern and self.azure not in string:
+                if self.azure in regex.pattern.lower() and self.azure not in string.lower():
                     continue
                 if regex.search(string) is not None:
                     return True
