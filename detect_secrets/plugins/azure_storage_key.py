@@ -70,7 +70,8 @@ class AzureStorageKeyDetector(RegexBasedDetector):
             for secret_regex in self.context_keys:
                 regex = re.compile(
                     secret_regex.format(
-                        secret=re.escape(result.secret_value), account_key=self.account_key, azure=self.azure,
+                        secret=re.escape(result.secret_value), account_key=self.account_key,
+                        azure=self.azure,
                     ), re.MULTILINE,
                 )
                 if regex.pattern.startswith(self.account_key) and self.account_key not in string:
