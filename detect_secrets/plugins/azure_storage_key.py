@@ -78,6 +78,18 @@ class AzureStorageKeyDetector(RegexBasedDetector):
                     continue
                 if self.azure in regex.pattern.lower() and self.azure not in string.lower():
                     continue
+                if self.contains_integrity(result.secret_value, string):
+                    continue
                 if regex.search(string) is not None:
                     return True
+        return False
+
+    @staticmethod
+    def contains_integrity(secret_val: str, string: str) -> bool:
+        # we want to ignore cases of lock files which contains hashes
+        regex = re.compile(r'integrity[:=]')
+        context_parts = string.split('\n')
+        for part in context_parts:
+            if secret_val in part and regex.search(part) is not None:
+                return True
         return False
