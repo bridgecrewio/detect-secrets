@@ -94,5 +94,7 @@ class AzureStorageKeyDetector(RegexBasedDetector):
     def contains_integrity(self, secret_val: str, string: str) -> bool:
         # we want to ignore cases of lock files which contains hashes
         context_parts = string.split('\n')
-        return any(len(part) < self.max_part_length and
-                   secret_val in part and self.integrity_regex.search(part) is not None for part in context_parts)
+        return any(
+            len(part) < self.max_part_length and
+            secret_val in part and self.integrity_regex.search(part) is not None for part in context_parts
+        )
