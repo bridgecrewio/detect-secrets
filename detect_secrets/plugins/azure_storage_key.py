@@ -96,5 +96,6 @@ class AzureStorageKeyDetector(RegexBasedDetector):
         context_parts = string.split('\n')
         return any(
             len(part) < self.max_part_length and
-            secret_val in part and self.integrity_regex.search(part) is not None for part in context_parts
+            secret_val in part and
+            self.integrity_regex.search(part) is not None for part in context_parts
         )
