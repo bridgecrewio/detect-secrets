@@ -22,10 +22,10 @@ class AWSKeyDetector(RegexBasedDetector):
     """Scans for AWS keys."""
     secret_type = 'AWS Access Key'
 
-    re.compile(r'(?:A3T[A-Z0-9]|ABIA|ACCA|AKIA|ASIA)[0-9A-Z]{16}'),
+    secret_keyword = r'(?:key|pwd|pw|password|pass|token)'
 
     denylist = (
-        re.compile(r'AKIA[0-9A-Z]{16}'),
+        re.compile(r'(?:A3T[A-Z0-9]|ABIA|ACCA|AKIA|ASIA)[0-9A-Z]{16}'),
 
         # This examines the variable name to identify AWS secret tokens.
         # The order is important since we want to prefer finding access
