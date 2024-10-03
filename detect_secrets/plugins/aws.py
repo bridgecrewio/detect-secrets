@@ -100,10 +100,8 @@ def verify_aws_secret_access_key(key: str, secret: str) -> bool:  # pragma: no c
 
     # Step #1: Canonical Request
     signed_headers = ';'.join(
-        map(
-            lambda x: x.lower(),
-            headers.keys(),
-        ),
+        header.lower()
+        for header in headers.keys()
     )
     canonical_request = textwrap.dedent("""
         POST
