@@ -225,7 +225,7 @@ FOLLOWED_BY_ARROW_FUNCTION_SIGN_QUOTES_REQUIRED_REGEX = re.compile(
 )
 DATA_PUT_PASSWORD_REGEX = re.compile(
     # Matches patterns like data.put("password", "bar") or data.put('password', 'bar')
-    r'{denylist}\({whitespace}{quote}{denylist}{quote}{whitespace},{whitespace}{quote}({secret}){quote}{whitespace}\)'.format(
+    r'data\.put\({whitespace}{quote}{denylist}{quote}{whitespace},{whitespace}{quote}({secret}){quote}{whitespace}\)'.format(
         denylist=DENYLIST_REGEX_WITH_PREFIX,
         quote=QUOTE,
         whitespace=OPTIONAL_WHITESPACE,
