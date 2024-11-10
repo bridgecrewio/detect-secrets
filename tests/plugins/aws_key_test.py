@@ -65,7 +65,7 @@ class TestAWSKeyDetector:
                 False,
             ),
             (
-                'AWS_SECRET_ACCESS_KEY=wJaezXOtcFYRI/B3MDIMQ/bPxRfiCTEXAMBBBKEY',
+                f'AWS_SECRET_ACCESS_KEY={EXAMPLE_SECRET}\n',
                 True,
             ),
         ],
