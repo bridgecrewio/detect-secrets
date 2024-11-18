@@ -9,6 +9,7 @@ class TestArtifactoryDetector:
         'payload, should_flag',
         [
             ('artifactory = AP6xxxxxxxxxx', True),
+            ('artifactory = ap6xxxxxxxxxx', False),
             ('artif \n key=AP2xxxxxxxxxx', True),
             ('jfrog      AP3xxxxxxxxxx', True),
             ('jfrog AP5xxxxxxxxxx', True),
