@@ -86,9 +86,15 @@ class PrivateKeyDetector(RegexBasedDetector):
             ),
         )
 
-        if not output and filename not in self._analyzed_files \
+        is_scan_diff = kwargs.get('is_scan_diff')
+        analyze_line = filename not in self._analyzed_files
+        if is_scan_diff:
+            analyze_line = False
+
+        if not output and analyze_line \
                 and 0 < self.get_file_size(filename) < PrivateKeyDetector.MAX_FILE_SIZE:
-            self._analyzed_files.add(filename)
+            if not is_scan_diff:
+                self._analyzed_files.add(filename)
             file_content = self.read_file(filename)
             if file_content:
                 output.update(

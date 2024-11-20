@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import subprocess
 from functools import lru_cache
-from typing import Any
+from typing import Any, Optional
 from typing import cast
 from typing import Generator
 from typing import Iterable
@@ -196,8 +196,7 @@ def scan_diff(diff: str) -> Generator[PotentialSecret, None, None]:
         return
 
     for filename, lines in _get_lines_from_diff(diff):
-        yield from _process_line_based_plugins(lines, filename=filename)
-    get_plugins.cache_clear()
+        yield from _process_line_based_plugins(lines, filename=filename, is_scan_diff=True)
 
 
 def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSecret, None, None]:
@@ -339,6 +338,7 @@ def _get_lines_from_diff(diff: str) -> \
 def _process_line_based_plugins(
     lines: List[Tuple[int, str, bool, bool]],
     filename: str,
+    is_scan_diff: Optional[bool] = False
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
 
@@ -385,6 +385,7 @@ def _process_line_based_plugins(
                     line_number=line_number,
                     context=code_snippet,
                     raw_context=raw_code_snippet,
+                    is_scan_diff=is_scan_diff
             ):
                 secret.is_removed = is_removed
                 secret.is_added = is_added
