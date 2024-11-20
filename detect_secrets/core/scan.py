@@ -8,11 +8,11 @@ from typing import cast
 from typing import Generator
 from typing import Iterable
 from typing import List
+from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import TYPE_CHECKING
 from typing import Union
-from typing import Optional
 
 from ..custom_types import NamedIO
 from ..custom_types import SelfAwareCallable
@@ -386,7 +386,7 @@ def _process_line_based_plugins(
                     line_number=line_number,
                     context=code_snippet,
                     raw_context=raw_code_snippet,
-                    is_scan_diff=is_scan_diff
+                    is_scan_diff=is_scan_diff,
             ):
                 secret.is_removed = is_removed
                 secret.is_added = is_added
