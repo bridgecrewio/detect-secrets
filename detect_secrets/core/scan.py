@@ -197,6 +197,7 @@ def scan_diff(diff: str) -> Generator[PotentialSecret, None, None]:
 
     for filename, lines in _get_lines_from_diff(diff):
         yield from _process_line_based_plugins(lines, filename=filename)
+    get_plugins.cache_clear()
 
 
 def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSecret, None, None]:
