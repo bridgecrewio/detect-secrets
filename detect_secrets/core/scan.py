@@ -339,7 +339,7 @@ def _get_lines_from_diff(diff: str) -> \
 def _process_line_based_plugins(
     lines: List[Tuple[int, str, bool, bool]],
     filename: str,
-    is_scan_diff: Optional[bool] = False
+    is_scan_diff: Optional[bool] = False,
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
 
