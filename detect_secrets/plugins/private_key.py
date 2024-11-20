@@ -91,12 +91,21 @@ class PrivateKeyDetector(RegexBasedDetector):
             self._analyzed_files.add(filename)
             file_content = self.read_file(filename)
             if file_content:
-                output.update(
-                    super().analyze_line(
-                        filename=filename, line=file_content, line_number=1,
-                        context=context, raw_context=raw_context, **kwargs,
-                    ),
+                found_secrets = super().analyze_line(
+                    filename=filename, line=file_content, line_number=1,
+                    context=context, raw_context=raw_context, **kwargs,
                 )
+                updated_secrets = set()
+                for sec in found_secrets:
+                    line_number = self.find_line_number(file_content, sec.secret_value)
+                    updated_secrets.add(PotentialSecret(
+                        type=self.secret_type,
+                        filename=sec.filename,
+                        secret=sec.secret_value,
+                        line_number=line_number,
+                        is_verified=sec.is_verified,
+                    ))
+                output.update(updated_secrets)
         return output
 
     def analyze_string(self, string: str) -> Generator[str, None, None]:
@@ -123,3 +132,11 @@ class PrivateKeyDetector(RegexBasedDetector):
             return os.path.getsize(file_path)
         except Exception:
             return -1
+
+    def find_line_number (self, file_content: str, substring: str, default_line_number: int = 1) -> int:
+        lines = file_content.splitlines()
+
+        for line_number, line in enumerate(lines, start=1):
+            if substring in line:
+                return line_number
+        return default_line_number
