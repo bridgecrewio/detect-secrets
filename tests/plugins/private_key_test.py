@@ -19,7 +19,7 @@ from testing.mocks import mock_named_temporary_file
                 '-----END RSA PRIVATE KEY-----',
             ),
             1,
-            '\\nc3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZ\\n'
+            'nc3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZ\\n'
             'WNyZXQgcGFzc3dvcmQhMTIzNCMkJQpzdXBlciBkdXB'
             'lciBzZWNyZXQgcGFzc3dvcmQsIHN1cGVyIGR1cGVyIHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=',
         ),
@@ -31,7 +31,7 @@ from testing.mocks import mock_named_temporary_file
             'IHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=\n'
             '-----END PRIVATE KEY-----',
             1,
-            '\nc3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZWNyZXQgcGFzc3'
+            'c3VwZXIgZHVwZXIgc2VjcmV0IHBhc3N3b3JkLCBzdXBlciBkdXBlciBzZWNyZXQgcGFzc3'
             'dvcmQhMTIzNCMkJQpzdXBlciBkdXBlciBzZWNyZXQgcGFzc3dvcmQsIHN1cGVyIGR1cGVy'
             'IHNlY3JldCBwYXNzd29yZCExMjM0IyQlCgo=',
         ),
