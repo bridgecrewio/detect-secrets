@@ -10,6 +10,7 @@ class TestArtifactoryDetector:
         [
             ('artifactory = AP6xxxxxxxxxx', True),
             ('artifactory = ap6xxxxxxxxxx', False),
+            ('AP6xxxxxxxxxx', False),
             ('artif \n key=AP2xxxxxxxxxx', True),
             ('jfrog      AP3xxxxxxxxxx', True),
             ('jfrog AP5xxxxxxxxxx', True),
