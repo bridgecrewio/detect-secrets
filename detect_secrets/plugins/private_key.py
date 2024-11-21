@@ -143,7 +143,8 @@ class PrivateKeyDetector(RegexBasedDetector):
             return -1
 
     def find_line_number(
-            self, file_content: str, substring: str, default_line_number: int = 1) -> int:
+            self, file_content: str, substring: str, default_line_number: int = 1,
+    ) -> int:
         if len(substring) == 0:
             return default_line_number
         lines = file_content.splitlines()
