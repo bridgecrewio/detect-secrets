@@ -105,12 +105,13 @@ class PrivateKeyDetector(RegexBasedDetector):
                 for sec in found_secrets:
                     secret_val = sec.secret_value or ''
                     line_number = self.find_line_number(file_content, secret_val)
-                    updated_secrets.add(PotentialSecret(
-                        type=self.secret_type,
-                        filename=sec.filename,
-                        secret=secret_val,
-                        line_number=line_number,
-                        is_verified=sec.is_verified,
+                    updated_secrets.add(
+                        PotentialSecret(
+                            type=self.secret_type,
+                            filename=sec.filename,
+                            secret=secret_val,
+                            line_number=line_number,
+                            is_verified=sec.is_verified,
                         ),
                     )
                 output.update(updated_secrets)
@@ -141,7 +142,8 @@ class PrivateKeyDetector(RegexBasedDetector):
         except Exception:
             return -1
 
-    def find_line_number(self, file_content: str, substring: str, default_line_number: int = 1) -> int:
+    def find_line_number(
+            self, file_content: str, substring: str, default_line_number: int = 1) -> int:
         if len(substring) == 0:
             return default_line_number
         lines = file_content.splitlines()
