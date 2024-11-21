@@ -89,8 +89,11 @@ class PrivateKeyDetector(RegexBasedDetector):
             ),
         )
 
+        if output:
+            return output
+
         # for git history
-        if not output and commit_hash:
+        if commit_hash:
             if (filename, commit_hash) not in self._commit_hashes:
                 file_content = ''
                 for file_line in context.lines:  # type: ignore
@@ -108,7 +111,7 @@ class PrivateKeyDetector(RegexBasedDetector):
                 self._commit_hashes.add((filename, commit_hash))
             return output
 
-        if not output and filename not in self._analyzed_files \
+        if filename not in self._analyzed_files \
                 and 0 < self.get_file_size(filename) < PrivateKeyDetector.MAX_FILE_SIZE:
             self._analyzed_files.add(filename)
             file_content = self.read_file(filename)
