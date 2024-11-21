@@ -136,7 +136,7 @@ class PrivateKeyDetector(RegexBasedDetector):
     ) -> Set[PotentialSecret]:
         updated_secrets: Set[PotentialSecret] = set()
         for sec in found_secrets:
-            secret_val = sec.secret_value or ''  # type: ignore
+            secret_val = sec.secret_value or ''
             if strip:
                 secret_val = secret_val.strip()
             if split_by_newline and '\n' in secret_val:
