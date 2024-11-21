@@ -99,7 +99,9 @@ class PrivateKeyDetector(RegexBasedDetector):
                     filename=filename, line=file_content, line_number=1,
                     context=context, raw_context=raw_context, **kwargs,
                 )
-                updated_secrets = self._get_updated_secrets(found_secrets=found_secrets, file_content=file_content, split_by_newline=True)
+                updated_secrets = self._get_updated_secrets(found_secrets=found_secrets,
+                                                            file_content=file_content,
+                                                            split_by_newline=True)
                 output.update(updated_secrets)
                 self._commit_hashes.add((filename, commit_hash))
             return output
@@ -113,11 +115,14 @@ class PrivateKeyDetector(RegexBasedDetector):
                     filename=filename, line=file_content, line_number=1,
                     context=context, raw_context=raw_context, **kwargs,
                 )
-                updated_secrets = self._get_updated_secrets(found_secrets=found_secrets, file_content=file_content)
+                updated_secrets = self._get_updated_secrets(found_secrets=found_secrets,
+                                                            file_content=file_content)
                 output.update(updated_secrets)
         return output
 
-    def _get_updated_secrets(self, found_secrets: Set[PotentialSecret], file_content: str, split_by_newline: Optional[bool] = False) -> Set[PotentialSecret]:
+    def _get_updated_secrets(self, found_secrets: Set[PotentialSecret],
+                             file_content: str,
+                             split_by_newline: Optional[bool] = False) -> Set[PotentialSecret]:
         updated_secrets: Set[PotentialSecret] = set()
         for sec in found_secrets:
             secret_val = sec.secret_value.strip() or ''
