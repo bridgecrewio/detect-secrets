@@ -111,7 +111,8 @@ class PrivateKeyDetector(RegexBasedDetector):
                         secret=secret_val,
                         line_number=line_number,
                         is_verified=sec.is_verified,
-                    ))
+                        ),
+                    )
                 output.update(updated_secrets)
         return output
 
