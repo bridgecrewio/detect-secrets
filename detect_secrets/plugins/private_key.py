@@ -93,7 +93,7 @@ class PrivateKeyDetector(RegexBasedDetector):
         if not output and commit_hash:
             if (filename, commit_hash) not in self._commit_hashes:
                 file_context = ''
-                for l in context.lines:
+                for l in context.lines:  # type: ignore
                     file_context += l
                 output.update(
                     super().analyze_line(
@@ -102,9 +102,7 @@ class PrivateKeyDetector(RegexBasedDetector):
                     ),
                 )
                 self._commit_hashes.add((filename, commit_hash))
-                return output
-            else:
-                return {}
+            return output
 
         if not output and filename not in self._analyzed_files \
                 and 0 < self.get_file_size(filename) < PrivateKeyDetector.MAX_FILE_SIZE:
