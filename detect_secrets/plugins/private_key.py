@@ -93,7 +93,7 @@ class PrivateKeyDetector(RegexBasedDetector):
         if not output and commit_hash:
             if (filename, commit_hash) not in self._commit_hashes:
                 file_content = ''
-                for file_line in context.lines:
+                for file_line in context.lines:  # type: ignore
                     file_content += file_line
                 found_secrets = super().analyze_line(
                     filename=filename, line=file_content, line_number=1,
@@ -125,7 +125,7 @@ class PrivateKeyDetector(RegexBasedDetector):
                              split_by_newline: Optional[bool] = False) -> Set[PotentialSecret]:
         updated_secrets: Set[PotentialSecret] = set()
         for sec in found_secrets:
-            secret_val = sec.secret_value.strip() or ''
+            secret_val = sec.secret_value.strip() or ''  # type: ignore
             if split_by_newline and '\n' in secret_val:
                 secret_val = secret_val.split('\n')[0]
             line_number = self.find_line_number(file_content, secret_val)
