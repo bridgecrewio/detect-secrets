@@ -26,10 +26,11 @@ THE SOFTWARE.
 """
 import os
 import re
-from typing import Any, Tuple
+from typing import Any
 from typing import Generator
 from typing import Optional
 from typing import Set
+from typing import Tuple
 
 from ..core.potential_secret import PotentialSecret
 from ..util.code_snippet import CodeSnippet
