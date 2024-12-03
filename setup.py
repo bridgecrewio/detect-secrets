@@ -18,7 +18,7 @@ with open('README.md', encoding='utf-8') as f:
 
 
 setup(
-    name='bc_detect_secrets',
+    name='bc-detect-secrets',
     python_requires='>=3.8',
     packages=find_packages(exclude=(['test*', 'tmp*'])),
     version=VERSION,
