@@ -85,7 +85,7 @@ jobs:
           python setup.py sdist bdist_wheel
       - name: rename dist files
         run: |
-          for file in dist/*.gz; do mv $file $(echo $file | sed 's/-/_/g') ; done
+          for file in dist/*.gz; do mv "$file" "$(echo $file | sed 's/-/_/g')" ; done
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@15c56dba361d8335944d31a2ecd17d700fc7bcbc  # v1.12.2
       - name: sleep and wait for package to refresh
