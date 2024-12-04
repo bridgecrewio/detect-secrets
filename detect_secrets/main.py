@@ -38,6 +38,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     return ParserBuilder().add_console_use_arguments().parse_args(argv)
 
 
+# just a note
 def handle_scan_action(args: argparse.Namespace) -> None:
     if args.list_all_plugins:
         # NOTE: If there was a baseline provided, it would already have been parsed and
