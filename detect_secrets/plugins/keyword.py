@@ -57,7 +57,7 @@ DENYLIST = (
     'key_?pass',
     'password',
     'passwd',
-    '(?<!publickey)token',
+    'token',
     '_pass\\b',
     'pwd',
     'secret',
@@ -65,6 +65,9 @@ DENYLIST = (
     'contrasena',
     'recaptcha_.*key',
     'nessus_?key',
+)
+ALLOWLIST = (
+    'publickeytoken',
 )
 # Includes ], ', " as closing
 CLOSING = r'[]\'"]{0,2}'
@@ -308,6 +311,9 @@ class KeywordDetector(BasePlugin):
         string: str,
         denylist_regex_to_group: Optional[Dict[Pattern, int]] = None,
     ) -> Generator[str, None, None]:
+        if any(allowed.lower() in string.lower() for allowed in ALLOWLIST):
+            return
+
         if self.keyword_exclude and self.keyword_exclude.search(string):
             return
 
