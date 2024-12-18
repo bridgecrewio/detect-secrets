@@ -51,6 +51,7 @@ CONFIG_TEST_CASES = [
     ('nessus_key: {}'.format(COMMON_SECRET), COMMON_SECRET),
     (LONG_LINE, None),  # Long line test
     ('<assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="{}" />'.format(COMMON_SECRET), None), # XML FP
+    ('<assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="{}" />'.format(COMMON_SECRET), None), # XML FP
 ]
 
 GOLANG_TEST_CASES = [
