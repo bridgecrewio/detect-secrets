@@ -68,7 +68,7 @@ DENYLIST = (
 )
 ALLOWLIST = (
     'publickeytoken',
-    'tokenendpoint'
+    'tokenendpoint',
 )
 # Includes ], ', " as closing
 CLOSING = r'[]\'"]{0,2}'
