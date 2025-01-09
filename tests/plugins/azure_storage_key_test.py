@@ -209,7 +209,7 @@ class TestAzureStorageKeyDetector:
             ),
             (
                     """
-                    "Microsoft.AspNetCore.AzureAppServicesIntegration/2.0.1": {
+                    "Microsoft.AspNetCore.AzureAppServicesIntegration/2.0": {
                         "sha512": "r2JMiK8RB2mHGKWIc+NVViT++2ZxCAGJBbLtptINB32F/c3DrNEtKWVNs2MEldEb822llBjrRmsJ7cScCW+P7g=="
                     }
                     """,
