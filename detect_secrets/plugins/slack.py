@@ -18,7 +18,7 @@ class SlackDetector(RegexBasedDetector):
 
     denylist = [
         # Slack Token
-        re.compile(r'xox(?:a|b|p|o|s|r)-(?:\d+-)+[a-z0-9]+', flags=re.IGNORECASE)
+        re.compile(r'xox(?:a|b|p|o|s|r)-(?:\d+-)+[a-z0-9]+', flags=re.IGNORECASE),
     ]
 
     def verify(self, secret: str) -> VerifiedResult:  # pragma: no cover
