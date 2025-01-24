@@ -62,6 +62,7 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
         'License :: OSI Approved :: Apache Software License',
         'Intended Audience :: Developers',
         'Topic :: Software Development',
