@@ -69,6 +69,13 @@ DENYLIST = (
 ALLOWLIST = (
     'publickeytoken',
     'tokenendpoint',
+    'secretname',
+    'keyvaultsecretname',
+    'maxInvalidPasswordAttempts',
+    'PasswordType',
+    'forwardWindowsAuthToken',
+    'saveBootstrapTokens',
+    'AntiXsrfTokenKey',
 )
 # Includes ], ', " as closing
 CLOSING = r'[]\'"]{0,2}'
