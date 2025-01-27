@@ -52,6 +52,11 @@ CONFIG_TEST_CASES = [
     (LONG_LINE, None),  # Long line test
     ('<assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="{}" />'.format(COMMON_SECRET), None), # XML FP
     ('<assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="{}" />'.format(COMMON_SECRET), None), # XML FP
+    ('readOnlyAccount="True" maxInvalidPasswordAttempts="5" name="LDAPMembershipProvider"', None),
+    ('PasswordType="0" UnlockUserSP="UNLOCKUSER" LockUserSP="LOCKUSER"', None),
+    ('<aspNetCore requestTimeout="00:05:00" processPath="%LAUNCHER_PATH%" arguments="%LAUNCHER_ARGS%" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" forwardWindowsAuthToken="true" />', None),
+    ('<service name="Fmg.Cti.IdentityModel.InternalAuthorization.Web.InternalAuthorizationService" saveBootstrapTokens="true">', None),
+    ('private const string AntiXsrfTokenKey = "__AntiXsrfToken";', None),
 ]
 
 GOLANG_TEST_CASES = [

@@ -147,6 +147,9 @@ IGNORED_FILE_EXTENSIONS = {
     '.fl2',
     '.fl3',
     '.fl4',
+    '.dll',
+    '.dll.deploy',
+    '.nupkg',
 }
 
 
