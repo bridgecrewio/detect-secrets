@@ -35,6 +35,7 @@ class TestJwtTokenDetector:
             # good by regex, but otherwise totally not JWT
             ('eyJAAAA.eyJBBB', False),  # noqa: E501
             ('eyJBB.eyJCC.eyJDDDD', False),  # noqa: E501
+            ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1c2VyIiwianRpIjoiYXQtdThjZms2YjdncGF1c2tvIn0.ZaYs5sGS90G-ef0qsXFhOPY3RMxEsngldkRSZ1umEIs', True),  # noqa: E501
         ],
     )
     def test_analyze_line(self, payload, should_flag):
