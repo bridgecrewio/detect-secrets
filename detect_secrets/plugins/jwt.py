@@ -13,7 +13,7 @@ class JwtTokenDetector(RegexBasedDetector):
     """Scans for JWTs."""
     secret_type = 'JSON Web Token'
     denylist = [
-        re.compile(r'eyJ[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*?'),
+        re.compile(r'eyJ[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*'),
     ]
 
     def analyze_string(self, string: str) -> Generator[str, None, None]:
