@@ -229,6 +229,14 @@ def is_lock_file(filename: str) -> bool:
         'poetry.lock',
         'Cargo.lock',
         'packages.lock.json',
+        'pnpm-lock.yaml',
+        'mix.lock',
+        'pubspec.lock',
+        'go.sum',
+        'gradle.lockfile',
+        'cabal.project.freeze',
+        'stack.yaml.lock',
+        'conan.lock',
     }
 
 
