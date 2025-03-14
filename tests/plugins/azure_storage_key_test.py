@@ -227,4 +227,3 @@ class TestAzureStorageKeyDetector:
         # Flag if not planfile, don't if it is
         assert logic.analyze_line(filename='mock_filename', line=payload)
         assert not logic.analyze_line(filename='tfplan.json', line=payload)
-
