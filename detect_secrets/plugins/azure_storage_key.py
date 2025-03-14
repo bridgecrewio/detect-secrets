@@ -56,7 +56,7 @@ class AzureStorageKeyDetector(RegexBasedDetector):
             filename=filename, line=line, line_number=line_number,
             context=context, raw_context=raw_context, **kwargs,
         )
-        output.update(self.analyze_context_keys(results, context, line))
+        output.update(self.analyze_context_keys(results, context, line, filename))
 
         return output
 
@@ -65,9 +65,14 @@ class AzureStorageKeyDetector(RegexBasedDetector):
             results: Set[PotentialSecret],
             context: Optional[CodeSnippet],
             line: str,
+            filename: str,
     ) -> List[PotentialSecret]:
         context_text = '\n'.join(context.lines).replace('\n\n', '\n') if context else line
-        return [result for result in results if self.context_keys_exists(result, context_text)]
+        return [result for result in results if self.context_keys_exists(result, context_text) and self.should_analyze_file(filename)]
+
+    def should_analyze_file(self, filename: str) -> bool:
+        excluded_files = {'tfplan.json', 'planfile.json'}
+        return filename.split('/')[-1] not in excluded_files
 
     def context_keys_exists(self, result: PotentialSecret, string: str) -> bool:
         if len(string) > self.max_line_length:
