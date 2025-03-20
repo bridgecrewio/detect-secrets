@@ -220,3 +220,10 @@ class TestAzureStorageKeyDetector:
     def test_analyze(self, payload, should_flag):
         logic = AzureStorageKeyDetector()
         assert bool(logic.analyze_line(filename='mock_filename', line=payload)) == should_flag
+
+    def test_analyze_tfplan_json(self):
+        logic = AzureStorageKeyDetector()
+        payload = 'AccountKey=lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ=='
+        # Flag if not planfile, don't if it is
+        assert logic.analyze_line(filename='mock_filename', line=payload)
+        assert not logic.analyze_line(filename='tfplan.json', line=payload)
