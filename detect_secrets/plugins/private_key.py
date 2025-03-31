@@ -63,7 +63,7 @@ class PrivateKeyDetector(RegexBasedDetector):
                 end_key=end_key,
             ),
         ),
-        re.compile(r'PuTTY-User-Key-File-2'),
+        re.compile(r'PuTTY-User-Key-File-2:.{1,40}\n?Encryption:'),
     ]
 
     def __init__(self) -> None:
