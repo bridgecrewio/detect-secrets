@@ -76,6 +76,8 @@ ALLOWLIST = (
     'forwardWindowsAuthToken',
     'saveBootstrapTokens',
     'AntiXsrfTokenKey',
+    'savePWD',
+    'userPWD',
 )
 # Includes ], ', " as closing
 CLOSING = r'[]\'"]{0,2}'

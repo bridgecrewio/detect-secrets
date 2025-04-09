@@ -57,6 +57,7 @@ CONFIG_TEST_CASES = [
     ('<aspNetCore requestTimeout="00:05:00" processPath="%LAUNCHER_PATH%" arguments="%LAUNCHER_ARGS%" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" forwardWindowsAuthToken="true" />', None),
     ('<service name="Fmg.Cti.IdentityModel.InternalAuthorization.Web.InternalAuthorizationService" saveBootstrapTokens="true">', None),
     ('private const string AntiXsrfTokenKey = "__AntiXsrfToken";', None),
+    ('<publishProfile publishUrl="C:\path\to\web" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">', None),
 ]
 
 GOLANG_TEST_CASES = [
