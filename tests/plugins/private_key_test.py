@@ -90,6 +90,37 @@ def test_basic(file_content, secrets_amount, expected_secret):
             assert list(secrets.data[temp_file])[0].secret_value == expected_secret
 
 
+def test_private_key_line_number():
+    file_content = "\n".join([
+        "Irrelevant line 1",
+        "Irrelevant line 2",
+        "Irrelevant line 3",
+        "Irrelevant line 4",
+        "Irrelevant line 5",
+        "-----BEGIN RSA PRIVATE KEY-----",
+        "MIIBVwIBADANBgkqhkiG9w0BAQEFAASC",
+        "-----END RSA PRIVATE KEY-----",
+        "Some trailing text",
+    ])
+
+    with mock_named_temporary_file() as f:
+        f.write(file_content.encode())
+        f.seek(0)
+
+        secrets = SecretsCollection()
+        secrets.scan_file(f.name)
+
+        assert len(list(secrets)) == 1
+
+        temp_file = list(secrets.files)[0]
+        secret_obj = list(secrets.data[temp_file])[0]
+
+        assert secret_obj.line_number == 6, (
+            f"Expected the private key header to be detected at line 6, "
+            f"but got {secret_obj.line_number} instead."
+        )
+
+
 @pytest.fixture(autouse=True)
 def configure_plugins():
     with transient_settings({
