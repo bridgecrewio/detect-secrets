@@ -146,7 +146,7 @@ class PrivateKeyDetector(RegexBasedDetector):
                     lines = file_content.splitlines()
                     header_line_number = candidate_line
                     for i in range(candidate_line - 1, -1, -1):
-                        if "BEGIN" in lines[i]:
+                        if 'BEGIN' in lines[i]:
                             header_line_number = i + 1
                             break
                     line_number = header_line_number
