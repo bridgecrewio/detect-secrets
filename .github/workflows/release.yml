@@ -88,7 +88,7 @@ jobs:
           shopt -s nullglob
           for file in dist/bc-*.gz; do mv "$file" "${file//bc-detect-secrets/bc_detect_secrets}" ; done
       - name: Publish a Python distribution to PyPI
-        uses: pypa/gh-action-pypi-publish@b7f401de30cb6434a1e19f805ff006643653240e  # v1
+        uses: pypa/gh-action-pypi-publish@81e9d935c883d0b210363ab89cf05f3894778450  # v1
       - name: sleep and wait for package to refresh
         run: |
           sleep 2m
