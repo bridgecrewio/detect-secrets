@@ -135,9 +135,12 @@ class PrivateKeyDetector(RegexBasedDetector):
         updated_secrets: Set[PotentialSecret] = set()
         for sec in found_secrets:
             secret_val = sec.secret_value.strip() or ''  # type: ignore
-            if split_by_newline and '\n' in secret_val:
-                secret_val = secret_val.split('\n')[0]
-            line_number = self.find_line_number(file_content, secret_val)
+            pos = file_content.find(secret_val)
+            if pos == -1:
+                line_number = 1
+            else:
+                founded_secret = file_content.split(secret_val)
+                line_number = founded_secret[0].count('\n')
             updated_secrets.add(
                 PotentialSecret(
                     type=self.secret_type,
