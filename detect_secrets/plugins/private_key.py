@@ -142,14 +142,8 @@ class PrivateKeyDetector(RegexBasedDetector):
                 if pos == -1:
                     line_number = 1
                 else:
-                    candidate_line = file_content.count('\n', 0, pos) + 1
-                    lines = file_content.splitlines()
-                    header_line_number = candidate_line
-                    for i in range(candidate_line - 1, -1, -1):
-                        if 'BEGIN' in lines[i]:
-                            header_line_number = i + 1
-                            break
-                    line_number = header_line_number
+                    founded_secret = file_content.split(secret_val)
+                    line_number = founded_secret[0].count("\n")
             updated_secrets.add(
                 PotentialSecret(
                     type=self.secret_type,
