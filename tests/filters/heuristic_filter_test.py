@@ -172,3 +172,16 @@ def test_is_not_alphanumeric_string(secret, result):
 )
 def test_is_swagger_file(filename, result):
     assert filters.heuristic.is_swagger_file(filename.format(sep=os.path.sep)) is result
+
+@pytest.mark.parametrize(
+    'secret, result',
+    (
+        ('arn:aws:lambda:us-west-2:123456789012:function:my-function', True),
+        ('arn:aws:s3:::my-bucket', True),
+        ('arn:aws:iam::123456789012:role/service-role/my-role', True),
+        ('not:an:arn:123456789012', False),
+        ('randomstring', False),
+    ),
+)
+def test_is_aws_arn(secret, result):
+    assert filters.heuristic.is_aws_arn(secret) is result
