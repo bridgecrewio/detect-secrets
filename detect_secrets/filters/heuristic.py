@@ -271,5 +271,5 @@ def is_aws_arn(secret: str) -> bool:
 @lru_cache(maxsize=1)
 def _get_arn_regex() -> Pattern:
     return re.compile(
-        r'^arn:aws:[a-z0-9\-]+:([a-z0-9\-]*:[0-9]{12}|:[0-9]{12}|\*)?:.*$'
+        r'^arn:aws:[a-z0-9\-]+:([a-z0-9\-]*:[0-9]{12}|:[0-9]{12}|\*)?:.*$',
     )
