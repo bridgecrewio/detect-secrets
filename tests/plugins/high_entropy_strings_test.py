@@ -43,6 +43,9 @@ class TestHighEntropyString:
             # Non-quoted string from Yaml
             ('some_key: {secret}', True),
             ('some_key:{secret}', True),
+
+            # Don't flag ARNs
+            ('ServiceToken: "arn:aws:lambda:us-west-2:123456789012:function:dummy-token"', False),
         ),
     )
     def test_basic(plugin, non_secret, secret, format, should_be_caught):

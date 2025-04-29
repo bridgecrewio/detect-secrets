@@ -258,3 +258,18 @@ def is_swagger_file(filename: str) -> bool:
 @lru_cache(maxsize=1)
 def _get_swagger_regex() -> Pattern:
     return re.compile(r'.*swagger.*')
+
+
+def is_aws_arn(secret: str) -> bool:
+    """
+    Filters AWS ARN strings that match the pattern:
+    arn:aws:<service>:<region>:<account-id>:<resource-type>:<resource-name>
+    """
+    return bool(_get_arn_regex().search(secret))
+
+
+@lru_cache(maxsize=1)
+def _get_arn_regex() -> Pattern:
+    return re.compile(
+        r'^arn:aws:[a-z0-9\-]+:([a-z0-9\-]*:[0-9]{12}|:[0-9]{12}|\*)?:.*$',
+    )
