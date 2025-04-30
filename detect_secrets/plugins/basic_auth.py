@@ -13,12 +13,16 @@ SUB_DELIMITER_CHARACTERS = '!$&\'()*+,;='
 
 
 class BasicAuthDetector(RegexBasedDetector):
-    """Scans for Basic Auth formatted URIs."""
+    """Scans for Basic Auth formatted URIs, but skips example.com."""
     secret_type = 'Basic Auth Credentials'
 
     denylist = [
         re.compile(
-            r'://[^{}\s]+:([^{}\s]+)@'.format(
+            r'://'
+            r'[^{}\s]+:'                # username
+            r'[^{}\s]+'                 # password
+            r'@(?!example\.com\b)'      # negative lookahead
+            .format(
                 re.escape(RESERVED_CHARACTERS + SUB_DELIMITER_CHARACTERS),
                 re.escape(RESERVED_CHARACTERS + SUB_DELIMITER_CHARACTERS),
             ),

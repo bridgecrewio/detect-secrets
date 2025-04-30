@@ -14,6 +14,7 @@ class TestBasicAuthDetector:
             ('\'https://url:8000\';@something else', False),
             ('https://url:8000 @something else', False),
             ('https://url:8000/ @something else', False),
+            ('https://username:password@example.com', False),
         ],
     )
     def test_analyze_line(self, payload, should_flag):
