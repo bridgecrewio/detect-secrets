@@ -8,6 +8,7 @@ from typing import cast
 from typing import Generator
 from typing import Iterable
 from typing import List
+from typing import Optional
 from typing import Set
 from typing import Tuple
 from typing import TYPE_CHECKING
@@ -34,6 +35,7 @@ if TYPE_CHECKING:
     from detect_secrets.plugins.base import BasePlugin
 
 MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
+MAX_LINE_LENGTH = int(os.getenv('CHECKOV_MAX_LINE_LENGTH', '100000'))
 
 
 @lru_cache(maxsize=1)
@@ -186,7 +188,7 @@ def scan_file(filename: str) -> Generator[PotentialSecret, None, None]:
         return
 
 
-def scan_diff(diff: str) -> Generator[PotentialSecret, None, None]:
+def scan_diff(diff: str, commit_hash: Optional[str] = '') -> Generator[PotentialSecret, None, None]:
     """
     :raises: ImportError
     """
@@ -195,7 +197,7 @@ def scan_diff(diff: str) -> Generator[PotentialSecret, None, None]:
         return
 
     for filename, lines in _get_lines_from_diff(diff):
-        yield from _process_line_based_plugins(lines, filename=filename)
+        yield from _process_line_based_plugins(lines, filename=filename, commit_hash=commit_hash)
 
 
 def scan_for_allowlisted_secrets_in_file(filename: str) -> Generator[PotentialSecret, None, None]:
@@ -337,6 +339,7 @@ def _get_lines_from_diff(diff: str) -> \
 def _process_line_based_plugins(
     lines: List[Tuple[int, str, bool, bool]],
     filename: str,
+    commit_hash: Optional[str] = '',
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
 
@@ -346,8 +349,8 @@ def _process_line_based_plugins(
     for line_number, line, is_added, is_removed in lines:
         line = line.strip()
         index += 1
-        if len(line) < MIN_LINE_LENGTH:
-            # skip lines which have too few none whitespace chars
+        if len(line) < MIN_LINE_LENGTH or len(line) > MAX_LINE_LENGTH:
+            # skip lines which have too few or too many none whitespace chars
             continue
 
         if not is_added and not is_removed:
@@ -383,6 +386,7 @@ def _process_line_based_plugins(
                     line_number=line_number,
                     context=code_snippet,
                     raw_context=raw_code_snippet,
+                    commit_hash=commit_hash,
             ):
                 secret.is_removed = is_removed
                 secret.is_added = is_added

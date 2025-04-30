@@ -25,14 +25,14 @@ class AWSKeyDetector(RegexBasedDetector):
     secret_keyword = r'(?:key|pwd|pw|password|pass|token)'
 
     denylist = (
-        re.compile(r'AKIA[0-9A-Z]{16}'),
+        re.compile(r'\b(?:A3T[A-Z0-9]|ABIA|ACCA|AKIA|ASIA)[0-9A-Z]{16}\b'),
 
         # This examines the variable name to identify AWS secret tokens.
-        # The order is important since we want to prefer finding `AKIA`-based
+        # The order is important since we want to prefer finding access
         # keys (since they can be verified), rather than the secret tokens.
 
         re.compile(
-            r'aws.{{0,20}}?{secret_keyword}.{{0,20}}?[\'\"]([0-9a-zA-Z/+]{{40}})[\'\"]'.format(
+            r'aws.{{0,20}}?{secret_keyword}.{{0,20}}?\b([0-9a-zA-Z/+]{{40}})\b'.format(
                 secret_keyword=secret_keyword,
             ),
             flags=re.IGNORECASE,
@@ -99,7 +99,10 @@ def verify_aws_secret_access_key(key: str, secret: str) -> bool:  # pragma: no c
     }
 
     # Step #1: Canonical Request
-    signed_headers = ';'.join(header.lower() for header in headers)
+    signed_headers = ';'.join(
+        header.lower()
+        for header in headers
+    )
     canonical_request = textwrap.dedent("""
         POST
         /

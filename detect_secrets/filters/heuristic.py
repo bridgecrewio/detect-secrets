@@ -135,6 +135,21 @@ IGNORED_FILE_EXTENSIONS = {
     '.xls',
     '.xlsx',
     '.zip',
+    '.resx',
+    '.bim',
+    '.mdl',
+    '.slx',
+    '.hex',
+    '.srec',
+    '.mot',
+    '.csa',
+    '.fls',
+    '.fl2',
+    '.fl3',
+    '.fl4',
+    '.dll',
+    '.dll.deploy',
+    '.nupkg',
 }
 
 
@@ -162,7 +177,9 @@ def is_prefixed_with_dollar_sign(secret: str) -> bool:
     # false negatives than `is_templated_secret` (e.g. secrets that actually start with a $).
     # This is best used with files that actually use this as a means of referencing variables.
     # TODO: More intelligent filetype handling?
-    return secret[0] == '$'
+    if len(secret) > 0 and secret[0] == '$':
+        return True
+    return False
 
 
 def is_indirect_reference(line: str) -> bool:
@@ -212,6 +229,14 @@ def is_lock_file(filename: str) -> bool:
         'poetry.lock',
         'Cargo.lock',
         'packages.lock.json',
+        'pnpm-lock.yaml',
+        'mix.lock',
+        'pubspec.lock',
+        'go.sum',
+        'gradle.lockfile',
+        'cabal.project.freeze',
+        'stack.yaml.lock',
+        'conan.lock',
     }
 
 
@@ -233,3 +258,18 @@ def is_swagger_file(filename: str) -> bool:
 @lru_cache(maxsize=1)
 def _get_swagger_regex() -> Pattern:
     return re.compile(r'.*swagger.*')
+
+
+def is_aws_arn(secret: str) -> bool:
+    """
+    Filters AWS ARN strings that match the pattern:
+    arn:aws:<service>:<region>:<account-id>:<resource-type>:<resource-name>
+    """
+    return bool(_get_arn_regex().search(secret))
+
+
+@lru_cache(maxsize=1)
+def _get_arn_regex() -> Pattern:
+    return re.compile(
+        r'^arn:aws:[a-z0-9\-]+:([a-z0-9\-]*:[0-9]{12}|:[0-9]{12}|\*)?:.*$',
+    )

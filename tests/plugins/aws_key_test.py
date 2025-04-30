@@ -33,6 +33,22 @@ class TestAWSKeyDetector:
                 False,
             ),
             (
+                'A3T0ZZZZZZZZZZZZZZZZ',
+                True,
+            ),
+            (
+                'ABIAZZZZZZZZZZZZZZZZ',
+                True,
+            ),
+            (
+                'ACCAZZZZZZZZZZZZZZZZ',
+                True,
+            ),
+            (
+                'ASIAZZZZZZZZZZZZZZZZ',
+                True,
+            ),
+            (
                 'aws_access_key = "{}"'.format(EXAMPLE_SECRET),
                 True,
             ),
@@ -43,6 +59,14 @@ class TestAWSKeyDetector:
             (
                 'aws_access_key = "{}"'.format(EXAMPLE_SECRET[0:39]),
                 False,
+            ),
+            (
+                '/9n/7QoAUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAccAgAAAgACADhCSU0EJQAAAAAAEEYM8okmuFbasJwBobCnkHc4QklNA+0AAAAAABAASAAAAAEAAQBIAAAAAQABOEJJTQQmAAAAAAAOAAAAAAAAAAAAAD+AAAA4QklNBA0AAAAAAAQAAAB4OEJJTQQZAAAAAAAEAAAAHjhCSU0D8wAAAAAACQAAAAAAAAAAAQA4QklNBAoAAAAAAAEAADhCSU0nEAAAAAAACgABAAAAAAAAAAI4QklNA/QAAAAAABIANQAAAAEALQAAAAYAAAAAAAE4QklNA/cAAAAAABwAAP////////////////////////////8D6AAAOEJJTQQIAAAAAAAQAAAAAQAAAkAAAAJAAAAAADhCSU0EHgAAAAAABAAAAAA4QklNBBoAAAAAA00AAAAGAAAAAAAAAAAAAAD9AAABTgAAAAwAQwBvAG4AZgBpAGQAZQBuAHQAaQBhAGwAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAU4AAAD9AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAEAAAAAAABudWxsAAAAAgAAAAZib3VuZHNPYmpjAAAAAQAAAAAAAFJjdDEAAAAEAAAAAFRvcCBsb25nAAAAAAAAAABMZWZ0bG9uZwAAAAAAAAAAQnRvbWxvbmcAAAD9AAAAAFJnaHRsb25nAAABTgAAAAZzbGljZXNWbExzAAAAAU9iamMAAAABAAAAAAAFc2xpY2UAAAASAAAAB3NsaWNlSURsb25nAAAAAAAAAAdncm91cElEbG9uZwAAAAAAAAAGb3JpZ2luZW51bQAAAAxFU2xpY2VPcmlnaW4AAAANYXV0b0dlbmVyYXRlZAAAAABUeXBlZW51bQAAAApFU2xpY2VUeXBlAAAAAEltZyAAAAAGYm91bmRzT2Jq',
+                False,
+            ),
+            (
+                f'AWS_SECRET_ACCESS_KEY={EXAMPLE_SECRET}\n',
+                True,
             ),
         ],
     )

@@ -46,7 +46,18 @@ CONFIG_TEST_CASES = [
     ('password: ${link}', None),        # Has a ${ followed by a }
     ('some_key = "real_secret"', None),  # We cannot make 'key' a Keyword, too noisy)
     ('private_key "hopenobodyfindsthisone\';', None),   # Double-quote does not match single-quote)
+    ('api.key = {}'.format(COMMON_SECRET), COMMON_SECRET),
+    ('API-KEY = {}'.format(COMMON_SECRET), COMMON_SECRET),
+    ('nessus_key: {}'.format(COMMON_SECRET), COMMON_SECRET),
     (LONG_LINE, None),  # Long line test
+    ('<assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="{}" />'.format(COMMON_SECRET), None), # XML FP
+    ('<assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="{}" />'.format(COMMON_SECRET), None), # XML FP
+    ('readOnlyAccount="True" maxInvalidPasswordAttempts="5" name="LDAPMembershipProvider"', None),
+    ('PasswordType="0" UnlockUserSP="UNLOCKUSER" LockUserSP="LOCKUSER"', None),
+    ('<aspNetCore requestTimeout="00:05:00" processPath="%LAUNCHER_PATH%" arguments="%LAUNCHER_ARGS%" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" forwardWindowsAuthToken="true" />', None),
+    ('<service name="Fmg.Cti.IdentityModel.InternalAuthorization.Web.InternalAuthorizationService" saveBootstrapTokens="true">', None),
+    ('private const string AntiXsrfTokenKey = "__AntiXsrfToken";', None),
+    ('<publishProfile publishUrl="C:\path\to\web" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">', None),
 ]
 
 GOLANG_TEST_CASES = [
@@ -86,6 +97,7 @@ GOLANG_TEST_CASES = [
     ('password := "somefakekey"', None),    # 'fake' in the secret
     ('some_key = "real_secret"', None),     # We cannot make 'key' a Keyword, too noisy)
     ('private_key "hopenobodyfindsthisone\';', None),  # Double-quote does not match single-quote)
+    ('nessus_key = {}"'.format(COMMON_SECRET), COMMON_SECRET),     # Last character is ignored
     (LONG_LINE, None),  # Long line test
 ]
 
@@ -158,6 +170,8 @@ QUOTES_REQUIRED_TEST_CASES_GENERIC = [
     (LONG_LINE, None),  # Long line test
     ('password => ""', None),
     ('password => {}'.format(COMMON_SECRET), None),
+    ('data.put("password", "{}")'.format(COMMON_SECRET), COMMON_SECRET),
+    ('data.put("secret", "{}")'.format(COMMON_SECRET), COMMON_SECRET),
 ]
 
 QUOTES_REQUIRED_TEST_CASES = [

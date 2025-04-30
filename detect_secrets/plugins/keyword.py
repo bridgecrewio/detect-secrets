@@ -43,7 +43,7 @@ from detect_secrets.util.code_snippet import CodeSnippet
 
 # Note: All values here should be lowercase
 DENYLIST = (
-    'api_?key',
+    'api[_\\.\\-]?key',
     'auth_?key',
     'service_?key',
     'account_?key',
@@ -64,6 +64,20 @@ DENYLIST = (
     'contraseña',
     'contrasena',
     'recaptcha_.*key',
+    'nessus_?key',
+)
+ALLOWLIST = (
+    'publickeytoken',
+    'tokenendpoint',
+    'secretname',
+    'keyvaultsecretname',
+    'maxInvalidPasswordAttempts',
+    'PasswordType',
+    'forwardWindowsAuthToken',
+    'saveBootstrapTokens',
+    'AntiXsrfTokenKey',
+    'savePWD',
+    'userPWD',
 )
 # Includes ], ', " as closing
 CLOSING = r'[]\'"]{0,2}'
@@ -222,6 +236,16 @@ FOLLOWED_BY_ARROW_FUNCTION_SIGN_QUOTES_REQUIRED_REGEX = re.compile(
     ),
     flags=re.IGNORECASE,
 )
+DATA_PUT_PASSWORD_REGEX = re.compile(
+    # Matches patterns like data.put("password", "bar") or data.put('password', 'bar')
+    r'data\.put\({whitespace}{quote}{denylist}{quote}{whitespace},{whitespace}{quote}({secret}){quote}{whitespace}\)'.format(
+        denylist=DENYLIST_REGEX_WITH_PREFIX,
+        quote=QUOTE,
+        whitespace=OPTIONAL_WHITESPACE,
+        secret=SECRET,
+    ),
+    re.IGNORECASE,
+)
 CONFIG_DENYLIST_REGEX_TO_GROUP = {
     FOLLOWED_BY_COLON_REGEX: 4,
     PRECEDED_BY_EQUAL_COMPARISON_SIGNS_QUOTES_REQUIRED_REGEX: 2,
@@ -247,6 +271,7 @@ QUOTES_REQUIRED_DENYLIST_REGEX_TO_GROUP = {
     FOLLOWED_BY_EQUAL_SIGNS_QUOTES_REQUIRED_REGEX: 5,
     FOLLOWED_BY_QUOTES_AND_SEMICOLON_REGEX: 3,
     FOLLOWED_BY_ARROW_FUNCTION_SIGN_QUOTES_REQUIRED_REGEX: 4,
+    DATA_PUT_PASSWORD_REGEX: 2,
 }
 
 TERRAFORM_DENYLIST_REGEX_TO_GROUP = {
@@ -296,6 +321,9 @@ class KeywordDetector(BasePlugin):
         string: str,
         denylist_regex_to_group: Optional[Dict[Pattern, int]] = None,
     ) -> Generator[str, None, None]:
+        if any(allowed.lower() in string.lower() for allowed in ALLOWLIST):
+            return
+
         if self.keyword_exclude and self.keyword_exclude.search(string):
             return
 
