@@ -1,8 +1,9 @@
 import re
-from detect_secrets.core.potential_secret import PotentialSecret
+from typing import Any, Optional, Set
 
 from .base import RegexBasedDetector
-
+from detect_secrets.core.potential_secret import PotentialSecret
+from detect_secrets.util.code_snippet import CodeSnippet
 
 # This list is derived from RFC 3986 Section 2.2.
 #
@@ -38,8 +39,10 @@ class BasicAuthDetector(RegexBasedDetector):
             filename: str,
             line: str,
             line_number: int = 0,
-            **kwargs,
-    ) -> set[PotentialSecret]:
+            context: Optional[CodeSnippet] = None,
+            raw_context: Optional[CodeSnippet] = None,
+            **kwargs: Any,
+    ) -> Set[PotentialSecret]:
         # skip some noisy file types
         if filename and filename.lower().endswith(SKIP_EXTENSIONS):
             return set()
@@ -48,5 +51,7 @@ class BasicAuthDetector(RegexBasedDetector):
             filename=filename,
             line=line,
             line_number=line_number,
+            context=context,
+            raw_context=raw_context,
             **kwargs,
         )
