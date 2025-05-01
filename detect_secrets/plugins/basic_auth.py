@@ -1,4 +1,5 @@
 import re
+from detect_secrets.core.potential_secret import PotentialSecret
 
 from .base import RegexBasedDetector
 
@@ -10,6 +11,9 @@ from .base import RegexBasedDetector
 # result in an unexpected URL parsing (and probably won't even work).
 RESERVED_CHARACTERS = ':/?#[]@'
 SUB_DELIMITER_CHARACTERS = '!$&\'()*+,;='
+
+# skip markdown, css, storyboard, and xib files
+SKIP_EXTENSIONS = ('.md', '.css', '.storyboard', '.xib')
 
 
 class BasicAuthDetector(RegexBasedDetector):
@@ -28,3 +32,21 @@ class BasicAuthDetector(RegexBasedDetector):
             ),
         ),
     ]
+
+    def analyze_line(
+            self,
+            filename: str,
+            line: str,
+            line_number: int = 0,
+            **kwargs,
+    ) -> set[PotentialSecret]:
+        # skip some noisy file types
+        if filename and filename.lower().endswith(SKIP_EXTENSIONS):
+            return set()
+        # otherwise proceed as normal
+        return super().analyze_line(
+            filename=filename,
+            line=line,
+            line_number=line_number,
+            **kwargs,
+        )
