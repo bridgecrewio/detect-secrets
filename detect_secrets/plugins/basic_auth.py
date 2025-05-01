@@ -1,5 +1,7 @@
 import re
-from typing import Any, Optional, Set
+from typing import Any
+from typing import Optional
+from typing import Set
 
 from .base import RegexBasedDetector
 from detect_secrets.core.potential_secret import PotentialSecret
@@ -18,16 +20,12 @@ SKIP_EXTENSIONS = ('.md', '.css', '.storyboard', '.xib')
 
 
 class BasicAuthDetector(RegexBasedDetector):
-    """Scans for Basic Auth formatted URIs, but skips example.com."""
+    """Scans for Basic Auth formatted URIs."""
     secret_type = 'Basic Auth Credentials'
 
     denylist = [
         re.compile(
-            r'://'
-            r'[^{}\s]+:'                # username
-            r'[^{}\s]+'                 # password
-            r'@(?!example\.com\b)'      # negative lookahead
-            .format(
+            r'://[^{}\s]+:([^{}\s]+)@'.format(
                 re.escape(RESERVED_CHARACTERS + SUB_DELIMITER_CHARACTERS),
                 re.escape(RESERVED_CHARACTERS + SUB_DELIMITER_CHARACTERS),
             ),
@@ -46,8 +44,9 @@ class BasicAuthDetector(RegexBasedDetector):
         # skip some noisy file types
         if filename and filename.lower().endswith(SKIP_EXTENSIONS):
             return set()
+
         # otherwise proceed as normal
-        return super().analyze_line(
+        findings = super().analyze_line(
             filename=filename,
             line=line,
             line_number=line_number,
@@ -55,3 +54,6 @@ class BasicAuthDetector(RegexBasedDetector):
             raw_context=raw_context,
             **kwargs,
         )
+
+        # Filter out example.com findings
+        return {finding for finding in findings if 'example.com' not in line}
