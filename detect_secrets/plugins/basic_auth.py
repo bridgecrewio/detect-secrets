@@ -1,6 +1,11 @@
 import re
+from typing import Any
+from typing import Optional
+from typing import Set
 
 from .base import RegexBasedDetector
+from detect_secrets.core.potential_secret import PotentialSecret
+from detect_secrets.util.code_snippet import CodeSnippet
 
 
 # This list is derived from RFC 3986 Section 2.2.
@@ -24,3 +29,24 @@ class BasicAuthDetector(RegexBasedDetector):
             ),
         ),
     ]
+
+    def analyze_line(
+            self,
+            filename: str,
+            line: str,
+            line_number: int = 0,
+            context: Optional[CodeSnippet] = None,
+            raw_context: Optional[CodeSnippet] = None,
+            **kwargs: Any,
+    ) -> Set[PotentialSecret]:
+        findings = super().analyze_line(
+            filename=filename,
+            line=line,
+            line_number=line_number,
+            context=context,
+            raw_context=raw_context,
+            **kwargs,
+        )
+
+        # Filter out example.com findings
+        return {finding for finding in findings if 'example.com' not in line}
