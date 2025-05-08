@@ -78,6 +78,7 @@ ALLOWLIST = (
     'AntiXsrfTokenKey',
     'savePWD',
     'userPWD',
+    'example',
 )
 # Includes ], ', " as closing
 CLOSING = r'[]\'"]{0,2}'

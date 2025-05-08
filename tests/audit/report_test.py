@@ -17,7 +17,7 @@ from detect_secrets.settings import transient_settings
 from testing.mocks import mock_named_temporary_file
 
 
-url_format = 'http://username:{}@www.example.com/auth'
+url_format = 'http://username:{}@www.foo.com/auth'
 first_secret = 'value1'
 second_secret = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'  # noqa: E501
 random_secret = ''.join(random.choice(string.ascii_letters) for _ in range(8))

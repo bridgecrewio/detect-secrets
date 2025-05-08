@@ -58,6 +58,7 @@ CONFIG_TEST_CASES = [
     ('<service name="Fmg.Cti.IdentityModel.InternalAuthorization.Web.InternalAuthorizationService" saveBootstrapTokens="true">', None),
     ('private const string AntiXsrfTokenKey = "__AntiXsrfToken";', None),
     ('<publishProfile publishUrl="C:\path\to\web" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">', None),
+    ('        "password": "examplePassword"', None),
 ]
 
 GOLANG_TEST_CASES = [
