@@ -48,5 +48,10 @@ class BasicAuthDetector(RegexBasedDetector):
             **kwargs,
         )
 
-        # Filter out example.com findings
-        return {finding for finding in findings if 'example.com' not in line}
+        # if any of the reserved "example" domains appears (case-insensitive), drop all findings
+        lowered = line.lower()
+        for domain in ("example.com", "example.net", "example.org", "proxy.url", "github.com/owner"):
+            if domain in lowered:
+                return set()
+
+        return findings
