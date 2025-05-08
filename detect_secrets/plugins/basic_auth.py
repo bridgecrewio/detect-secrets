@@ -50,7 +50,7 @@ class BasicAuthDetector(RegexBasedDetector):
 
         # if any of the reserved "example" domains appears (case-insensitive), drop all findings
         lowered = line.lower()
-        for domain in ("example.com", "example.net", "example.org", "proxy.url", "github.com/owner"):
+        for domain in ('example.com', 'example.net', 'example.org', 'proxy.url', 'github.com/owner'):
             if domain in lowered:
                 return set()
 
