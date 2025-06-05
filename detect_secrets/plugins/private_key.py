@@ -140,7 +140,7 @@ class PrivateKeyDetector(RegexBasedDetector):
                 line_number = 1
             else:
                 founded_secret = file_content.split(secret_val)
-                line_number = founded_secret[0].count('\n')
+                line_number = founded_secret[0].count('\n') + 1
             updated_secrets.add(
                 PotentialSecret(
                     type=self.secret_type,
