@@ -215,6 +215,26 @@ class TestAzureStorageKeyDetector:
                     """,
                     False,
             ),
+            (
+                    'CosmosKey=lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==',
+                    False,
+            ),
+            (
+                    """
+                    cosmos = lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==
+                    Azure.com +WITH IDENTITY = 'IDENTITY'
+                    """,
+                    False,
+            ),
+            (
+                    """
+                    settings = {
+                        'host': os.environ.get('ACCOUNT_HOST', 'https://cosmosdb-account-r4b3whg3f2qw4.documents.azure.com:443/'),
+                        'master_key': os.environ.get('ACCOUNT_KEY', 'H0maE9FWji2oHBsj9tuj5FREJRQGXRTIAJ3fA3CS46IGK3UcjeKy1DCFHNDt4oj4nq4Bh8YYujpuAFDddR5atw=='),
+                    }
+                    """,
+                    False,
+            ),
         ],
     )
     def test_analyze(self, payload, should_flag):

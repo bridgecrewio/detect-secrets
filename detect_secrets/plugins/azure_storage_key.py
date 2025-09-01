@@ -23,7 +23,7 @@ class AzureStorageKeyDetector(RegexBasedDetector):
 
     max_line_length = 4000
     max_part_length = 2000
-    integrity_regex = re.compile(r'integrity[:=]|sha256|sha384|sha512')
+    integrity_regex = re.compile(r'integrity[:=]|sha256|sha384|sha512|cosmos|master')
 
     denylist = [
         # Account Key (AccountKey=xxxxxxxxx)
