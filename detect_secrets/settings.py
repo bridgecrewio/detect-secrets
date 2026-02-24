@@ -15,7 +15,7 @@ from .util.importlib import import_file_as_module
 
 
 # Lock to protect transient_settings from concurrent access.
-# BCE-56937: On macOS, checkov's ParallelRunner uses ThreadPoolExecutor,
+# On macOS, checkov's ParallelRunner uses ThreadPoolExecutor,
 # so all scanners share the same process and global state. Without this lock,
 # concurrent calls to transient_settings() can corrupt the LRU-cached singletons
 # (get_settings, get_plugins, get_mapping_from_secret_type_to_class), causing
@@ -89,7 +89,7 @@ def default_settings() -> Generator['Settings', None, None]:
 def transient_settings(config: Dict[str, Any]) -> Generator['Settings', None, None]:
     """Allows the customizability of non-global settings per invocation.
 
-    BCE-56937: Protected by _settings_lock to prevent race conditions when
+    Protected by _settings_lock to prevent race conditions when
     multiple threads call this concurrently (e.g., IAC + SECRETS scanners
     running in parallel via ThreadPoolExecutor on macOS).
     """
