@@ -88,7 +88,6 @@ def default_settings() -> Generator['Settings', None, None]:
 @contextmanager
 def transient_settings(config: Dict[str, Any]) -> Generator['Settings', None, None]:
     """Allows the customizability of non-global settings per invocation.
-
     Protected by _settings_lock to prevent race conditions when
     multiple threads call this concurrently (e.g., IAC + SECRETS scanners
     running in parallel via ThreadPoolExecutor on macOS).
