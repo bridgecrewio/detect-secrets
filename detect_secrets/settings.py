@@ -20,7 +20,7 @@ from .util.importlib import import_file_as_module
 # concurrent calls to transient_settings() can corrupt the LRU-cached singletons
 # (get_settings, get_plugins, get_mapping_from_secret_type_to_class), causing
 # the secrets scanner to silently produce 0 findings.
-_settings_lock = threading.Lock()
+_settings_lock = threading.RLock()
 
 
 @lru_cache(maxsize=1)
