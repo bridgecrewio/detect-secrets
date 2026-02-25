@@ -1,5 +1,4 @@
 import contextlib
-import threading
 from contextlib import contextmanager
 from copy import deepcopy
 from functools import lru_cache
@@ -12,15 +11,6 @@ from urllib.parse import urlparse
 
 from .exceptions import InvalidFile
 from .util.importlib import import_file_as_module
-
-
-# Lock to protect transient_settings from concurrent access.
-# On macOS, checkov's ParallelRunner uses ThreadPoolExecutor,
-# so all scanners share the same process and global state. Without this lock,
-# concurrent calls to transient_settings() can corrupt the LRU-cached singletons
-# (get_settings, get_plugins, get_mapping_from_secret_type_to_class), causing
-# the secrets scanner to silently produce 0 findings.
-_settings_lock = threading.Lock()
 
 
 @lru_cache(maxsize=1)
@@ -87,33 +77,21 @@ def default_settings() -> Generator['Settings', None, None]:
 
 @contextmanager
 def transient_settings(config: Dict[str, Any]) -> Generator['Settings', None, None]:
-    """Allows the customizability of non-global settings per invocation.
+    """Allows the customizability of non-global settings per invocation."""
+    original_settings = get_settings().json()
 
-    Protected by _settings_lock to prevent race conditions when
-    multiple threads call this concurrently (e.g., IAC + SECRETS scanners
-    running in parallel via ThreadPoolExecutor on macOS).
-    """
-    with _settings_lock:
-        original_settings = get_settings().json()
-
+    cache_bust()
+    try:
+        yield configure_settings_from_baseline(config)
+    finally:
         cache_bust()
-        try:
-            yield configure_settings_from_baseline(config)
-        finally:
-            cache_bust()
-            configure_settings_from_baseline(original_settings)
+        configure_settings_from_baseline(original_settings)
 
 
 def cache_bust() -> None:
     get_plugins.cache_clear()
 
     get_filters.cache_clear()
-
-    # BCE-56937: Clear the plugin-type mapping cache to prevent stale mappings
-    # built from empty settings during a race window.
-    from .core.plugins.util import get_mapping_from_secret_type_to_class
-    get_mapping_from_secret_type_to_class.cache_clear()
-
     for path in get_settings().filters:
         # Need to also clear the individual caches (e.g. cached regex patterns).
         parts = urlparse(path)
