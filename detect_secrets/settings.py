@@ -79,30 +79,25 @@ def default_settings() -> Generator['Settings', None, None]:
 def transient_settings(config: Dict[str, Any]) -> Generator['Settings', None, None]:
     """Allows the customizability of non-global settings per invocation.
 
-    Thread-safe version that preserves the get_settings()
-    singleton. Instead of calling cache_bust() (which clears get_settings()
-    LRU cache, creating a window where get_settings() returns a fresh empty
-    Settings object), we keep the singleton alive and only clear dependent
-    caches. This prevents concurrent threads from observing empty state.
+    Thread-safe version. Preserves the get_settings() singleton
+    in the LRU cache to prevent race conditions when multiple threads access
+    detect-secrets state concurrently (e.g., IAC + SECRETS scanners running
+    in parallel via ThreadPoolExecutor on macOS).
     """
     settings = get_settings()
-    # Save current state for restoration
     original_plugins = deepcopy(dict(settings.plugins))
     original_filters = deepcopy(dict(settings.filters))
 
-    # Clear dependent caches so they rebuild from new config.
-    # We do NOT call get_settings.cache_clear() — the singleton stays alive.
+    # Clear dependent caches — NOT get_settings()
     get_plugins.cache_clear()
     get_filters.cache_clear()
     from .core.plugins.util import get_mapping_from_secret_type_to_class
     get_mapping_from_secret_type_to_class.cache_clear()
 
-    # Reconfigure the existing Settings object in-place
     settings.clear()
     try:
         yield configure_settings_from_baseline(config)
     finally:
-        # Restore: clear dependent caches, then restore original state
         get_plugins.cache_clear()
         get_filters.cache_clear()
         get_mapping_from_secret_type_to_class.cache_clear()
@@ -111,15 +106,9 @@ def transient_settings(config: Dict[str, Any]) -> Generator['Settings', None, No
 
 
 def cache_bust() -> None:
-    """Clear all caches including the Settings singleton.
-    """
     get_plugins.cache_clear()
 
     get_filters.cache_clear()
-
-    from .core.plugins.util import get_mapping_from_secret_type_to_class
-    get_mapping_from_secret_type_to_class.cache_clear()
-
     for path in get_settings().filters:
         # Need to also clear the individual caches (e.g. cached regex patterns).
         parts = urlparse(path)
