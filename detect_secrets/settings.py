@@ -77,15 +77,32 @@ def default_settings() -> Generator['Settings', None, None]:
 
 @contextmanager
 def transient_settings(config: Dict[str, Any]) -> Generator['Settings', None, None]:
-    """Allows the customizability of non-global settings per invocation."""
-    original_settings = get_settings().json()
+    """Allows the customizability of non-global settings per invocation.
 
-    cache_bust()
+    Thread-safe version. Preserves the get_settings() singleton
+    in the LRU cache to prevent race conditions when multiple threads access
+    detect-secrets state concurrently (e.g., IAC + SECRETS scanners running
+    in parallel via ThreadPoolExecutor on macOS).
+    """
+    settings = get_settings()
+    original_plugins = deepcopy(dict(settings.plugins))
+    original_filters = deepcopy(dict(settings.filters))
+
+    # Clear dependent caches — NOT get_settings()
+    get_plugins.cache_clear()
+    get_filters.cache_clear()
+    from .core.plugins.util import get_mapping_from_secret_type_to_class
+    get_mapping_from_secret_type_to_class.cache_clear()
+
+    settings.clear()
     try:
         yield configure_settings_from_baseline(config)
     finally:
-        cache_bust()
-        configure_settings_from_baseline(original_settings)
+        get_plugins.cache_clear()
+        get_filters.cache_clear()
+        get_mapping_from_secret_type_to_class.cache_clear()
+        settings.plugins = original_plugins
+        settings.filters = original_filters
 
 
 def cache_bust() -> None:
