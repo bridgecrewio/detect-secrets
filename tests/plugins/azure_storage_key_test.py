@@ -215,6 +215,11 @@ class TestAzureStorageKeyDetector:
                     """,
                     False,
             ),
+            # Flexible account key variable names
+            (
+                'STORAGE_ACCOUNT_K=X1y2Z3w4V5u6T7s8R9q0P1o2N3m4L5k6J7h8G9f0E1d2C3b4A5B6C7D8E9F0G1H2I3J4K5L6M7N8O9P0Q1R2S3==',  # noqa: E501
+                True,
+            ),
             (
                     'CosmosKey=lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==',
                     False,
