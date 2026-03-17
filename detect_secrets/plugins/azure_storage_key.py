@@ -18,7 +18,8 @@ class AzureStorageKeyDetector(RegexBasedDetector):
     """Scans for Azure Storage Account access keys."""
     secret_type = 'Azure Storage Account access key'
 
-    account_key = 'AccountKey'
+    account_key = r'account[_]?k(?:ey)?\b'
+    account_key_check = re.compile(r'account[_]?k(?:ey)?\b', re.IGNORECASE)
     azure = 'azure'
 
     max_line_length = 4000
@@ -28,12 +29,12 @@ class AzureStorageKeyDetector(RegexBasedDetector):
     denylist = [
         # Account Key (AccountKey=xxxxxxxxx)
         re.compile(
-            r'(?:["\']?[A-Za-z0-9+\/]{86,1000}==["\']?)',
+            r'(?:["\']?[A-Za-z0-9+\/]{86,88}==["\']?)',
         ),
     ]
 
     context_keys = [
-        r'{account_key}=\s*{secret}',
+        r'(?i){account_key}[\s=]{{1,20}}{secret}',
 
         # maximum 2 lines secret distance under azure mention (case-insensitive)
         r'(?i)\b{azure}(.*\n){{0,2}}.*{secret}',
@@ -89,7 +90,7 @@ class AzureStorageKeyDetector(RegexBasedDetector):
                         azure=self.azure,
                     ), re.MULTILINE,
                 )
-                if regex.pattern.startswith(self.account_key) and self.account_key not in string:
+                if self.account_key in regex.pattern and not self.account_key_check.search(string):
                     continue
                 if self.azure in regex.pattern.lower() and self.azure not in string.lower():
                     continue
