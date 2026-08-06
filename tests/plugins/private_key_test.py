@@ -1,4 +1,5 @@
 import json
+from unittest import mock
 
 import pytest
 
@@ -148,6 +149,65 @@ def test_private_key_line_number_2():
             f'Expected the private key header to be detected at line 6, '
             f'but got {secret_obj.line_number} instead.'
         )
+
+
+def test_get_file_size_is_called_at_most_once_per_file():
+    """Regression test for a performance bug.
+
+    ``PrivateKeyDetector.analyze_line`` runs once per line. It must not perform
+    a filesystem ``getsize`` lookup on every line: for a file larger than
+    ``MAX_FILE_SIZE`` (which is never added to the ``_analyzed_files`` cache),
+    the size lookup used to fire once per line, making the cost scale with
+    (files x lines) instead of (files). This test proves the file-size lookup
+    happens at most once for the whole file.
+    """
+    # Build a file that is well over MAX_FILE_SIZE (8 KiB) and has many lines,
+    # none of which contain a private key.
+    line = 'this is a perfectly ordinary line with no secrets in it at all'
+    file_content = '\n'.join(line for _ in range(500))
+    assert len(file_content.encode()) > (8 * 1024)
+
+    with mock_named_temporary_file() as f:
+        f.write(file_content.encode())
+        f.seek(0)
+
+        with mock.patch(
+            'detect_secrets.plugins.private_key.os.path.getsize',
+            wraps=__import__('os').path.getsize,
+        ) as mock_getsize:
+            secrets = SecretsCollection()
+            secrets.scan_file(f.name)
+
+        assert mock_getsize.call_count <= 1, (
+            f'Expected the private-key file-size lookup to run at most once per '
+            f'file, but it ran {mock_getsize.call_count} times.'
+        )
+
+
+def test_multiline_private_key_in_small_file_is_still_detected():
+    """Guards the file-size fix.
+
+    The size lookup was hoisted to run once per file, and the per-file content
+    read now happens exactly once. This confirms the whole-file read path still
+    fires for a small file, so a private key split across multiple lines (which
+    only matches when the full file content is scanned) is still detected.
+    """
+    file_content = '\n'.join([
+        'Irrelevant line',
+        '-----BEGIN RSA PRIVATE KEY-----',
+        'MIIBVwIBADANBgkqhkiG9w0BAQEFAASC',
+        '-----END RSA PRIVATE KEY-----',
+    ])
+    assert len(file_content.encode()) < (8 * 1024)
+
+    with mock_named_temporary_file() as f:
+        f.write(file_content.encode())
+        f.seek(0)
+
+        secrets = SecretsCollection()
+        secrets.scan_file(f.name)
+
+    assert len(list(secrets)) == 1
 
 
 @pytest.fixture(autouse=True)
