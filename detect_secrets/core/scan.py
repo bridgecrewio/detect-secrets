@@ -364,7 +364,8 @@ def _get_lines_from_file(filename: str) -> Generator[List[str], None, None]:
     :raises: FileNotFoundError
     """
     with open(filename) as f:
-        log.info(f'Checking file: {filename}')
+        # Lazy %-style logging: avoid formatting the string when INFO is disabled.
+        log.info('Checking file: %s', filename)
 
         try:
             lines = get_transformed_file(cast(NamedIO, f))
@@ -536,16 +537,20 @@ def _is_filtered_out(required_filter_parameters: Iterable[str], **kwargs: Any) -
     for filter_fn in get_filters_with_parameter(*required_filter_parameters):
         try:
             if call_function_with_arguments(filter_fn, **kwargs):
+                # NOTE: We use lazy %-style logging (template + args) rather than
+                # eagerly building an f-string, so that the string formatting cost
+                # is only paid when INFO-level logging is actually enabled (the
+                # default level is ERROR). This is a hot path called per-line,
+                # per-secret, per-filter during a scan.
                 if 'secret' in kwargs:
-                    debug_msg = f'Skipping "{kwargs["secret"]}" due to `{filter_fn.path}`.'
+                    log.info('Skipping "%s" due to `%s`.', kwargs['secret'], filter_fn.path)
                 elif list(kwargs.keys()) == ['filename']:
                     # We want to make sure this is only run if we're skipping files (as compared
                     # to other filters that may include `filename` as a parameter).
-                    debug_msg = f'Skipping "{kwargs["filename"]}" due to `{filter_fn.path}`'
+                    log.info('Skipping "%s" due to `%s`', kwargs['filename'], filter_fn.path)
                 else:
-                    debug_msg = f'Skipping secret due to `{filter_fn.path}`.'
+                    log.info('Skipping secret due to `%s`.', filter_fn.path)
 
-                log.info(debug_msg)
                 return True
         except TypeError:
             # Skipping non-compatible filters
