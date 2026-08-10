@@ -38,6 +38,13 @@ if TYPE_CHECKING:
 MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 MAX_LINE_LENGTH = int(os.getenv('CHECKOV_MAX_LINE_LENGTH', '100000'))
 
+# Feature flag: set DETECT_SECRETS_PERF_FILTER_CACHE=0 to disable filter list caching.
+_FILTER_CACHE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_FILTER_CACHE', '1') != '0'
+
+# Cache: maps frozenset(parameters) -> list of matching filter functions.
+# Invalidated by cache_bust() in settings.py via the callback registered below.
+_filter_cache: dict = {}
+
 _TRIGGER_PATTERN = re.compile(
     r'(?i)(?:'
     # Keyword triggers. IMPORTANT: bare "key" and "pass" are included because the
@@ -564,11 +571,38 @@ def get_filters_with_parameter(*parameters: str) -> List[SelfAwareCallable]:
 
     >>> get_filters_with_parameter('secret')
     [bar]
-    """
-    minimum_parameters = set(parameters)
 
-    return [
-        filter
-        for filter in get_filters()
-        if minimum_parameters <= filter.injectable_variables
+    Results are cached by parameter set since the filter list does not change
+    after settings load. Cache is invalidated by cache_bust() in settings.py.
+
+    Controlled by DETECT_SECRETS_PERF_FILTER_CACHE env var (default: 1 = enabled).
+    """
+    if not _FILTER_CACHE_ENABLED:
+        minimum_parameters = set(parameters)
+        return [
+            f for f in get_filters()
+            if minimum_parameters <= f.injectable_variables
+        ]
+
+    key = frozenset(parameters)
+    cached = _filter_cache.get(key)
+    if cached is not None:
+        return cached
+
+    minimum_parameters = set(parameters)
+    result = [
+        f for f in get_filters()
+        if minimum_parameters <= f.injectable_variables
     ]
+    _filter_cache[key] = result
+    return result
+
+
+from detect_secrets import settings as _settings  # noqa: E402
+
+
+def _bust_filter_cache() -> None:
+    _filter_cache.clear()
+
+
+_settings.register_cache_bust_callback(_bust_filter_cache)
