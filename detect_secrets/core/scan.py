@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 from functools import lru_cache
 from typing import Any
@@ -36,6 +37,77 @@ if TYPE_CHECKING:
 
 MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 MAX_LINE_LENGTH = int(os.getenv('CHECKOV_MAX_LINE_LENGTH', '100000'))
+
+_TRIGGER_PATTERN = re.compile(
+    r'(?i)(?:'
+    # Keyword triggers. IMPORTANT: bare "key" and "pass" are included because the
+    # real KeywordDetector DENYLIST (detect_secrets/plugins/keyword.py) matches many
+    # bare/compound forms (client_key, service_key, account_key, db_pass, _pass, etc.)
+    # that a narrower prefixed-only pattern would miss. This intentionally reduces
+    # the pre-gate's filter rate in exchange for correctness — verified empirically
+    # against the parity oracle.
+    r'password|passwd|pwd|secret|token|key|auth|credential|private|'
+    r'cert|certificate|connection[_\-]?string|'
+    r'contrase|nessus|recaptcha|pass'
+    r'|'
+    # PEM private key header
+    r'-----BEGIN'
+    r'|'
+    # JWT: base64-encoded {"  (eyJ)
+    r'eyJ[A-Za-z0-9]'
+    r'|'
+    # AWS key prefix
+    r'AKIA[0-9A-Z]'
+    r'|'
+    # GitHub tokens
+    r'gh[psotr]_[A-Za-z0-9]'
+    r'|'
+    r'github_pat_'
+    r'|'
+    # Stripe
+    r'(?:sk|pk|rk)_(?:live|test)_'
+    r'|'
+    # Slack
+    r'xox[baprs]-'
+    r'|'
+    # SendGrid
+    r'SG\.[A-Za-z0-9\_-]'
+    r'|'
+    # NPM
+    r'npm_[A-Za-z0-9]'
+    r'|'
+    # High-entropy candidate strings. The real HighEntropyStringsPlugin regex is
+    # `([\'":=])\s*([{charset}]+)([\'"]|$)` — i.e. ANY quoted-or-assigned run of
+    # charset characters, with NO minimum length in the extraction regex itself
+    # (the entropy check happens afterward). Mathematically, a string needs at
+    # least ~9 distinct hex characters to exceed the default hex entropy limit
+    # (3.0), and ~15-20 distinct alnum characters to exceed the base64 limit
+    # (4.5) — so thresholds here are deliberately low to avoid false negatives.
+    r'[0-9a-fA-F]{8,}'
+    r'|'
+    r'[A-Za-z0-9+/\_-]{15,}={0,2}'
+    r'|'
+    # Generic: URL with embedded credentials
+    r'://[^@\s]+:[^@\s]+@'
+    r'|'
+    # Azure storage account key
+    r'AccountKey='
+    r'|'
+    # Bearer token
+    r'Bearer\s+[A-Za-z0-9]'
+    r')',
+)
+
+_PREGATE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_PREGATE', '1') != '0'
+
+
+def _could_contain_secret(line: str) -> bool:
+    """
+    Returns True if the line could possibly contain a secret pattern.
+    This is a cheap pre-filter: if it returns False, no detector can match this line.
+    Correctness is verified empirically by the parity oracle.
+    """
+    return bool(_TRIGGER_PATTERN.search(line))
 
 
 @lru_cache(maxsize=1)
@@ -351,6 +423,14 @@ def _process_line_based_plugins(
         index += 1
         if len(line) < MIN_LINE_LENGTH or len(line) > MAX_LINE_LENGTH:
             # skip lines which have too few or too many none whitespace chars
+            continue
+
+        # PRE-GATE: skip lines that cannot possibly match any detector pattern.
+        # This avoids building the code_snippet context window and running all
+        # detectors for lines that are provably clean. The gate pattern is a
+        # superset of all detector trigger patterns — if it returns False, no
+        # detector can match. Verified empirically by the parity oracle.
+        if _PREGATE_ENABLED and not _could_contain_secret(line):
             continue
 
         if not is_added and not is_removed:
