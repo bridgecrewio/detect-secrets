@@ -1,0 +1,1717 @@
+[
+  {
+    "file": "secrets-examples/.git/config",
+    "line": 9,
+    "type": "GitHub Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_101.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_102_1.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_102_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_103.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_104_1.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_105.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_106.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_107.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_108.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_109.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_110.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_112.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_113.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_113.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_114.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_114.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_115.txt",
+    "line": 2,
+    "type": "Azure Storage Account access key"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_115.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_117.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_118_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_118_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_118_2.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_12.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_12.txt",
+    "line": 1,
+    "type": "NPM tokens"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_121.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_122.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_124.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_125_2.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_125_2.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_125_2.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_125_2.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_126_1.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_126_2.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_126_2.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_126_2.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_126_2.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_127.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_127.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_127.txt",
+    "line": 4,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_127.txt",
+    "line": 6,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_128.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_128.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_132.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_133.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_134.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_135.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_136.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_137_1.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_137_1.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_137_2.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_139.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_142.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_142.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_143_1.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_143_1.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_143_2.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_143_2.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_144.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_145.txt",
+    "line": 4,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_145.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_145.txt",
+    "line": 8,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_146.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_147.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_147.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_147.txt",
+    "line": 7,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_147.txt",
+    "line": 7,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_149.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_149.txt",
+    "line": 4,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_149.txt",
+    "line": 13,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_150.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_151.txt",
+    "line": 8,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_152.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_153.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_155.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_157_2.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_157_3.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_158.txt",
+    "line": 5,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_159.txt",
+    "line": 5,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_162.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_162.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_163.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_163.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_164.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_164.txt",
+    "line": 3,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_165.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_165.txt",
+    "line": 3,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_166.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_167.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_167.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_167.txt",
+    "line": 5,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_167.txt",
+    "line": 7,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_168.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_168.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_169.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_169.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_170.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_170.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_172.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_173.txt",
+    "line": 7,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_173.txt",
+    "line": 10,
+    "type": "Private Key"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_176.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_176.txt",
+    "line": 4,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_176.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_177.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_178_1.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_178_1.txt",
+    "line": 8,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_178_1.txt",
+    "line": 11,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_180.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_180.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_182.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_183.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_185.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_191.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_194.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_194.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_195.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_196.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_197.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_199.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_200.txt",
+    "line": 10,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_200.txt",
+    "line": 11,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_201.txt",
+    "line": 7,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_201.txt",
+    "line": 19,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_204.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_207.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_208.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_213.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_216.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_218.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_218.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_22.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_220.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_222.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_222.txt",
+    "line": 4,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_222.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_223.txt",
+    "line": 8,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_225.txt",
+    "line": 5,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_225.txt",
+    "line": 5,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_226.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_226.txt",
+    "line": 1,
+    "type": "Slack Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_227.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_227.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_227.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_228.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_228.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_230.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_233.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_233.txt",
+    "line": 5,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_233.txt",
+    "line": 5,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_233.txt",
+    "line": 9,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_233.txt",
+    "line": 9,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_235_2.txt",
+    "line": 4,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_236.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_238.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_238.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_238.txt",
+    "line": 9,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_238.txt",
+    "line": 15,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_238.txt",
+    "line": 15,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_238.txt",
+    "line": 21,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_238.txt",
+    "line": 21,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_239.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_23_1.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_241.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_241.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_241.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_241.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_243.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_244.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_244.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_245.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_245.txt",
+    "line": 4,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_246.txt",
+    "line": 9,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_249.txt",
+    "line": 2,
+    "type": "JSON Web Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_249.txt",
+    "line": 7,
+    "type": "JSON Web Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_249.txt",
+    "line": 9,
+    "type": "JSON Web Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_249.txt",
+    "line": 11,
+    "type": "JSON Web Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_24_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_24_2.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_24_3.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_24_5.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_25.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_25.txt",
+    "line": 6,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_25.txt",
+    "line": 7,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_25.txt",
+    "line": 7,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_250.txt",
+    "line": 7,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_251.txt",
+    "line": 6,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_251.txt",
+    "line": 6,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_251.txt",
+    "line": 11,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_252.txt",
+    "line": 6,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_252.txt",
+    "line": 6,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_255.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_257_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_257_1.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_257_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_257_2.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_1.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_1.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_1.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_1.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_2.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_2.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_2.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_258_2.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_259_1.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_259_2.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_260_1.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_260_1.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_260_2.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_260_2.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_261_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_261_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_262.txt",
+    "line": 1,
+    "type": "Slack Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_263.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_264.txt",
+    "line": 5,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_264.txt",
+    "line": 5,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_265.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_265.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_266_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_266_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_267.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_268_1.txt",
+    "line": 4,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_268_2.txt",
+    "line": 3,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_268_2.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_269_3.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_269_3.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_269_4.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_269_4.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_26_1.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_27.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_270_1.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_270_1.txt",
+    "line": 4,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_270_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_270_2.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_271_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_271_1.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_272_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_272_1.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_272_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_273.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_273.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_274_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_274_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_274_2.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_274_3.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_275_2.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_276_1.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_276_2.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_277_1.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_277_2.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_278_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_278_1.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_278_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_278_3.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_279.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_279.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_279.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_282.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_283.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_284.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_285.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_286.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_287.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_289.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_289.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_28_1.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_28_2.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_28_2.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_28_3.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_291.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_293.txt",
+    "line": 1,
+    "type": "Azure Storage Account access key"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_295.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_295.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_296.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_297.txt",
+    "line": 3,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_300.txt",
+    "line": 1,
+    "type": "JSON Web Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_301.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_303.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_303.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_303.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_305.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_305.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_306.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_306.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_307.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_308.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_309.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_31.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_310.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_311.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_312.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_314.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_315.txt",
+    "line": 11,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_318.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_319.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_320.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_320.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_321.txt",
+    "line": 1,
+    "type": "JSON Web Token"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_322.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_32_1.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_333.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_42.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_43.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_45_1.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_46.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_46.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_51_1.txt",
+    "line": 4,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_51_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_53.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_53.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_54.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_56.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_56.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_64.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_65.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_72.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_73_3.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_73_5.txt",
+    "line": 1,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_73_5.txt",
+    "line": 1,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_74.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_77.txt",
+    "line": 1,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_77.txt",
+    "line": 2,
+    "type": "Basic Auth Credentials"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_78.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_79.txt",
+    "line": 6,
+    "type": "Private Key"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_79.txt",
+    "line": 10,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_79.txt",
+    "line": 18,
+    "type": "Private Key"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_82.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_83_2.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_84_1.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_84_2.txt",
+    "line": 1,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_86.txt",
+    "line": 2,
+    "type": "Hex High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_86.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_87_1.txt",
+    "line": 2,
+    "type": "SendGrid API Key"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_88.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_89.txt",
+    "line": 4,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_90.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_91_1.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_91_2.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_94.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_96_1.txt",
+    "line": 2,
+    "type": "Base64 High Entropy String"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_96_2.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_97.txt",
+    "line": 2,
+    "type": "Secret Keyword"
+  },
+  {
+    "file": "secrets-examples/CKV_SECRET_98.txt",
+    "line": 3,
+    "type": "Secret Keyword"
+  }
+]
