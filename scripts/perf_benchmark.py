@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import statistics
 import subprocess
 import sys
@@ -32,7 +33,15 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).parent.parent  # detect-secrets/
 SYNTHETIC_REPO = REPO_ROOT.parent / 'synthetic-code-repo'
 BASELINES_DIR = REPO_ROOT / 'baselines'
-DETECT_SECRETS_BIN = REPO_ROOT / '.venv-perf' / 'bin' / 'detect-secrets'
+
+# Prefer the local perf-benchmarking venv's console script when present (developer
+# machines only). CI and other environments never create .venv-perf, so fall back to
+# invoking the detect_secrets package with the current interpreter.
+_VENV_PERF_BIN = REPO_ROOT / '.venv-perf' / 'bin' / 'detect-secrets'
+if _VENV_PERF_BIN.exists():
+    _DETECT_SECRETS_CMD = [str(_VENV_PERF_BIN)]
+else:
+    _DETECT_SECRETS_CMD = [sys.executable, '-m', 'detect_secrets']
 
 
 def get_module_paths(n_modules: int) -> list[Path]:
@@ -54,7 +63,7 @@ def run_scan(target_paths: list[Path]) -> tuple[float, int]:
     can resolve files correctly outside the detect-secrets git boundary.
     """
     cmd = [
-        str(DETECT_SECRETS_BIN),
+        *_DETECT_SECRETS_CMD,
         'scan',
         '--all-files',
         # Pin filter configuration explicitly so benchmark results (and finding
@@ -65,9 +74,21 @@ def run_scan(target_paths: list[Path]) -> tuple[float, int]:
         '--disable-filter', 'detect_secrets.filters.gibberish.should_exclude_secret',
     ] + [str(p) for p in target_paths]
 
+    # When falling back to `python -m detect_secrets` (no .venv-perf console script),
+    # the subprocess's cwd is cas-meta/ (below), which does not have the
+    # detect_secrets package importable by default. Prepend REPO_ROOT to PYTHONPATH
+    # so `-m detect_secrets` resolves regardless of cwd.
+    env = dict(os.environ)
+    env['PYTHONPATH'] = os.pathsep.join(
+        filter(None, [str(REPO_ROOT), env.get('PYTHONPATH', '')]),
+    )
+
     start = time.monotonic()
-    result = subprocess.run(cmd, capture_output=True, text=True, check=False,
-                            cwd=str(REPO_ROOT.parent))
+    result = subprocess.run(
+        cmd, capture_output=True, text=True, check=False,
+        cwd=str(REPO_ROOT.parent),
+        env=env,
+    )
     elapsed = time.monotonic() - start
 
     finding_count = 0

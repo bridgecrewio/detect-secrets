@@ -5,11 +5,12 @@ This test MUST pass before and after every optimization. Any difference in findi
 indicates a regression — the optimization must be reverted.
 
 Run with:
-    pytest tests/perf/test_parity_oracle.py -v
+    pytest tests/perf/parity_oracle_test.py -v
 """
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -19,7 +20,17 @@ import pytest
 REPO_ROOT = Path(__file__).parent.parent.parent  # detect-secrets/
 SECRETS_EXAMPLES = REPO_ROOT.parent / 'secrets-examples'
 GOLDEN_SNAPSHOT = REPO_ROOT / 'baselines' / 'parity_snapshot.json'
-DETECT_SECRETS_BIN = REPO_ROOT / '.venv-perf' / 'bin' / 'detect-secrets'
+
+# Prefer the local perf-benchmarking venv's console script when present (developer
+# machines only — see scripts/perf_benchmark.py). CI never creates .venv-perf, so we
+# fall back to invoking the detect_secrets package with the current interpreter
+# (`python -m detect_secrets`), which works with whatever environment `pytest` is
+# already running under (e.g. the one built from requirements-dev.txt in CI).
+_VENV_PERF_BIN = REPO_ROOT / '.venv-perf' / 'bin' / 'detect-secrets'
+if _VENV_PERF_BIN.exists():
+    _DETECT_SECRETS_CMD = [str(_VENV_PERF_BIN)]
+else:
+    _DETECT_SECRETS_CMD = [sys.executable, '-m', 'detect_secrets']
 
 
 def _scan_secrets_examples() -> list[dict]:
@@ -35,9 +46,19 @@ def _scan_secrets_examples() -> list[dict]:
     # Run from cas-meta/ so detect-secrets can see secrets-examples/ correctly
     cwd = REPO_ROOT.parent
 
+    # When falling back to `python -m detect_secrets` (no .venv-perf console script),
+    # the subprocess's cwd is cas-meta/ (see above), which does not have the
+    # detect_secrets package importable by default. Prepend REPO_ROOT to PYTHONPATH
+    # so `-m detect_secrets` resolves regardless of cwd or how pytest itself was
+    # installed/invoked (editable install, sys.path insert, etc.).
+    env = dict(os.environ)
+    env['PYTHONPATH'] = os.pathsep.join(
+        filter(None, [str(REPO_ROOT), env.get('PYTHONPATH', '')]),
+    )
+
     result = subprocess.run(
         [
-            str(DETECT_SECRETS_BIN),
+            *_DETECT_SECRETS_CMD,
             'scan',
             '--all-files',
             # Pin filter configuration explicitly so results don't depend on which
@@ -53,6 +74,7 @@ def _scan_secrets_examples() -> list[dict]:
         text=True,
         check=False,
         cwd=str(cwd),
+        env=env,
     )
     if result.returncode != 0 and not result.stdout.strip():
         pytest.fail(f'detect-secrets scan failed:\n{result.stderr}')
@@ -94,7 +116,7 @@ def golden_findings():
     if not GOLDEN_SNAPSHOT.exists():
         pytest.fail(
             f'Golden snapshot not found at {GOLDEN_SNAPSHOT}. '
-            'Run Task 0 (environment setup) first to generate it.'
+            'Run Task 0 (environment setup) first to generate it.',
         )
     with open(GOLDEN_SNAPSHOT) as f:
         data = json.load(f)

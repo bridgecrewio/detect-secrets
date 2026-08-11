@@ -1,5 +1,6 @@
 import inspect
 import os
+from types import MethodType
 from typing import Any
 from typing import Callable
 from typing import cast
@@ -53,7 +54,7 @@ def _call_with_cache(func: Union[Callable, SelfAwareCallable], **kwargs: Any) ->
     # Use the underlying function's id for bound methods — stable across calls
     # (Python creates a new bound method object on each attribute access, but
     # func.__func__ is the stable underlying function object)
-    cache_key = id(func.__func__) if is_bound else id(func)
+    cache_key = id(cast(MethodType, func).__func__) if is_bound else id(func)
 
     plan = _plan_cache.get(cache_key)
     if plan is None:
@@ -77,7 +78,7 @@ def _build_plan(func: Union[Callable, SelfAwareCallable], is_bound: bool) -> Tup
     """
     if is_bound:
         # Use the underlying unbound function to get all parameter names
-        all_vars = get_injectable_variables(func.__func__)
+        all_vars = get_injectable_variables(cast(MethodType, func).__func__)
         # Drop 'self' (index 0) — bound methods carry self implicitly
         injectable = set(all_vars[1:])
     else:

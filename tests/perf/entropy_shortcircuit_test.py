@@ -6,6 +6,7 @@ TDD: write failing tests first, then implement.
 from __future__ import annotations
 
 import math
+
 import pytest
 
 
@@ -78,7 +79,7 @@ def test_entropy_short_circuit_safe_for_short_hex():
     # A 6-char hex string: even without short-circuit, entropy would be low
     # and HexHighEntropyString's penalty would push it below threshold
     result = calculate_shannon_entropy('a1b2c3', string.hexdigits)
-    assert result == 0.0, "Short strings should return 0.0 — same as without short-circuit"
+    assert result == 0.0, 'Short strings should return 0.0 — same as without short-circuit'
 
 
 def test_entropy_boundary_at_min_length():

@@ -6,11 +6,11 @@ avoiding the cost of building code_snippet context and running all detectors.
 
 CRITICAL: The gate must be a superset of all detector patterns — if it returns
 False for a line, NO detector can match that line. This is verified empirically
-by the parity oracle (test_parity_oracle.py), which is the ultimate correctness
+by the parity oracle (parity_oracle_test.py), which is the ultimate correctness
 check for this optimization.
 
 Run with:
-    pytest tests/perf/test_pregate.py -v
+    pytest tests/perf/pregate_test.py -v
 """
 from __future__ import annotations
 

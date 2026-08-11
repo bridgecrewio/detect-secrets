@@ -10,8 +10,8 @@ from unittest.mock import patch
 
 import pytest
 
-from detect_secrets.util.inject import call_function_with_arguments
 import detect_secrets.util.inject as inject_module
+from detect_secrets.util.inject import call_function_with_arguments
 
 
 class _FakePlugin:
@@ -118,7 +118,7 @@ def test_di_cache_self_not_in_injectable():
             injectable = plan[0]  # first element is the injectable set
             assert 'self' not in injectable, (
                 f"'self' found in injectable variables: {injectable}. "
-                "Bound methods carry self implicitly — it must not be injected."
+                'Bound methods carry self implicitly — it must not be injected.'
             )
 
 
