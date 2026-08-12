@@ -1,0 +1,44 @@
+BASELINE TIMING (before any optimizations)
+==========================================
+Date: 2026-08-09
+Python version: 3.11.0
+bc-detect-secrets version: 1.5.47
+
+Scope: synthetic-code-repo/src/module_000/ through module_002/ (3 of 213 modules)
+Command: detect-secrets scan --all-files synthetic-code-repo/src/module_000/ synthetic-code-repo/src/module_001/ synthetic-code-repo/src/module_002/
+
+Wall time:  5.514s
+User time:  38.78s
+System time: 1.68s
+CPU usage:  733%
+
+Notes:
+- --all-files flag is REQUIRED because secrets-examples/ and synthetic-code-repo/
+  are not git-tracked in the detect-secrets sub-repo (local convenience clones only).
+- High CPU% indicates multiprocessing is active.
+- Extrapolated full-repo estimate: ~5.5s * (213/3) ≈ ~390s for all 213 modules.
+
+Parity baseline:
+- secrets-examples/ scan: 343 findings across 225 files
+- Snapshot saved to: baselines/parity_snapshot.json
+
+---
+CORRECTNESS INCIDENT LOG (resolved)
+Date: 2026-08-10
+Issue: parity_snapshot.json was silently regenerated from 343 to 306 findings when the
+optional gibberish-detector filter auto-activated after requirements-dev.txt finished
+installing. All scans now explicitly pass:
+  --disable-filter detect_secrets.filters.gibberish.should_exclude_secret
+Correct, pinned baseline: 343 findings across 225 files in secrets-examples/.
+Re-validated: DI cache optimization (Task 3) produces 343 findings both with the cache
+enabled and disabled — the cache is confirmed NOT responsible for the earlier discrepancy.
+
+---
+CORRECTNESS INCIDENT LOG (resolved)
+Issue: parity_snapshot.json was silently regenerated from 343 to 306 findings when the
+optional gibberish-detector filter auto-activated after requirements-dev.txt finished
+installing. All scans now explicitly pass:
+  --disable-filter detect_secrets.filters.gibberish.should_exclude_secret
+Correct, pinned baseline: 343 findings across 225 files in secrets-examples/.
+Re-validated: DI cache optimization (Task 3) produces 343 findings both with the cache
+enabled and disabled.

@@ -88,6 +88,19 @@ def transient_settings(config: Dict[str, Any]) -> Generator['Settings', None, No
         configure_settings_from_baseline(original_settings)
 
 
+# Callbacks registered by other modules (e.g. scan.py) to clear their own
+# derived caches when settings change. Using a callback registration pattern
+# here avoids a circular import (settings -> scan -> settings): scan.py
+# registers its own cleanup at import time via register_cache_bust_callback,
+# rather than settings.py importing scan.py directly.
+_cache_bust_callbacks: List[Any] = []
+
+
+def register_cache_bust_callback(fn: Any) -> None:
+    """Register a callback to be invoked whenever cache_bust() runs."""
+    _cache_bust_callbacks.append(fn)
+
+
 def cache_bust() -> None:
     get_plugins.cache_clear()
 
@@ -120,6 +133,10 @@ def cache_bust() -> None:
                 item.cache_clear()
             except AttributeError:
                 pass
+
+    # Fire all registered callbacks (e.g., scan._filter_cache.clear())
+    for cb in _cache_bust_callbacks:
+        cb()
 
     get_settings.cache_clear()
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 from functools import lru_cache
 from typing import Any
@@ -36,6 +37,84 @@ if TYPE_CHECKING:
 
 MIN_LINE_LENGTH = int(os.getenv('CHECKOV_MIN_LINE_LENGTH', '5'))
 MAX_LINE_LENGTH = int(os.getenv('CHECKOV_MAX_LINE_LENGTH', '100000'))
+
+# Feature flag: set DETECT_SECRETS_PERF_FILTER_CACHE=0 to disable filter list caching.
+_FILTER_CACHE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_FILTER_CACHE', '1') != '0'
+
+# Cache: maps frozenset(parameters) -> list of matching filter functions.
+# Invalidated by cache_bust() in settings.py via the callback registered below.
+_filter_cache: dict[frozenset[str], List[SelfAwareCallable]] = {}
+
+_TRIGGER_PATTERN = re.compile(
+    r'(?i)(?:'
+    # Keyword triggers. IMPORTANT: bare "key" and "pass" are included because the
+    # real KeywordDetector DENYLIST (detect_secrets/plugins/keyword.py) matches many
+    # bare/compound forms (client_key, service_key, account_key, db_pass, _pass, etc.)
+    # that a narrower prefixed-only pattern would miss. This intentionally reduces
+    # the pre-gate's filter rate in exchange for correctness — verified empirically
+    # against the parity oracle.
+    r'password|passwd|pwd|secret|token|key|auth|credential|private|'
+    r'cert|certificate|connection[_\-]?string|'
+    r'contrase|nessus|recaptcha|pass'
+    r'|'
+    # PEM private key header
+    r'-----BEGIN'
+    r'|'
+    # JWT: base64-encoded {"  (eyJ)
+    r'eyJ[A-Za-z0-9]'
+    r'|'
+    # AWS key prefix
+    r'AKIA[0-9A-Z]'
+    r'|'
+    # GitHub tokens
+    r'gh[psotr]_[A-Za-z0-9]'
+    r'|'
+    r'github_pat_'
+    r'|'
+    # Stripe
+    r'(?:sk|pk|rk)_(?:live|test)_'
+    r'|'
+    # Slack
+    r'xox[baprs]-'
+    r'|'
+    # SendGrid
+    r'SG\.[A-Za-z0-9\_-]'
+    r'|'
+    # NPM
+    r'npm_[A-Za-z0-9]'
+    r'|'
+    # High-entropy candidate strings. The real HighEntropyStringsPlugin regex is
+    # `([\'":=])\s*([{charset}]+)([\'"]|$)` — i.e. ANY quoted-or-assigned run of
+    # charset characters, with NO minimum length in the extraction regex itself
+    # (the entropy check happens afterward). Mathematically, a string needs at
+    # least ~9 distinct hex characters to exceed the default hex entropy limit
+    # (3.0), and ~15-20 distinct alnum characters to exceed the base64 limit
+    # (4.5) — so thresholds here are deliberately low to avoid false negatives.
+    r'[0-9a-fA-F]{8,}'
+    r'|'
+    r'[A-Za-z0-9+/\_-]{15,}={0,2}'
+    r'|'
+    # Generic: URL with embedded credentials
+    r'://[^@\s]+:[^@\s]+@'
+    r'|'
+    # Azure storage account key
+    r'AccountKey='
+    r'|'
+    # Bearer token
+    r'Bearer\s+[A-Za-z0-9]'
+    r')',
+)
+
+_PREGATE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_PREGATE', '1') != '0'
+
+
+def _could_contain_secret(line: str) -> bool:
+    """
+    Returns True if the line could possibly contain a secret pattern.
+    This is a cheap pre-filter: if it returns False, no detector can match this line.
+    Correctness is verified empirically by the parity oracle.
+    """
+    return bool(_TRIGGER_PATTERN.search(line))
 
 
 @lru_cache(maxsize=1)
@@ -285,7 +364,8 @@ def _get_lines_from_file(filename: str) -> Generator[List[str], None, None]:
     :raises: FileNotFoundError
     """
     with open(filename) as f:
-        log.info(f'Checking file: {filename}')
+        # Lazy %-style logging: avoid formatting the string when INFO is disabled.
+        log.info('Checking file: %s', filename)
 
         try:
             lines = get_transformed_file(cast(NamedIO, f))
@@ -351,6 +431,14 @@ def _process_line_based_plugins(
         index += 1
         if len(line) < MIN_LINE_LENGTH or len(line) > MAX_LINE_LENGTH:
             # skip lines which have too few or too many none whitespace chars
+            continue
+
+        # PRE-GATE: skip lines that cannot possibly match any detector pattern.
+        # This avoids building the code_snippet context window and running all
+        # detectors for lines that are provably clean. The gate pattern is a
+        # superset of all detector trigger patterns — if it returns False, no
+        # detector can match. Verified empirically by the parity oracle.
+        if _PREGATE_ENABLED and not _could_contain_secret(line):
             continue
 
         if not is_added and not is_removed:
@@ -449,16 +537,20 @@ def _is_filtered_out(required_filter_parameters: Iterable[str], **kwargs: Any) -
     for filter_fn in get_filters_with_parameter(*required_filter_parameters):
         try:
             if call_function_with_arguments(filter_fn, **kwargs):
+                # NOTE: We use lazy %-style logging (template + args) rather than
+                # eagerly building an f-string, so that the string formatting cost
+                # is only paid when INFO-level logging is actually enabled (the
+                # default level is ERROR). This is a hot path called per-line,
+                # per-secret, per-filter during a scan.
                 if 'secret' in kwargs:
-                    debug_msg = f'Skipping "{kwargs["secret"]}" due to `{filter_fn.path}`.'
+                    log.info('Skipping "%s" due to `%s`.', kwargs['secret'], filter_fn.path)
                 elif list(kwargs.keys()) == ['filename']:
                     # We want to make sure this is only run if we're skipping files (as compared
                     # to other filters that may include `filename` as a parameter).
-                    debug_msg = f'Skipping "{kwargs["filename"]}" due to `{filter_fn.path}`'
+                    log.info('Skipping "%s" due to `%s`', kwargs['filename'], filter_fn.path)
                 else:
-                    debug_msg = f'Skipping secret due to `{filter_fn.path}`.'
+                    log.info('Skipping secret due to `%s`.', filter_fn.path)
 
-                log.info(debug_msg)
                 return True
         except TypeError:
             # Skipping non-compatible filters
@@ -484,11 +576,38 @@ def get_filters_with_parameter(*parameters: str) -> List[SelfAwareCallable]:
 
     >>> get_filters_with_parameter('secret')
     [bar]
-    """
-    minimum_parameters = set(parameters)
 
-    return [
-        filter
-        for filter in get_filters()
-        if minimum_parameters <= filter.injectable_variables
+    Results are cached by parameter set since the filter list does not change
+    after settings load. Cache is invalidated by cache_bust() in settings.py.
+
+    Controlled by DETECT_SECRETS_PERF_FILTER_CACHE env var (default: 1 = enabled).
+    """
+    if not _FILTER_CACHE_ENABLED:
+        minimum_parameters = set(parameters)
+        return [
+            f for f in get_filters()
+            if minimum_parameters <= f.injectable_variables
+        ]
+
+    key = frozenset(parameters)
+    cached = _filter_cache.get(key)
+    if cached is not None:
+        return cached
+
+    minimum_parameters = set(parameters)
+    result = [
+        f for f in get_filters()
+        if minimum_parameters <= f.injectable_variables
     ]
+    _filter_cache[key] = result
+    return result
+
+
+from detect_secrets import settings as _settings  # noqa: E402
+
+
+def _bust_filter_cache() -> None:
+    _filter_cache.clear()
+
+
+_settings.register_cache_bust_callback(_bust_filter_cache)

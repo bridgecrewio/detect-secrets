@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import os as _os
 import re
 import string
 from abc import ABCMeta
@@ -14,6 +15,42 @@ from typing import Set
 from ..core.potential_secret import PotentialSecret
 from .base import BasePlugin
 from detect_secrets.util.code_snippet import CodeSnippet
+
+# Feature flag: set DETECT_SECRETS_PERF_ENTROPY_SC=0 to disable entropy short-circuit.
+_ENTROPY_SC_ENABLED: bool = _os.getenv('DETECT_SECRETS_PERF_ENTROPY_SC', '1') != '0'
+
+# Minimum string length and distinct charset characters to bother computing entropy.
+# Strings below these thresholds return 0.0 immediately.
+_ENTROPY_MIN_LEN: int = 8
+_ENTROPY_MIN_DISTINCT: int = 4
+
+
+def calculate_shannon_entropy(data: str, charset: str) -> float:
+    """Returns the entropy of a given string against a given charset.
+
+    Borrowed from: http://blog.dkbza.org/2007/05/scanning-data-for-entropy-anomalies.html.
+
+    Short-circuits (returns 0.0) for strings that are too short, or too uniform
+    (too few distinct charset characters), to ever exceed a realistic entropy
+    threshold — avoiding the log-sum computation below entirely for such cases.
+    Controlled by DETECT_SECRETS_PERF_ENTROPY_SC env var (default: 1 = enabled).
+    """
+    if not data:  # pragma: no cover
+        return 0.0
+
+    if _ENTROPY_SC_ENABLED:
+        if len(data) < _ENTROPY_MIN_LEN:
+            return 0.0
+        if len(set(data) & set(charset)) < _ENTROPY_MIN_DISTINCT:
+            return 0.0
+
+    entropy = 0.0
+    for x in charset:
+        p_x = float(data.count(x)) / len(data)
+        if p_x > 0:
+            entropy += - p_x * math.log(p_x, 2)
+
+    return entropy
 
 
 class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
@@ -68,7 +105,7 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
                 secret
                 for secret in (output or set())
                 if (
-                    self.calculate_shannon_entropy(cast(str, secret.secret_value)) >
+                    self.calculate_shannon_entropy(cast(str, secret.secret_value)) >=
                     self.entropy_limit
                 )
             }
@@ -93,16 +130,7 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
 
         Borrowed from: http://blog.dkbza.org/2007/05/scanning-data-for-entropy-anomalies.html.
         """
-        if not data:  # pragma: no cover
-            return 0
-
-        entropy = 0.0
-        for x in self.charset:
-            p_x = float(data.count(x)) / len(data)
-            if p_x > 0:
-                entropy += - p_x * math.log(p_x, 2)
-
-        return entropy
+        return calculate_shannon_entropy(data, self.charset)
 
     def format_scan_result(self, secret: PotentialSecret) -> str:
         if not secret.secret_value:

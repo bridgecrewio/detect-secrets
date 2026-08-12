@@ -68,6 +68,12 @@ class PrivateKeyDetector(RegexBasedDetector):
 
     def __init__(self) -> None:
         self._analyzed_files: Set[str] = set()
+        # Tracks files whose on-disk size has already been checked, regardless of
+        # whether that size fell within the scannable range. Without this, files
+        # outside the size range (e.g. larger than MAX_FILE_SIZE) would never be
+        # recorded in ``_analyzed_files``, causing ``get_file_size`` to re-run for
+        # every single line of the file -- a per-file operation executed per-line.
+        self._sized_files: Set[str] = set()
         self._commit_hashes: Set[Tuple[str, str]] = set()
 
     def analyze_line(
@@ -111,9 +117,16 @@ class PrivateKeyDetector(RegexBasedDetector):
                 self._commit_hashes.add((filename, commit_hash))
             return output
 
-        if filename not in self._analyzed_files \
-                and 0 < self.get_file_size(filename) < PrivateKeyDetector.MAX_FILE_SIZE:
-            self._analyzed_files.add(filename)
+        # Determine the file size at most once per file. Files whose size falls
+        # outside the scannable range are still recorded (via ``_sized_files``) so
+        # that we never re-run this filesystem lookup on subsequent lines.
+        if filename not in self._sized_files:
+            self._sized_files.add(filename)
+            if 0 < self.get_file_size(filename) < PrivateKeyDetector.MAX_FILE_SIZE:
+                self._analyzed_files.add(filename)
+
+        if filename in self._analyzed_files:
+            self._analyzed_files.discard(filename)
             file_content = self.read_file(filename)
             if file_content:
                 found_secrets = super().analyze_line(
