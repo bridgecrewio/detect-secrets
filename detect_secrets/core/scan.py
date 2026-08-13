@@ -45,7 +45,7 @@ _FILTER_CACHE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_FILTER_CACHE', '1')
 # Cache: maps frozenset(parameters) -> list of matching filter functions.
 # Invalidated by cache_bust() in settings.py via the callback registered below.
 _filter_cache: dict[frozenset[str], List[SelfAwareCallable]] = {}
-_PREGATE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_PREGATE', '1') != '0'
+_PREGATE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_PREGATE', '0') != '0'
 _gate: Gate | None = None
 
 
