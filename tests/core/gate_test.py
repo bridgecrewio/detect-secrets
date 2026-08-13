@@ -1,12 +1,3 @@
-"""
-Unit tests for detect_secrets.core.gate — the sound line pre-gate.
-
-These test the gate-building primitives in isolation (pattern
-transformation, line-safe-prefix extraction, combined-vs-standalone
-fallback), independent of any specific plugin. Integration-level coverage
-against real plugins (including the specific v1 regressions this gate
-fixes) lives in tests/perf/pregate_test.py.
-"""
 from __future__ import annotations
 
 import re

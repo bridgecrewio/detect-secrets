@@ -1,36 +1,3 @@
-"""
-Sound line pre-gate: skip lines that can't match any currently loaded
-plugin, without hand-transcribing detector patterns.
-
-The old gate was one hand-written regex approximating each detector's
-trigger condition, which drifted from the real detectors (wrong length
-thresholds, no visibility into tenant custom regexes loaded at scan time).
-
-This version builds the gate from the plugins actually loaded for the
-current scan:
-  - Keywords come from `KeywordDetector.DENYLIST`, imported directly.
-  - Structural triggers come from every loaded plugin's own `.denylist`
-    (and checkov's `.multiline_deny_list`), read generically. This
-    automatically covers CustomRegexDetector's custom/prerun/multiline
-    patterns with no special-casing.
-  - The entropy trigger is delimiter presence (' " : =), the real
-    precondition of HighEntropyStringsPlugin's extraction regex (no length
-    threshold exists in the real regex).
-
-Since it's rebuilt from the live plugin set, it automatically widens for
-tenant custom policies.
-
-Whole-file patterns: some plugins (PrivateKeyDetector, checkov multiline
-policies) only match against a full file, never a single line. Requiring a
-full match on one line would reject every line of files these plugins
-should scan. `_line_safe_prefix()` cuts each pattern before the first
-line-crossing construct (`\\n`, `\\r`, DOTALL), producing a strictly more
-permissive fragment -- this can only widen the gate, never narrow it.
-
-Residual risk: a pattern with no fixed literal on any single line can't be
-reduced to a trigger. Such patterns are tracked in
-`Gate.untriggerable_plugins` and checked individually (never dropped).
-"""
 from __future__ import annotations
 
 import re
@@ -50,10 +17,9 @@ if TYPE_CHECKING:
 # threshold exists in the real extraction regex).
 _ENTROPY_DELIMITER_PATTERN = r'[\'":=]'
 
-# `denylist` is the RegexBasedDetector contract; `multiline_deny_list` is
-# checkov's CustomRegexDetector-specific attribute for isMultiline policies
-# with no prerun. Read both via duck typing so this module and scan.py
-# never need a checkov import.
+# `denylist` is the RegexBasedDetector contract; `multiline_deny_list` is checkov's
+# CustomRegexDetector-specific attribute for isMultiline policies with no prerun.
+# Read both via duck typing so this module and scan.py never need a checkov import.
 _PATTERN_COLLECTION_ATTRS = ('denylist', 'multiline_deny_list')
 
 # Strips named groups so combining patterns that reuse the same group name
