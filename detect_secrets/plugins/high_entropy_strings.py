@@ -105,7 +105,7 @@ class HighEntropyStringsPlugin(BasePlugin, metaclass=ABCMeta):
                 secret
                 for secret in (output or set())
                 if (
-                    self.calculate_shannon_entropy(cast(str, secret.secret_value)) >=
+                    self.calculate_shannon_entropy(cast(str, secret.secret_value)) >
                     self.entropy_limit
                 )
             }

@@ -53,7 +53,7 @@ class TestEntropyShortCircuitCorrectness:
         high_entropy_hex = 'ABCDEF01'
         line = f'secret = "{high_entropy_hex}"'
 
-        plugin = HexHighEntropyString(limit=3.0)
+        plugin = HexHighEntropyString(limit=2.9)
         findings = plugin.analyze_line(
             'test.py',
             line,
@@ -80,6 +80,19 @@ class TestEntropyShortCircuitCorrectness:
         )
 
         assert len(findings) == 0
+
+    def test_entropy_limit_is_exclusive_not_inclusive(self):
+        """
+        Regression guard for the checkov CKV_SECRET_6 false positives.
+
+        'admin123' has entropy of exactly 3.0, and checkov configures a limit of
+        exactly 3. Comparing with >= instead of > flags it as a secret, which broke
+        the checkov CI on unrelated PRs. The comparison must stay exclusive.
+        """
+        plugin = Base64HighEntropyString(limit=3)
+
+        assert plugin.calculate_shannon_entropy('admin123') == 3.0
+        assert plugin.analyze_line('test.py', 'password = "admin123"', 1) == set()
 
     def test_base64_string_at_threshold_is_detected(self):
         """
