@@ -153,8 +153,9 @@ class _FakePlugin(RegexBasedDetector):
 class TestGateBuild:
     def test_empty_plugin_list_still_builds_a_valid_gate(self):
         gate = build_gate([])
-        # keyword denylist + entropy delimiter are always present
+        # keyword denylist + entropy value pattern are always present
         assert gate.trigger_pattern_count > 0
+        # 'password' is in the keyword denylist, so it passes regardless of value length
         assert gate.could_contain_secret('password = "x"') is True
 
     def test_plugin_with_no_denylist_attribute_is_skipped_safely(self):
@@ -356,3 +357,97 @@ class TestGateBuild:
         finally:
             settings.plugins = original_plugins
             scan_module._bust_gate_cache()
+
+
+class TestEntropyValuePattern:
+    """Tests for the smarter entropy value pattern that requires ≥8 non-whitespace
+    chars after a delimiter, replacing the old blanket delimiter pattern."""
+
+    def test_short_json_values_are_filtered(self):
+        """JSON lines with short values (< 12 chars) should be rejected by the
+        gate when no keyword is present."""
+        gate = build_gate([])
+        short_value_lines = [
+            '"color": "#fff"',
+            '"name": "red"',
+            '"x": 42',
+            '"enabled": true',
+            '"items": []',
+            '"data": null',
+            '"id": "abc"',
+            '"status": "active"',
+            '"type": "button"',
+        ]
+        for line in short_value_lines:
+            assert not gate.could_contain_secret(line), (
+                f'Gate passed a short-value JSON line that cannot contain a secret:\n  {line!r}'
+            )
+
+    def test_long_json_values_pass_gate(self):
+        """JSON lines with values ≥ 12 contiguous non-whitespace chars
+        after a delimiter should pass."""
+        gate = build_gate([])
+        long_value_lines = [
+            '"api_key": "sk-abc123def456ghi789"',
+            '"token": "AKIAIOSFODNN7EXAMPLE"',
+            '"secret": "wJalrXUtnFEMI/K7MDENG"',
+            'value = "abcdefghijklmnop"',
+            "key: 'longvalue12345678'",
+        ]
+        for line in long_value_lines:
+            assert gate.could_contain_secret(line), (
+                f'Gate rejected a line with a long value that could be a secret:\n  {line!r}'
+            )
+
+    def test_authorization_bearer_header_passes_gate(self):
+        """Lines like 'Authorization: Bearer <long-token>' must pass because
+        the pattern allows up to 2 whitespace gaps before the 12+ char token."""
+        gate = build_gate([])
+        assert gate.could_contain_secret(
+            'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+        ), 'Gate rejected an Authorization Bearer header with a long JWT token'
+
+    def test_keyword_lines_pass_regardless_of_value_length(self):
+        """Lines containing keyword denylist words should always pass,
+        even if the value after the delimiter is short."""
+        gate = build_gate([])
+        keyword_lines = [
+            'password = "x"',
+            'secret: "ab"',
+            'api_key = ""',
+            'token: "hi"',
+        ]
+        for line in keyword_lines:
+            assert gate.could_contain_secret(line), (
+                f'Gate rejected a keyword-bearing line:\n  {line!r}'
+            )
+
+    def test_structural_json_lines_are_filtered(self):
+        """Pure structural JSON lines (braces, brackets, commas) should be filtered."""
+        gate = build_gate([])
+        structural_lines = [
+            '{',
+            '}',
+            '  },',
+            '  ],',
+            '  [',
+        ]
+        for line in structural_lines:
+            assert not gate.could_contain_secret(line), (
+                f'Gate passed a structural JSON line:\n  {line!r}'
+            )
+
+    def test_value_pattern_boundary_at_12_chars(self):
+        r"""The pattern requires ≥12 contiguous non-whitespace chars after a
+        delimiter. Note: the closing quote counts as part of the \S run, so
+        a quoted value of N chars produces an N+1 char \S run (value + quote).
+        For unquoted values the boundary is exact."""
+        gate = build_gate([])
+        # 12-char unquoted value after "=" — should pass
+        assert gate.could_contain_secret('x = 123456789012'), (
+            'Gate rejected a line with exactly 12-char unquoted value'
+        )
+        # 11-char unquoted value after "=" — should NOT pass
+        assert not gate.could_contain_secret('x = 12345678901'), (
+            'Gate passed a line with only 11-char unquoted value and no keyword'
+        )

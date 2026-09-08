@@ -13,9 +13,7 @@ from detect_secrets.plugins.keyword import DENYLIST as KEYWORD_DENYLIST
 if TYPE_CHECKING:
     from detect_secrets.plugins.base import BasePlugin
 
-# Real precondition for high-entropy candidate extraction (no length
-# threshold exists in the real extraction regex).
-_ENTROPY_DELIMITER_PATTERN = r'[\'":=]'
+_ENTROPY_VALUE_PATTERN = r'[\'":=]\s*(?:\S+\s+){0,2}\S{12,}'
 
 # `denylist` is the RegexBasedDetector contract; `multiline_deny_list` is checkov's
 # CustomRegexDetector-specific attribute for isMultiline policies with no prerun.
@@ -118,7 +116,7 @@ class Gate:
     def build(self, plugins: Iterable[BasePlugin]) -> None:
         """(Re)build the gate from the currently loaded plugin set."""
         fragments: List[str] = [_make_combinable(word) for word in KEYWORD_DENYLIST]
-        fragments.append(_ENTROPY_DELIMITER_PATTERN)
+        fragments.append(_ENTROPY_VALUE_PATTERN)
 
         standalone: List[Pattern[str]] = []
         untriggerable: Set[str] = set()
