@@ -24,7 +24,10 @@ class AzureStorageKeyDetector(RegexBasedDetector):
 
     max_line_length = 4000
     max_part_length = 2000
-    integrity_regex = re.compile(r'integrity[:=]|sha256|sha384|sha512|cosmos|master')
+    # Azure Cosmos DB connection strings share the AccountKey format, so they are skipped here
+    integrity_regex = re.compile(
+        r'integrity[:=]|sha256|sha384|sha512|master|(?i:cosmos|documents\.azure\.com)',
+    )
 
     denylist = [
         # Account Key (AccountKey=xxxxxxxxx)

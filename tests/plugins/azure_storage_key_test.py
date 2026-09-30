@@ -240,6 +240,18 @@ class TestAzureStorageKeyDetector:
                     """,
                     False,
             ),
+            (
+                '"CosmosDbConnectionString": "AccountEndpoint=https://example-account.documents.azure.com:443/;AccountKey=lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==",',  # noqa: E501
+                False,
+            ),
+            (
+                'AccountEndpoint=https://example-account.documents.azure.com:443/;AccountKey=lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==;',  # noqa: E501
+                False,
+            ),
+            (
+                'DefaultEndpointsProtocol=https;AccountName=exampleaccount;AccountKey=lJzRc1YdHaAA2KCNJJ1tkYwF/+mKK6Ygw0NGe170Xu592euJv2wYUtBlV8z+qnlcNQSnIYVTkLWntUO1F8j8rQ==;EndpointSuffix=core.windows.net',  # noqa: E501
+                True,
+            ),
         ],
     )
     def test_analyze(self, payload, should_flag):
