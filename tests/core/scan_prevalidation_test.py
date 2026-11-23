@@ -45,6 +45,15 @@ class TestPrevalidation:
         plugin.prevalidate.assert_called_once_with('anything')
 
     @staticmethod
+    def test_requirements_follow_the_plugin_patterns_after_settings_change():
+        document = PLAIN_LINES.lower() + 'sk_live_' + 'a' * 24
+        with transient_settings({'plugins_used': [{'name': 'StripeDetector'}]}):
+            (stripe,) = get_plugins()
+            assert scan._passes_prevalidation(stripe, document)
+        aws, _ = sorted(get_plugins(), key=lambda p: type(p).__name__)
+        assert not scan._passes_prevalidation(aws, document)
+
+    @staticmethod
     def test_non_regex_plugins_always_run():
         class EntropyLikePlugin:
             pass
@@ -60,6 +69,4 @@ def configure_plugins():
             {'name': 'PrivateKeyDetector'},
         ],
     }):
-        scan._plugin_requirements.clear()
         yield
-        scan._plugin_requirements.clear()

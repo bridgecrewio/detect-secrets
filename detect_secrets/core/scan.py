@@ -55,28 +55,37 @@ _gate: Gate | None = None
 # Feature flag: set DETECT_SECRETS_PREVALIDATION=1 to skip, per file, regex plugins whose required
 # literals do not appear anywhere in the file.
 _PREVALIDATION_ENABLED: bool = is_enabled('DETECT_SECRETS_PREVALIDATION')
-_plugin_requirements: dict[int, List[Requirement]] = {}
 
 
 def _requirements_for(plugin: BasePlugin) -> List[Requirement]:
-    key = id(plugin)
-    if key not in _plugin_requirements:
-        _plugin_requirements[key] = [required_literals(p) for p in getattr(plugin, 'denylist', None) or []]
-    return _plugin_requirements[key]
+    # required_literals is cached by pattern source, so this stays cheap and, unlike a cache keyed
+    # by plugin instance, cannot go stale when settings change and plugins are rebuilt.
+    return [required_literals(pattern) for pattern in getattr(plugin, 'denylist', None) or []]
 
 
 def _passes_prevalidation(plugin: BasePlugin, lowered_document: str) -> bool:
     """False only when the plugin provably cannot match anything in the document."""
     from ..plugins.base import RegexBasedDetector
 
+    # Case 1: the plugin implements its own check. Used by plugins that hold many independent
+    # regexes and filter them one by one (returning True here and narrowing internally).
     custom = getattr(plugin, 'prevalidate', None)
     if callable(custom):
         return bool(custom(lowered_document))
+
+    # Case 2: not regex-based (e.g. keyword or entropy plugins): there is no pattern to derive
+    # literals from, so it always runs.
     if not isinstance(plugin, RegexBasedDetector):
         return True
+
+    # Case 3: a regex plugin with an empty denylist: nothing to reason about, so it always runs.
     requirements = _requirements_for(plugin)
     if not requirements:
         return True
+
+    # Case 4: runs if at least one of its regexes could match: either no literal could be derived
+    # for it (None, always counts as a possible match) or one of its required literals is in the file.
+    # Returns False only when every regex is provably impossible for this document.
     return any(could_match(requirement, lowered_document) for requirement in requirements)
 
 
