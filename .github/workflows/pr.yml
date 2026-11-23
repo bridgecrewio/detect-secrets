@@ -7,15 +7,12 @@ permissions:
 
 env:
   MIN_PYTHON_VERSION: "3.8"
-  # Python 3.8 has no build for the current ubuntu-latest image, so tooling runs on a newer
-  # interpreter while still type-checking against the minimum supported version.
-  TOOLING_PYTHON_VERSION: "3.12"
 
 jobs:
   lint:
     uses: bridgecrewio/gha-reusable-workflows/.github/workflows/pre-commit.yaml@main
     with:
-      python-version: "3.12"
+      python-version: "3.8"
 
   mypy:
     runs-on: ubuntu-latest
@@ -23,14 +20,14 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v3
       - uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v4
         with:
-          python-version: ${{ env.TOOLING_PYTHON_VERSION }}
+          python-version: ${{ env.MIN_PYTHON_VERSION }}
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements-dev.txt
       - name: Run Mypy
         run: |
-          mypy --python-version "${{ env.MIN_PYTHON_VERSION }}"
+          mypy
 
   tests:
     runs-on: ${{ matrix.os }}
@@ -38,13 +35,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
-        exclude:
-          # No Python 3.8 build exists for the current ubuntu-latest image.
-          - os: ubuntu-latest
-            python: '3.8'
-        include:
-          - os: ubuntu-24.04
-            python: '3.8'
     steps:
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v3
     - uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236  # v3
