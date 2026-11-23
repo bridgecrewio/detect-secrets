@@ -1,15 +1,16 @@
 """
 Document-level pre-validation for regex detectors.
 
-`required_literals(pattern)` returns a set of lowercase literals such that every match of `pattern`
-contains at least one of them, or None when no such set can be derived. A document that contains
-none of the literals (case-insensitively) cannot match the pattern, so the regex can be skipped for
-that document. The derivation is conservative: anything it does not understand yields None, which
-means "always run".
+`required_literals(pattern)` returns a set of lowercase literals such that every match of
+`pattern` contains at least one of them, or None when no such set can be derived. A document that
+contains none of the literals (case-insensitively) cannot match the pattern, so the regex can be
+skipped for that document. The derivation is conservative: anything it does not understand yields
+None, which means "always run".
 """
 from __future__ import annotations
 
 import os
+import sys
 from functools import lru_cache
 from typing import FrozenSet
 from typing import Iterable
@@ -17,12 +18,12 @@ from typing import List
 from typing import Optional
 from typing import Pattern
 
-try:  # Python 3.11+
-    from re import _parser as sre_parse  # type: ignore[attr-defined]
+if sys.version_info >= (3, 11):
     from re import _constants as sre_constants  # type: ignore[attr-defined]
-except ImportError:  # pragma: no cover
-    import sre_parse  # type: ignore[no-redef]
-    import sre_constants  # type: ignore[no-redef]
+    from re import _parser as sre_parse  # type: ignore[attr-defined]
+else:  # pragma: no cover
+    import sre_constants
+    import sre_parse
 
 MIN_LITERAL_LENGTH = 3
 
@@ -49,7 +50,7 @@ def _usable(literals: Iterable[str]) -> Requirement:
     return values
 
 
-def _leading_literal(items: List) -> str:  # type: ignore[type-arg]
+def _leading_literal(items: List) -> str:
     """The literal characters an alternative must start with."""
     leading: List[str] = []
     for op, arg in items:
@@ -59,7 +60,7 @@ def _leading_literal(items: List) -> str:  # type: ignore[type-arg]
     return ''.join(leading)
 
 
-def _requirement(items: List) -> Requirement:  # type: ignore[type-arg]
+def _requirement(items: List) -> Requirement:
     """Best requirement for a sequence of parsed regex items (all of them must match in order)."""
     best: Requirement = None
     run: List[str] = []
@@ -74,8 +75,9 @@ def _requirement(items: List) -> Requirement:  # type: ignore[type-arg]
         if op == sre_constants.LITERAL:
             run.append(chr(arg))
             continue
-        # The regex parser factors a common prefix out of alternatives (`AKIA|ASIA` -> `A(?:KIA|SIA)`),
-        # so remember the literal run in front of a branch and glue it back onto each alternative.
+        # The regex parser factors a common prefix out of alternatives
+        # (`AKIA|ASIA` -> `A(?:KIA|SIA)`), so remember the literal run in front of a branch and
+        # glue it back onto each alternative.
         prefix = ''.join(run)
         flush()
         if op == sre_constants.BRANCH and prefix:
@@ -90,12 +92,13 @@ def _requirement(items: List) -> Requirement:  # type: ignore[type-arg]
                 best = _better(best, _requirement(list(inner)))
         elif op == sre_constants.BRANCH:
             branches = [_requirement(list(branch)) for branch in arg[1]]
-            if branches and all(branch is not None for branch in branches):
-                best = _better(best, _usable(literal for branch in branches for literal in branch))  # type: ignore
+            known = [branch for branch in branches if branch is not None]
+            if branches and len(known) == len(branches):
+                best = _better(best, _usable(literal for branch in known for literal in branch))
         elif op == sre_constants.ASSERT:
-            direction, inner = arg
+            _direction, inner = arg
             best = _better(best, _requirement(list(inner)))
-        # Anything else (classes, anchors, negative lookarounds, backrefs, ...) breaks the literal run.
+        # Anything else (classes, anchors, negative lookarounds, backrefs, ...) breaks the run.
     flush()
     return best
 
@@ -107,13 +110,14 @@ def required_literals_for_source(pattern: str, flags: int = 0) -> Requirement:
     except Exception:
         return None
     try:
-        return _requirement(list(parsed))
+        return _requirement(list(parsed.data))
     except Exception:
         return None
 
 
 def required_literals(pattern: Pattern[str]) -> Requirement:
-    return required_literals_for_source(pattern.pattern, pattern.flags & ~0x20)  # drop re.UNICODE noise
+    # Drop re.UNICODE (0x20), which is implied for str patterns and only adds cache keys.
+    return required_literals_for_source(pattern.pattern, pattern.flags & ~0x20)
 
 
 def could_match(requirement: Requirement, lowered_document: str) -> bool:

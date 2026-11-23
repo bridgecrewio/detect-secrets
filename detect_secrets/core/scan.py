@@ -28,8 +28,8 @@ from ..util.inject import call_function_with_arguments
 from ..util.path import get_relative_path
 from ..util.prevalidation import could_match
 from ..util.prevalidation import is_enabled
-from ..util.prevalidation import Requirement
 from ..util.prevalidation import required_literals
+from ..util.prevalidation import Requirement
 from .gate import build_gate
 from .gate import Gate
 from .log import log
@@ -83,9 +83,9 @@ def _passes_prevalidation(plugin: BasePlugin, lowered_document: str) -> bool:
     if not requirements:
         return True
 
-    # Case 4: runs if at least one of its regexes could match: either no literal could be derived
-    # for it (None, always counts as a possible match) or one of its required literals is in the file.
-    # Returns False only when every regex is provably impossible for this document.
+    # Case 4: runs if at least one of its regexes could match: either no literal could be
+    # derived for it (None, always counts as a possible match) or one of its required literals
+    # is in the file. Returns False only when every regex is provably impossible for this document.
     return any(could_match(requirement, lowered_document) for requirement in requirements)
 
 

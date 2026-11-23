@@ -17,11 +17,17 @@ class TestRequiredLiterals:
         [
             (r'xapp-\d-[A-Z0-9]+', {'xapp-'}),
             (r'AKIA[0-9A-Z]{16}', {'akia'}),
-            (r'(?i)(?:atlassian|confluence|jira)\s*=\s*([a-z0-9]{24})', {'atlassian', 'confluence', 'jira'}),
+            (
+                r'(?i)(?:atlassian|confluence|jira)\s*=\s*([a-z0-9]{24})',
+                {'atlassian', 'confluence', 'jira'},
+            ),
             (r'-----BEGIN RSA PRIVATE KEY-----', {'-----begin rsa private key-----'}),
             (r'(?:token)+_[a-z]{10}', {'token'}),
             (r'password(?=\s*=)', {'password'}),
-            (r'\b(?:A3T[A-Z0-9]|ABIA|ACCA|AKIA|ASIA)[0-9A-Z]{16}\b', {'a3t', 'abia', 'acca', 'akia', 'asia'}),
+            (
+                r'\b(?:A3T[A-Z0-9]|ABIA|ACCA|AKIA|ASIA)[0-9A-Z]{16}\b',
+                {'a3t', 'abia', 'acca', 'akia', 'asia'},
+            ),
         ],
     )
     def test_derives_required_literals(pattern, expected):
@@ -70,7 +76,10 @@ class TestCouldMatch:
     @pytest.mark.parametrize(
         'pattern, document',
         [
-            (r'(?i)(?:atlassian|confluence|jira)\s*=\s*([a-z0-9]{24})', 'JIRA = a1b2c3d4e5f6g7h8i9j0k1l2'),
+            (
+                r'(?i)(?:atlassian|confluence|jira)\s*=\s*([a-z0-9]{24})',
+                'JIRA = a1b2c3d4e5f6g7h8i9j0k1l2',
+            ),
             (r'AKIA[0-9A-Z]{16}', 'id = AKIAABCDEFGHIJKLMNOP'),
             (r'xapp-\d-[A-Z0-9]+', 'token: xapp-1-ABC123'),
         ],

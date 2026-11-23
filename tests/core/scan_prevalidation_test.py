@@ -23,7 +23,8 @@ class TestPrevalidation:
     @staticmethod
     @pytest.mark.parametrize('content', [AWS_LINE, PLAIN_LINES, PLAIN_LINES + AWS_LINE])
     def test_same_findings_with_and_without_prevalidation(content):
-        assert scan_content(content, prevalidation=True) == scan_content(content, prevalidation=False)
+        enabled = scan_content(content, prevalidation=True)
+        assert enabled == scan_content(content, prevalidation=False)
 
     @staticmethod
     def test_finds_secret_with_prevalidation_enabled():
