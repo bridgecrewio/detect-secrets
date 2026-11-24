@@ -103,7 +103,7 @@ def _requirement(items: List) -> Requirement:
     return best
 
 
-@lru_cache(maxsize=None)
+@lru_cache(maxsize=1024)
 def required_literals_for_source(pattern: str, flags: int = 0) -> Requirement:
     try:
         parsed = sre_parse.parse(pattern, flags)
