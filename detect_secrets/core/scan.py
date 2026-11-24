@@ -417,6 +417,7 @@ def _process_line_based_plugins(
         lowered_document = '\n'.join(line_content).lower()
         plugins = [plugin for plugin in plugins if _passes_prevalidation(plugin, lowered_document)]
         if not plugins:
+            log.debug('Skipping "%s": no plugin passed pre-validation', filename)
             return
 
     # NOTE: We iterate through lines *then* plugins, because we want to quit early if any of the
