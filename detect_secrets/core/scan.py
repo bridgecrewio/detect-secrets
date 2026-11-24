@@ -53,8 +53,9 @@ _PREGATE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_PREGATE', '0') != '0'
 _gate: Gate | None = None
 
 # Feature flag: set DETECT_SECRETS_PREVALIDATION=1 to skip, per file, regex plugins whose required
-# literals do not appear anywhere in the file.
-_PREVALIDATION_ENABLED: bool = is_enabled('DETECT_SECRETS_PREVALIDATION')
+# literals do not appear anywhere in the file. It is read on every scan, so it can be set at
+# runtime.
+PREVALIDATION_ENV_VAR = 'DETECT_SECRETS_PREVALIDATION'
 
 
 def _requirements_for(plugin: BasePlugin) -> List[Requirement]:
@@ -413,7 +414,7 @@ def _process_line_based_plugins(
     line_content = [line[1] for line in lines]
 
     plugins = get_plugins()
-    if _PREVALIDATION_ENABLED:
+    if is_enabled(PREVALIDATION_ENV_VAR):
         lowered_document = '\n'.join(line_content).lower()
         plugins = [plugin for plugin in plugins if _passes_prevalidation(plugin, lowered_document)]
         if not plugins:

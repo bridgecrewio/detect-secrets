@@ -1,3 +1,4 @@
+import os
 from unittest import mock
 
 import pytest
@@ -11,9 +12,12 @@ AWS_LINE = 'aws_access_key_id = "AKIAIOSFODNN7ABCDEFG"\n'
 PLAIN_LINES = 'def add(a, b):\n    return a + b\n'
 
 
+def prevalidation_env(enabled: bool):
+    return mock.patch.dict(os.environ, {scan.PREVALIDATION_ENV_VAR: '1' if enabled else '0'})
+
+
 def scan_content(content: str, prevalidation: bool):
-    with mock.patch.object(scan, '_PREVALIDATION_ENABLED', prevalidation), \
-            mock_named_temporary_file(suffix='.py') as f:
+    with prevalidation_env(prevalidation), mock_named_temporary_file(suffix='.py') as f:
         f.write(content.encode())
         f.seek(0)
         return sorted((s.type, s.line_number, s.secret_hash) for s in scan.scan_file(f.name))
@@ -29,6 +33,16 @@ class TestPrevalidation:
     @staticmethod
     def test_finds_secret_with_prevalidation_enabled():
         assert scan_content(PLAIN_LINES + AWS_LINE, prevalidation=True)
+
+    @staticmethod
+    def test_flag_is_read_on_every_scan():
+        passes_prevalidation = scan._passes_prevalidation
+        with mock.patch.object(scan, '_passes_prevalidation', wraps=passes_prevalidation) as spy:
+            scan_content(PLAIN_LINES, prevalidation=False)
+            assert not spy.called
+
+            scan_content(PLAIN_LINES, prevalidation=True)
+            assert spy.called
 
     @staticmethod
     def test_skips_regex_plugin_whose_literals_are_absent():
