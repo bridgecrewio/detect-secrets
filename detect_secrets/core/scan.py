@@ -26,6 +26,10 @@ from ..util.code_snippet import CodeSnippet
 from ..util.code_snippet import get_code_snippet
 from ..util.inject import call_function_with_arguments
 from ..util.path import get_relative_path
+from ..util.prevalidation import could_match
+from ..util.prevalidation import is_enabled
+from ..util.prevalidation import required_literals
+from ..util.prevalidation import Requirement
 from .gate import build_gate
 from .gate import Gate
 from .log import log
@@ -47,6 +51,42 @@ _FILTER_CACHE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_FILTER_CACHE', '1')
 _filter_cache: dict[frozenset[str], List[SelfAwareCallable]] = {}
 _PREGATE_ENABLED: bool = os.getenv('DETECT_SECRETS_PERF_PREGATE', '0') != '0'
 _gate: Gate | None = None
+
+# Feature flag: set DETECT_SECRETS_PREVALIDATION=1 to skip, per file, regex plugins whose required
+# literals do not appear anywhere in the file.
+_PREVALIDATION_ENABLED: bool = is_enabled('DETECT_SECRETS_PREVALIDATION')
+
+
+def _requirements_for(plugin: BasePlugin) -> List[Requirement]:
+    # required_literals is cached by pattern source, so this stays cheap and, unlike a cache keyed
+    # by plugin instance, cannot go stale when settings change and plugins are rebuilt.
+    return [required_literals(pattern) for pattern in getattr(plugin, 'denylist', None) or []]
+
+
+def _passes_prevalidation(plugin: BasePlugin, lowered_document: str) -> bool:
+    """False only when the plugin provably cannot match anything in the document."""
+    from ..plugins.base import RegexBasedDetector
+
+    # Case 1: the plugin implements its own check. Used by plugins that hold many independent
+    # regexes and filter them one by one (returning True here and narrowing internally).
+    custom = getattr(plugin, 'prevalidate', None)
+    if callable(custom):
+        return bool(custom(lowered_document))
+
+    # Case 2: not regex-based (e.g. keyword or entropy plugins): there is no pattern to derive
+    # literals from, so it always runs.
+    if not isinstance(plugin, RegexBasedDetector):
+        return True
+
+    # Case 3: a regex plugin with an empty denylist: nothing to reason about, so it always runs.
+    requirements = _requirements_for(plugin)
+    if not requirements:
+        return True
+
+    # Case 4: runs if at least one of its regexes could match: either no literal could be
+    # derived for it (None, always counts as a possible match) or one of its required literals
+    # is in the file. Returns False only when every regex is provably impossible for this document.
+    return any(could_match(requirement, lowered_document) for requirement in requirements)
 
 
 def _get_gate() -> Gate:
@@ -372,6 +412,13 @@ def _process_line_based_plugins(
 ) -> Generator[PotentialSecret, None, None]:
     line_content = [line[1] for line in lines]
 
+    plugins = get_plugins()
+    if _PREVALIDATION_ENABLED:
+        lowered_document = '\n'.join(line_content).lower()
+        plugins = [plugin for plugin in plugins if _passes_prevalidation(plugin, lowered_document)]
+        if not plugins:
+            return
+
     # NOTE: We iterate through lines *then* plugins, because we want to quit early if any of the
     # filters return True.
     index = 0
@@ -413,7 +460,7 @@ def _process_line_based_plugins(
         ):
             continue
 
-        for plugin in get_plugins():
+        for plugin in plugins:
             for secret in _scan_line(
                     plugin=plugin,
                     filename=filename,
